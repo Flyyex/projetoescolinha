@@ -170,6 +170,12 @@ app.get('/api/health', (req, res) => {
 
 
 
+// Arquivo estatico inexistente precisa responder 404 de verdade. Sem isso o
+// index.html volta com HTTP 200 e o navegador tenta decodificar HTML como imagem.
+// Rotas de SPA sem extensao (/crm/lead/123) continuam servindo o index.html.
+const STATIC_EXT = /\.(png|jpe?g|gif|webp|avif|svg|ico|css|js|mjs|json|map|woff2?|ttf|mp4|webm)$/i;
+const looksLikeStatic = (req) => STATIC_EXT.test(req.path);
+
 // 1. Rota Raiz (Landing Page / Presell Oficial)
 app.get(['/', '/presell', '/apresentacao', '/start', '/como-funciona'], (req, res) => {
   res.sendFile(path.join(publicDir, 'presell.html'));
@@ -177,6 +183,7 @@ app.get(['/', '/presell', '/apresentacao', '/start', '/como-funciona'], (req, re
 
 // 2. Rota para Nexus CRM SPA
 app.get(['/crm', '/crm/*', '/nexus'], (req, res) => {
+  if (looksLikeStatic(req)) return res.status(404).json({ error: 'Not found' });
   res.sendFile(path.join(crmDir, 'index.html'));
 });
 
@@ -205,6 +212,7 @@ app.get(['/app', '/dashboard', '/painel', '/home'], (req, res) => {
 
 // 4. Fallback para SPA
 app.get('*', (req, res) => {
+  if (looksLikeStatic(req)) return res.status(404).json({ error: 'Not found' });
   res.sendFile(path.join(publicDir, 'index.html'));
 });
 

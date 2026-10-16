@@ -48,6 +48,7 @@ public/social/arts/COLOQUE_A_ARTE_AQUI.txt
 # rascunho de diagnostico e saidas de verificacao (gerados, nao versionados)
 tmp_*.ps1
 tmp_*.js
+tmp_*.err
 verificacao-*/
 
 # backups de dados de producao (contem id, telefone e nome dos usuarios)
