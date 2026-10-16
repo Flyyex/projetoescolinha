@@ -1,0 +1,61 @@
+# Configuracao de deploy no Render.
+# ATENCAO: defina os valores reais abaixo no painel do Render (Environment > Environment Variables),
+# NAO commite segredos neste arquivo.
+services:
+  - type: web
+    name: truckauto
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # >>> Troque pelos SEUS valores no painel do Render (nunca commitar aqui) <<<
+      - key: DATABASE_URL
+        fromDatabase:
+          name: truckauto-db
+          property: connectionString
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      # Telegram (opcional - backup diario + avisos admin)
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: ADMIN_TELEGRAM_CHAT_ID
+        sync: false
+      # Asaas - Cobranca Pix + Saques automaticos (https://www.asaas.com)
+      - key: ASAAS_ENV
+        value: production
+      - key: ASAAS_API_KEY
+        sync: false
+      - key: ASAAS_WEBHOOK_TOKEN
+        sync: false
+      # MisticPay - CashIn Pix + Saques automaticos (https://misticpay.com)
+      - key: MISTIC_PK
+        sync: false
+      - key: MISTIC_SK
+        sync: false
+      # SyncPay - CashIn Pix (https://syncpayments.com.br)
+      - key: SYNCPAY_CLIENT_ID
+        sync: false
+      - key: SYNCPAY_CLIENT_SECRET
+        sync: false
+      - key: SYNCPAY_WEBHOOK_TOKEN
+        sync: false
+      # Evolution API / WhatsApp (opcional - nao configurado por padrao)
+      - key: EVOLUTION_API_URL
+        sync: false
+      - key: GLOBAL_API_KEY
+        sync: false
+      - key: DEFAULT_INSTANCE
+        sync: false
+
+databases:
+  - name: truckauto-db
+    plan: free

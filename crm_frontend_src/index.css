@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-crm-dark: #070B16;
+  --color-crm-darker: #04060C;
+  --color-crm-card: rgba(13, 20, 36, 0.75);
+  --color-crm-cardHover: rgba(22, 33, 58, 0.9);
+  --color-crm-border: rgba(124, 77, 255, 0.18);
+  --color-crm-borderBright: rgba(255, 160, 64, 0.45);
+  --color-crm-primary: #7C4DFF;
+  --color-crm-primaryHover: #4B1FD6;
+  --color-crm-accent: #00E5FF;
+  --color-crm-emerald: #10B981;
+  --color-crm-gold: #FADB5F;
+  --color-crm-text: #F8FAFC;
+  --color-crm-textMuted: #94A3B8;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #04060C;
+  color: #F8FAFC;
+  overflow: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(8, 12, 22, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 77, 255, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 77, 255, 0.5);
+}
+
+/* 3D Glassmorphism & Light Bevels */
+.glass-3d-card {
+  background: linear-gradient(135deg, rgba(16, 24, 42, 0.75) 0%, rgba(9, 14, 26, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(124, 77, 255, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-3d-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-top-color: #7C4DFF;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(124, 77, 255, 0.2);
+}
+
+/* 3D Spotlight Mouse Glow */
+.mouse-spotlight {
+  pointer-events: none;
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.5s infinite;
+}
+
+/* Smooth Tilt Perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}

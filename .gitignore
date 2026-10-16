@@ -1,0 +1,54 @@
+# Dependências
+node_modules/
+
+# Banco de dados local (JSON) — dados de produção NÃO vão pro repositório
+data.json
+crm_data.json
+*.db
+*.sqlite
+
+# Variáveis de ambiente (segredos)
+.env
+.env.local
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+*.log.err
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.pid
+
+# Diretórios de build do frontend (compilados)
+# public/crm/assets/
+
+# VS Code / IDE
+.vscode/
+.idea/
+*.swp
+
+# Windows
+desktop.ini
+
+# Subagent workspace (sdd ledgers, briefs, review packages)
+.superpowers/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# previews de teste do programa social (gerados, nao versionados)
+public/social/preview/
+public/social/arts/COLOQUE_A_ARTE_AQUI.txt
+
+# rascunho de diagnostico e saidas de verificacao (gerados, nao versionados)
+tmp_*.ps1
+tmp_*.js
+verificacao-*/
+
+# backups de dados de producao (contem id, telefone e nome dos usuarios)
+backups/

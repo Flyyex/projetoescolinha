@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TRUCKAUTO - Gestão de Drones Autônomos</title>
+  <!-- PWA & Apple Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#05070A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TRUCKAUTO">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <meta property="og:image" content="https://www.SEU_DOMINIO.com.br/og-cover.jpg">
+  <meta property="og:title" content="TRUCKAUTO - Gestão de Drones Autônomos">
+  <meta property="og:description" content="Operação com drones autônomos, rendimentos de segunda a sábado no Pix e comissões de equipe.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Top Status Bar & Header -->
+    <header class="app-header" role="banner">
+      <div class="user-badge" tabindex="0" role="region" aria-label="Informações do operador">
+        <div class="avatar-wrapper" aria-hidden="true">
+          <div class="avatar">
+            <i class="fa-solid fa-user-astronaut"></i>
+          </div>
+          <span class="status-indicator online" title="Status: Online"></span>
+        </div>
+        <div class="user-info">
+          <span class="user-name" id="user-greeting">Olá, <br><strong>Carregando Operador...</strong></span>
+          <span class="user-level" id="user-level-badge"><i class="fa-solid fa-bolt"></i> Nível VIP 1</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="/presell" target="_blank" class="icon-btn" title="Ver Apresentação Oficial / Presell" style="text-decoration: none; color: var(--primary);">
+          <i class="fa-solid fa-rocket"></i>
+        </a>
+        <button class="icon-btn" id="btn-notification" onclick="openNotificationsModal()" aria-label="Ver Notificações">
+          <i class="fa-regular fa-bell"></i>
+          <span class="badge-dot pulse"></span>
+        </button>
+        <button class="icon-btn" id="btn-theme-toggle" aria-label="Alternar Tema">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="icon-btn" id="btn-lang" onclick="openLangModal()" data-i18n-aria="common.language" aria-label="Idioma" style="gap:4px;font-size:11px;font-weight:800;"><img id="lang-flag" src="https://flagcdn.com/w20/br.png" alt="" width="20" height="15" style="border-radius:3px;" onerror="this.style.display='none'"><span id="lang-code">PT</span></button>
+      </div>
+    </header>
+
+    <!-- Barra de Atividades Globais ao Vivo -->
+    <div class="global-live-ticker">
+      <i class="fa-solid fa-bolt ticker-icon"></i>
+      <span class="ticker-text" id="ticker-live-text">
+        🚗 Operador #4064 atingiu Supervisor Prata (+R$ 50 Pix) • ⚡ TruckAuto Dash #NX-202 em Kansas City completou 22 operacoes hoje • 💰 Saque de R$ 435,00 liquidado via Pix • 📍 Frota em Memphis com 100% de operação autônoma
+      </span>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="app-content">
+
+      <!-- ================= ABA 1: INÍCIO (DASHBOARD) ================= -->
+      <section id="tab-home" class="tab-pane active" role="tabpanel">
+        
+        <!-- Card de Saldo e Finanças -->
+        <div class="balance-card">
+          <div class="balance-header">
+            <span class="label" data-i18n="home.balances">Saldos</span>
+            <button class="btn-eye" id="toggle-balance" data-i18n-aria="home.hideBalance" aria-label="Ocultar saldo">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div style="background: rgba(0,102,255,0.10); border: 1px solid rgba(0,102,255,0.35); border-radius: 12px; padding: 10px 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;" data-i18n="home.toInvest">💰 PARA INVESTIR</div>
+              <div style="font-size: 20px; font-weight: 800; color: #60a5fa;">R$ <span id="invest-balance">0,00</span></div>
+            </div>
+            <div style="background: rgba(0,255,157,0.08); border: 1px solid rgba(0,255,157,0.35); border-radius: 12px; padding: 10px 12px;">
+              <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;" data-i18n="home.toWithdraw">💸 PARA SACAR</div>
+              <div style="font-size: 20px; font-weight: 800; color: var(--accent-green);">R$ <span id="earn-balance">0,00</span></div>
+            </div>
+          </div>
+          <div class="balance-amount" style="font-size: 13px; opacity: 0.85;">
+            <span class="currency" data-i18n="home.total">Total R$</span>
+            <span class="value" id="user-balance">0,00</span>
+          </div>
+<div class="balance-stats">
+<div class="stat-item">
+<span class="stat-label" data-i18n="home.todayYield">Rendimento Previsto Hoje</span>
+<span class="stat-value positive" id="stat-daily-income">+ R$ 0,00</span>
+</div>
+<div class="stat-item">
+<span class="stat-label" data-i18n="home.totalAccum">Total Acumulado</span>
+<span class="stat-value" id="stat-total-income">R$ 0,00</span>
+</div>
+</div>
+<div style="margin-top: 4px; margin-bottom: 12px;">
+<div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
+<span data-i18n="home.drippedToday">Caído hoje: <strong id="daily-credited" style="color: var(--accent-green);">R$ 0,00</strong></span>
+<span id="daily-progress-pct">0% do dia</span>
+</div>
+<div class="progress-bar" style="margin-top: 0;">
+<div class="progress-fill" id="daily-progress-fill" style="width: 0%;"></div>
+</div>
+</div>
+          <div class="balance-actions">
+            <button class="btn btn-primary" onclick="openModal('modal-deposit')" data-i18n="home.depositBtn">
+              <i class="fa-solid fa-arrow-down-to-bracket"></i> Recarga Pix
+            </button>
+            <button class="btn btn-secondary" onclick="openModal('modal-withdraw')" data-i18n="home.withdrawBtn">
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> Saque
+            </button>
+          </div>
+        </div>
+
+        <!-- Card de Extrato de Depósitos & Entradas (Abaixo do Saldo) -->
+        <div class="home-statement-card">
+          <div class="statement-card-header">
+            <div class="statement-title-wrap">
+              <i class="fa-solid fa-receipt statement-icon-glow"></i>
+              <div>
+                <h5 data-i18n="home.stmtTitle">Extrato de Depósitos & Entradas</h5>
+                <span class="statement-subtitle" data-i18n="home.stmtSub">Créditos diários, recargas e comissões</span>
+              </div>
+            </div>
+            <button class="btn-statement-all" onclick="openHistoryModal()" data-i18n="home.viewAll">
+              Ver Tudo <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- Container Dinâmico das Últimas Entradas -->
+          <div class="statement-recent-list" id="home-recent-deposits-list">
+            <!-- Renderizado dinamicamente pelo JS -->
+          </div>
+        </div>
+
+        <!-- Banner de Carreira & Gamificação (Início) -->
+        <div id="home-career-banner" class="home-career-banner" onclick="switchTab('team')" title="Clique para ver seu Plano de Carreira">
+          <!-- Renderizado dinamicamente pelo JS -->
+        </div>
+
+        <!-- Ações Rápidas -->
+        <div class="quick-grid">
+          <button class="quick-card" onclick="openModal('modal-checkin')" data-i18n-aria="home.checkinAria" aria-label="Fazer Check-in Diário">
+            <div class="quick-icon icon-gold"><i class="fa-solid fa-calendar-check"></i></div>
+            <span data-i18n="home.checkin">Check-in</span>
+          </button>
+          <button class="quick-card" onclick="switchTab('team')" data-i18n-aria="home.teamAria" aria-label="Ver Minha Equipe">
+            <div class="quick-icon icon-blue"><i class="fa-solid fa-users"></i></div>
+            <span data-i18n="home.network">Rede</span>
+          </button>
+          <button class="quick-card" onclick="switchTab('products')" data-i18n-aria="home.fleetsAria" aria-label="Ver Frotas Disponíveis">
+            <div class="quick-icon icon-green"><svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg></div>
+        <span data-i18n="nav.products">Frotas</span>
+          </button>
+          <a href="#" onclick="return openOperatorsGroup(event)" class="quick-card" data-i18n-aria="home.tgAria" aria-label="Falar com Suporte e Grupo Telegram" style="text-decoration: none;">
+            <div class="quick-icon icon-purple" style="background: rgba(34, 158, 217, 0.15); border-color: rgba(34, 158, 217, 0.4); color: #229ED9;"><i class="fa-brands fa-telegram"></i></div>
+            <span>Telegram</span>
+          </a>
+        </div>
+
+        <!-- Banner Comunidade Telegram VIP -->
+        <a href="#" onclick="return openOperatorsGroup(event)" class="telegram-banner-card" style="text-decoration: none; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, rgba(34, 158, 217, 0.18) 0%, rgba(0, 102, 255, 0.12) 100%); border: 1px solid rgba(34, 158, 217, 0.45); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 20px; box-shadow: 0 0 20px rgba(34, 158, 217, 0.25); transition: all 0.25s ease;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: #229ED9; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(34, 158, 217, 0.6); flex-shrink: 0;">
+              <i class="fa-brands fa-telegram" style="color: #fff; font-size: 24px;"></i>
+            </div>
+            <div>
+              <span style="font-size: 10px; font-weight: 700; color: #229ED9; text-transform: uppercase; letter-spacing: 0.5px; display: block;" data-i18n="home.vipTag">Comunidade VIP Oficial</span>
+              <strong style="color: #fff; font-size: 14px; display: block; margin-top: 2px;" data-i18n="home.opsGroup">Grupo de Operadores</strong>
+              <span style="font-size: 11px; color: var(--text-muted);" data-i18n="home.opsSub">Avisos, rendimentos e networking</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; background: rgba(34, 158, 217, 0.25); border: 1px solid rgba(34, 158, 217, 0.6); padding: 8px 12px; border-radius: 8px; color: #fff; font-size: 11px; font-weight: 700; flex-shrink: 0;">
+            <span data-i18n="home.join">Entrar</span> <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Banner Promocional / Status da Frota -->
+        <div class="fleet-banner">
+          <div class="banner-content">
+            <span class="tag" data-i18n="home.autoTag">Operação Autônoma</span>
+            <h3 data-i18n="home.fleetCities">Frotas em Kansas City, Memphis, Los Angeles & Dallas</h3>
+            <p data-i18n="home.fleetContract">Contratos de inteligência automotiva com liquidação diária.</p>
+          </div>
+          <i class="fa-solid fa-microchip banner-bg-icon float-anim"></i>
+        </div>
+
+        <!-- Radar de Telemetria GPS ao Vivo -->
+        <div class="gps-radar-card">
+          <div class="gps-radar-header">
+            <div class="gps-title-wrap">
+              <span class="telemetry-dot pulse"></span>
+              <h5 data-i18n="home.radarTitle">Radar de Telemetria GPS</h5>
+              <span class="live-tag" data-i18n="home.liveTag">AO VIVO</span>
+            </div>
+            <div class="gps-city-pills">
+              <button class="gps-pill active" onclick="switchMapCity('shenzhen', this)" data-i18n="city.shenzhenS">Kansas City</button>
+              <button class="gps-pill" onclick="switchMapCity('hangzhou', this)" data-i18n="city.hangzhouS">Memphis</button>
+              <button class="gps-pill" onclick="switchMapCity('xangai', this)" data-i18n="city.shanghaiS">Los Angeles</button><button class="gps-pill" onclick="switchMapCity('chengdu', this)" data-i18n="city.chengduS">Dallas</button>
+            </div>
+          </div>
+
+          <!-- Viewport do Mapa Leaflet Interativo com Controles -->
+          <div class="gps-map-container-rel">
+            <div id="gps-telemetry-map" class="gps-map-viewport"></div>
+            <div class="radar-sweep-effect"></div>
+
+            <!-- Controles Inteligentes do Mapa -->
+            <div class="map-control-overlay">
+              <button class="map-ctrl-btn focus-car" onclick="focusUserOrBestCar()" title="Focar no Veículo">
+                <i class="fa-solid fa-crosshairs"></i>
+              </button>
+              <button class="map-ctrl-btn" onclick="zoomInMap()" title="Aumentar Zoom">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <button class="map-ctrl-btn" onclick="zoomOutMap()" title="Diminuir Zoom">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+            </div>
+
+            <!-- HUD Flutuante da Corrida Selecionada -->
+            <div id="live-ride-hud" class="live-ride-hud" style="display: none;">
+              <!-- Renderizado dinamicamente via JS -->
+            </div>
+          </div>
+
+          <!-- HUD de Telemetria no Rodapé do Mapa -->
+          <div class="gps-hud-bar">
+            <div class="hud-item">
+              <span class="hud-label" data-i18n="home.hudConn"><i class="fa-solid fa-satellite-dish"></i> Frotas Conectadas</span>
+              <strong class="hud-val" id="hud-connected-count">1.482 ativas</strong>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label" data-i18n="home.hudTrips"><i class="fa-solid fa-route"></i> Viagens Hoje</span>
+              <strong class="hud-val" id="hud-trips-count">18.940 operacoes</strong>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label" data-i18n="home.hudStatus"><i class="fa-solid fa-bolt"></i> Status Rede</span>
+              <strong class="hud-val" style="color: var(--accent-green);" data-i18n="home.hudLevel">100% Nível 4</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resumo dos Veículos em Operação -->
+        <div class="section-heading">
+          <h4 data-i18n="home.myDrones">Meus Drones Ativos (<span id="active-count">0</span>)</h4>
+          <button class="btn-link" onclick="switchTab('myfleet')" data-i18n="home.viewAllDrones">Ver todos</button>
+        </div>
+
+<!-- Container Dinâmico -->
+<div class="active-vehicles-list" id="active-vehicles-container"></div>
+
+<!-- Programa Social: R$ 1 por video aprovado.
+     Fica aqui, na home visivel, e NAO dentro de um modal: escondido atras do
+     modal de bonus ninguem nunca acharia. -->
+<div style="margin-top: 18px;">
+  <button class="btn btn-secondary btn-block" onclick="openSocialModal()">
+    <i class="fa-solid fa-share-nodes"></i> Ganhe R$ 1 postando
+  </button>
+  <p style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 6px; line-height: 1.5;">
+    Grave um vídeo sobre os drones, coloque o seu link na bio e envie aqui. Cada vídeo aprovado vale R$ 1.
+  </p>
+</div>
+
+</section>
+
+      <!-- ================= ABA 2: FROTAS & PRODUTOS ================= -->
+      <!-- ================= ABA 2: MINHA FROTA ================= -->
+      <section id="tab-myfleet" class="tab-pane" role="tabpanel">
+        <div class="pane-header">
+          <h3 data-i18n="nav.fleet">Minha Frota</h3>
+          <p data-i18n="fleet.mySub">Todas as suas cotas, o que cada uma rendeu e o que ainda falta.</p>
+        </div>
+
+        <!-- Resumo geral -->
+        <div class="fleet-summary" id="fleet-summary"></div>
+
+        <!-- Filtro Ativas / Concluidas -->
+        <div class="fleet-filter">
+          <button class="fleet-filter-btn active" id="fleet-filter-active" onclick="setMyFleetFilter('active')" data-i18n="fleet.fActive">Ativas</button>
+          <button class="fleet-filter-btn" id="fleet-filter-done" onclick="setMyFleetFilter('done')" data-i18n="fleet.fDone">Concluídas</button>
+        </div>
+
+        <div class="active-vehicles-list" id="my-fleet-container"></div>
+      </section>
+
+      <!-- ================= ABA 3: FROTAS & PRODUTOS ================= -->
+      <section id="tab-products" class="tab-pane" role="tabpanel">
+        <div class="pane-header">
+          <h3 data-i18n="fleet.catTitle">Catálogo de Operação</h3>
+          <p data-i18n="fleet.catSub">Selecione um ativo autônomo para iniciar seu contrato com liquidação diária.</p>
+        </div>
+
+        <!-- Seletor Superior: Veículos vs Pontos de Carregamento -->
+        <div class="product-type-toggle">
+          <button class="type-toggle-btn active" id="toggle-type-vehicles" onclick="switchProductType('vehicles')" data-i18n="fleet.typeDrones">
+            <svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg> Drones Autônomos
+          </button>
+          <button class="type-toggle-btn" id="toggle-type-chargers" onclick="switchProductType('chargers')" data-i18n="fleet.typeChargers">
+            <i class="fa-solid fa-charging-station"></i> Pontos de Carregamento
+          </button>
+        </div>
+
+        <!-- Barra de Filtro por Cidades (Kansas City, Memphis, Los Angeles, Dallas) -->
+        <div class="city-filter-bar" id="city-filter-bar">
+          <button class="city-chip active" onclick="filterByCity('all', this)" data-i18n="city.all">
+            <i class="fa-solid fa-globe"></i> Todas as Cidades
+          </button>
+          <button class="city-chip" onclick="filterByCity('Kansas City', this)" data-i18n="city.shenzhen">
+            <i class="fa-solid fa-location-dot"></i> Kansas City, MO
+          </button>
+          <button class="city-chip" onclick="filterByCity('Memphis', this)" data-i18n="city.hangzhou">
+            <i class="fa-solid fa-location-dot"></i> Memphis, TN
+          </button>
+          <button class="city-chip" onclick="filterByCity('Los Angeles', this)" data-i18n="city.shanghai">
+            <i class="fa-solid fa-location-dot"></i> Los Angeles, CA
+          </button>
+          <button class="city-chip" onclick="filterByCity('Dallas', this)" data-i18n="city.chengdu">
+            <i class="fa-solid fa-location-dot"></i> Dallas, TX
+          </button>
+        </div>
+
+        <!-- Barra de Filtros por Categoria -->
+        <div class="filter-scroll" id="category-filter-scroll" role="toolbar" aria-label="Filtrar categorias">
+          <button class="filter-chip active" onclick="filterProducts('all')" data-i18n="fleet.catAll">
+            <i class="fa-solid fa-layer-group"></i> Todos (<span id="count-all">8</span>)
+          </button>
+          <button class="filter-chip" onclick="filterProducts('popular')" data-i18n="fleet.catPop">
+            <i class="fa-solid fa-fire"></i> Alta Demanda (<span id="count-popular">3</span>)
+          </button>
+          <button class="filter-chip" onclick="filterProducts('vip')" data-i18n="fleet.catVip">
+            <i class="fa-solid fa-crown"></i> VIP Elite (<span id="count-vip">3</span>)
+          </button>
+          <button class="filter-chip" onclick="filterProducts('economy')" data-i18n="fleet.catEco">
+            <i class="fa-solid fa-leaf"></i> Entrada (<span id="count-economy">2</span>)
+          </button>
+        </div>
+
+        <div class="product-grid" id="product-list-container"></div>
+      </section>
+
+      <!-- ================= ABA 3: EQUIPE / CONVITES ================= -->
+      <section id="tab-team" class="tab-pane" role="tabpanel">
+        <div class="pane-header">
+          <h3 data-i18n="team.affTitle">Programa de Afiliados</h3>
+          <p data-i18n="team.affSub">Construa sua rede e receba bônus de contrato em 3 níveis.</p>
+        </div>
+
+        <!-- Referral Link Card (Dinâmico: Bloqueado ou Liberado) -->
+        <div id="referral-box-container">
+          <div class="referral-box">
+            <span class="ref-title" data-i18n="team.inviteCodeTitle">Seu Código de Convite</span>
+            <div class="copy-field">
+              <input type="text" id="invite-code" value="Carregando..." readonly data-i18n-aria="team.inviteCodeAria" aria-label="Código de convite">
+              <button class="btn-copy" id="btn-copy" onclick="copyInviteCode()" data-i18n-aria="team.copyAria" aria-label="Copiar link direto">
+                <i class="fa-regular fa-copy"></i> <span id="copy-text" data-i18n="team.copyInvite">Copiar Link</span>
+              </button>
+            </div>
+            <div class="copy-feedback" id="copy-feedback" style="display: none;" data-i18n="team.copiedOk">Link copiado com sucesso!</div>
+          </div>
+        </div>
+
+
+        <!-- Card de Status do Plano de Carreira e Patente -->
+        <div id="career-progress-container" style="margin-bottom: 16px;"></div>
+
+        <!-- Team Stats -->
+        <div class="team-metrics-grid" id="team-metrics-container"></div>
+
+        <!-- Team Levels (5 Níveis com Desbloqueio Progressivo) -->
+        <div class="team-levels" id="team-levels-container" style="margin-top: 16px;"></div>
+
+        <!-- Plano de Carreira e Graduações -->
+        <div class="referral-box" style="margin-top: 16px; background: rgba(0, 240, 255, 0.04); border: 1px solid var(--border-bright);">
+          <span class="ref-title" style="color: var(--primary);" data-i18n="team.metasTitle"><i class="fa-solid fa-trophy"></i> Metas do Plano de Carreira</span>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px; line-height: 1.6;">
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: #cd7f32; font-weight: 700;" data-i18n="team.metasBronze">🥉 Bronze (0-4 indicados):</span>
+              <strong style="color: #fff;" data-i18n="team.metasBronzeVal">10% Nível 1</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: #c0c0c0; font-weight: 700;" data-i18n="team.metasSilver">🥈 Prata (5 indicados):</span>
+              <strong style="color: var(--accent-green);" data-i18n="team.metasSilverVal">10% N1 + 10% N2 (+ R$ 50 Pix)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: var(--accent-gold); font-weight: 700;" data-i18n="team.metasGold">🥇 Ouro (15 membros):</span>
+              <strong style="color: var(--accent-green);" data-i18n="team.metasGoldVal">10% + 10% + 10% N3 (+ R$ 150 Pix)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: #f43f5e; font-weight: 700;" data-i18n="team.metasRuby">💎 Rubi (50 membros):</span>
+              <strong style="color: var(--accent-green);" data-i18n="team.metasRubyVal">10% + 10% + 10% + 10% N4 (+ R$ 500 Pix)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <span style="color: #38bdf8; font-weight: 700;" data-i18n="team.metasDiamond">👑 Diamante (150 membros):</span>
+              <strong style="color: var(--accent-gold);" data-i18n="team.metasDiamondVal">10% + 10% + 10% + 10% + 10% N5 (+ R$ 2.000 Pix)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+              <span style="color: #fff; font-weight: 800;" data-i18n="team.metasBlack">⚡ Black Diamond (500 membros):</span>
+              <strong style="color: var(--accent-gold);" data-i18n="team.metasBlackVal">Profundidade Total + Pool Global 1% (+ R$ 10.000)</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= ABA 4: PERFIL & CONTA ================= -->
+      <section id="tab-profile" class="tab-pane" role="tabpanel">
+        <div class="profile-card">
+          <div class="avatar-large" aria-hidden="true">
+            <i class="fa-solid fa-user-gear"></i>
+          </div>
+          <h4 id="profile-operator-title">Carregando Operador...</h4>
+          <span class="phone" id="profile-operator-phone">+55 ...</span>
+          <span class="account-badge" data-i18n="profile.verified"><i class="fa-solid fa-circle-check"></i> Conta Verificada</span>
+        </div>
+
+        <div class="menu-list" role="menu">
+          <a href="#" onclick="return openOperatorsGroup(event)" class="menu-item telegram" role="menuitem" style="border-color: rgba(34, 158, 217, 0.4); background: rgba(34, 158, 217, 0.1);">
+            <i class="fa-brands fa-telegram" style="color: #229ED9; font-size: 20px;"></i>
+            <span style="color: #fff; font-weight: 700;" data-i18n="profile.tgGroup">Grupo Oficial no Telegram</span>
+            <i class="fa-solid fa-arrow-up-right-from-square arrow" style="color: #229ED9;"></i>
+          </a>
+          <a href="#" onclick="return openWhatsappGroup(event)" class="menu-item" role="menuitem" style="border-color: rgba(37, 211, 102, 0.4); background: rgba(37, 211, 102, 0.1);">
+            <i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 20px;"></i>
+            <span style="color: #fff; font-weight: 700;" data-i18n="profile.waGroup">Grupo Oficial no WhatsApp</span>
+            <i class="fa-solid fa-arrow-up-right-from-square arrow" style="color: #25D366;"></i>
+          </a>
+          <a href="#" class="menu-item" role="menuitem" onclick="openHistoryModal(); return false;">
+            <i class="fa-solid fa-wallet"></i>
+            <span data-i18n="profile.history">Histórico Financeiro</span>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+          </a>
+          <a href="#" class="menu-item" role="menuitem" onclick="openModal('modal-withdraw'); return false;">
+            <i class="fa-solid fa-building-columns"></i>
+            <span data-i18n="profile.pixKey">Chave Pix de Saque</span>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+          </a>
+          <a href="#" class="menu-item" role="menuitem" onclick="openModal('modal-bonus'); return false;">
+            <i class="fa-solid fa-gift"></i>
+            <span data-i18n="profile.bonus">Código Bônus</span>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+          </a>
+          <a href="#" class="menu-item" role="menuitem" onclick="openSupportChat(); return false;">
+            <i class="fa-solid fa-circle-question" style="color: var(--primary);"></i>
+            <span data-i18n="profile.help">Central de Ajuda & Suporte</span>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+          </a>
+          <a href="/termos" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">
+            <i class="fa-solid fa-file-contract"></i>
+            <span data-i18n="profile.terms">Termos de Uso</span>
+            <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+          </a>
+          <a href="/privacidade" target="_blank" rel="noopener noreferrer" class="menu-item" role="menuitem">
+            <i class="fa-solid fa-user-shield"></i>
+            <span data-i18n="profile.privacy">Política de Privacidade</span>
+            <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+          </a>
+          <a href="#" class="menu-item logout" role="menuitem" onclick="handleLogout(); return false;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span data-i18n="profile.logout">Encerrar Sessão</span>
+          </a>
+        </div>
+        
+        <div class="app-version" style="text-align: center; line-height: 1.8;">
+          <span>TruckAuto</span>
+          <div style="font-size: 11.5px; margin-top: 6px;">
+            <a href="/termos" style="color: inherit; margin: 0 6px;" data-i18n="profile.termsShort">Termos</a>•<a href="/privacidade" style="color: inherit; margin: 0 6px;" data-i18n="profile.privacyShort">Privacidade</a>
+          </div>
+          <div style="font-size: 11.5px;">
+            <a href="mailto:contato@SEU_DOMINIO.com" style="color: inherit; text-decoration: none;">contato@SEU_DOMINIO.com</a>
+            <span style="margin: 0 4px;">•</span>
+            <a href="https://wa.me/SEU_NUMERO_WHATSAPP" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">WhatsApp: +55 SEU_NUMERO_WHATSAPP</a>
+          </div>
+          <div style="font-size: 11px; opacity: 0.85;">TruckAuto Entregas Tecnologicas</div>
+        </div>
+      </section>
+
+
+    </main>
+
+    
+    <!-- PWA Install Banner (Apenas se não estiver instalado) -->
+    <div id="pwa-install-banner" class="pwa-install-card" style="display: none;">
+      <div class="pwa-icon"><i class="fa-solid fa-cloud-arrow-down"></i></div>
+      <div class="pwa-info">
+        <strong>Instalar App TRUCKAUTO</strong>
+        <span>Acesso rápido direto da tela de início</span>
+      </div>
+      <button id="btn-pwa-install" class="btn-pwa-action" onclick="triggerPWAInstall()">Instalar</button>
+      <button class="btn-pwa-close" onclick="dismissPWAInstall()">&times;</button>
+    </div>
+
+    
+    <!-- Widgets Flutuantes na Lateral Direita (Suporte Online 24/7 + Bônus Diário) -->
+    <div class="floating-widgets-container">
+<div style="position: relative;">
+<button class="floating-widget-btn widget-support" onclick="toggleSupportMenu(event)" data-i18n-title="widget.supportTitle" title="Suporte Online 24/7" data-i18n-aria="widget.supportAria" aria-label="Abrir opções de suporte">
+<i class="fa-solid fa-headset"></i>
+<span data-i18n="widget.online">Online</span>
+<span class="widget-pulse-badge"></span>
+</button>
+<div id="support-menu" style="display: none; position: absolute; bottom: 58px; right: 0; width: 215px; background: rgba(11,17,30,0.97); border: 1px solid rgba(34,158,217,0.4); border-radius: 14px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 90;">
+<a href="#" onclick="return openWhatsappGroup(event)" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: #fff; font-size: 13px; font-weight: 700;">
+<i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 16px;"></i> <span data-i18n="widget.joinGroup">Entrar no grupo</span>
+</a>
+<a href="#" onclick="return openWhatsappSupport(event)" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: #fff; font-size: 13px; font-weight: 700;">
+<i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 16px;"></i> <span data-i18n="widget.waSupport">Suporte pelo WhatsApp</span>
+</a>
+<a href="#" onclick="document.getElementById('support-menu').style.display='none'; openSupportChat(); return false;" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: #fff; font-size: 13px; font-weight: 700;">
+<i class="fa-solid fa-headset" style="color: #229ED9; font-size: 16px;"></i> <span data-i18n="widget.talkSupport">Falar com suporte</span>
+</a>
+</div>
+</div>
+      <button class="floating-widget-btn widget-bonus" onclick="openModal('modal-checkin')" data-i18n-title="widget.bonusTitle" title="Resgatar Bônus Diário">
+        <i class="fa-solid fa-gift"></i>
+        <span data-i18n="widget.bonus">Bônus</span>
+      </button>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="switchTab('home')" aria-label="Ir para Início">
+        <div class="nav-icon-wrapper"><i class="fa-solid fa-house"></i></div>
+        <span data-i18n="nav.home">Início</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('products')" aria-label="Ir para Frotas">
+        <div class="nav-icon-wrapper"><svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg></div>
+        <span data-i18n="nav.products">Frotas</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('myfleet')" aria-label="Ir para Minha Frota">
+        <div class="nav-icon-wrapper"><i class="fa-solid fa-layer-group"></i></div>
+        <span data-i18n="nav.fleet">Minha Frota</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('team')" aria-label="Ir para Equipe">
+        <div class="nav-icon-wrapper"><i class="fa-solid fa-users"></i></div>
+        <span data-i18n="nav.team">Equipe</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('profile')" aria-label="Ir para Conta">
+        <div class="nav-icon-wrapper"><i class="fa-solid fa-user"></i></div>
+        <span data-i18n="nav.profile">Conta</span>
+      </button>
+    </nav>
+
+    <!-- ================= MODAIS DE AÇÃO ================= -->
+
+        <!-- Modal Recarga Pix (valor livre) -->
+    <div id="modal-deposit" class="modal" role="dialog" aria-modal="true" onclick="closeModalOutside(event, 'modal-deposit')">
+      <div class="modal-content" style="max-height: 88vh; display: flex; flex-direction: column;">
+        <div class="modal-header">
+          <h4 data-i18n="wallet.depositTitle"><i class="fa-solid fa-bolt" style="color: var(--accent-green);"></i> Recarga Pix</h4>
+          <button class="btn-close" onclick="closeModal('modal-deposit')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body" style="overflow-y: auto; padding-right: 6px;">
+          <div id="deposit-form-area">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+              Digite o valor que deseja depositar. Vamos gerar um QR Code Pix na hora:
+            </p>
+            <label>Valor da Recarga (R$):</label>
+            <input type="number" id="deposit-amount" data-i18n-ph="wallet.amount" placeholder="Mínimo R$ 20,00" min="20" step="0.01">
+            <label>Seu CPF ou CNPJ (exigido pelo Pix):</label>
+            <input type="text" id="deposit-doc" placeholder="Somente números" inputmode="numeric">
+            <button id="btn-generate-pix" class="btn btn-primary btn-block" onclick="processDeposit()">
+              Gerar QR Code Pix
+            </button>
+          </div>
+          <div id="deposit-qr-area" style="display: none; text-align: center;">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">
+              Escaneie o QR Code com o app do seu banco (<strong id="deposit-qr-amount" style="color: #fff;"></strong>):
+            </p>
+            <div id="deposit-qrcode" style="display: inline-block; padding: 12px; background: #fff; border-radius: 12px; margin-bottom: 12px;"></div>
+            <div style="text-align: left;">
+              <label>Ou use o código copia e cola:</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="deposit-copy-code" readonly style="font-size: 11px;">
+                <button class="btn btn-primary" onclick="copyDepositCode()" style="white-space: nowrap;">Copiar</button>
+              </div>
+            </div>
+            <p id="deposit-expires" style="font-size: 11px; color: var(--text-muted); margin-top: 10px;"></p>
+            <button class="btn btn-secondary btn-block" onclick="backToDepositForm()" style="margin-top: 10px;">
+              Gerar outro valor
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+      </div>
+    </div>
+
+    <!-- Modal Saque -->
+    <div id="modal-withdraw" class="modal" onclick="closeModalOutside(event, 'modal-withdraw')">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 data-i18n="wallet.withdrawTitle">Solicitar Saque</h4>
+          <button class="btn-close" onclick="closeModal('modal-withdraw')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="withdraw-cota-warning" style="display: none; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.35); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 14px; font-size: 12px; color: #fbbf24; line-height: 1.5;">
+            <i class="fa-solid fa-triangle-exclamation"></i> <strong>Requisito:</strong> <span id="withdraw-cota-warning-text">Para sacar, sua conta precisa ter ao menos R$ 20,00 em depósitos.</span>
+            <button id="withdraw-recharge-btn" type="button" onclick="irParaRecarga(0)"
+              style="display: none; align-items: center; justify-content: center; width: 100%; margin-top: 10px; padding: 11px 14px; border: 1px solid rgba(245,158,11,0.5); background: rgba(245,158,11,0.14); color: #fcd34d; font-size: 13px; font-weight: 800; border-radius: 10px; cursor: pointer; text-align: center;">
+              <!-- O texto inteiro fica em UM span: com varios nos soltos, o flex
+                   vira uma coluna por palavra ("Recarregar R$ 8,00 para liberar"). -->
+              <span><i class="fa-solid fa-bolt"></i> Recarregar <span id="withdraw-recharge-amount">R$ 0,00</span> para liberar o saque</span>
+            </button>
+          </div>
+          <p class="modal-info">Saldo de saque disponível: <strong id="withdraw-available" style="color: var(--accent-green);">R$ 0,00</strong></p>
+          <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 8px;">
+            <i class="fa-solid fa-circle-info" style="color: var(--primary); font-size: 13px;"></i>
+            <span style="font-size: 11.5px; color: var(--text-muted); line-height: 1.4;">Escolha o tipo e confira com o banco. Chave errada não é paga.</span>
+          </div>
+          <label style="color: var(--text-main); font-weight: 700; font-size: 13.5px;">Tipo da chave Pix:</label>
+          <select id="withdraw-key-type" class="form-select" onchange="validateWithdrawKeyField()">
+            <option value="CPF">CPF — 11 dígitos</option>
+            <option value="TELEFONE">Celular — DDD + 9 dígitos</option>
+            <option value="EMAIL">E-mail</option>
+            <option value="CHAVE_ALEATORIA">Chave aleatória</option>
+          </select>
+          <label>Chave Pix:</label>
+          <input type="text" id="withdraw-key" data-i18n-ph="wallet.pixKey" placeholder="Insira sua Chave Pix" oninput="validateWithdrawKeyField()">
+          <p id="withdraw-key-feedback" style="display: none; font-size: 11.5px; line-height: 1.5; margin: 6px 0 0;"></p>
+          <label style="margin-top: 12px;">Valor do Saque (R$):</label>
+          <input type="number" id="withdraw-amount" data-i18n-ph="wallet.amount" placeholder="Mínimo R$ 15,00">
+          <p id="withdraw-fee-hint" data-i18n="wallet.feeHint" style="font-size: 11px; color: var(--text-muted); margin: 6px 0 12px;">Taxa de saque: 10% sobre o valor solicitado. Você recebe 90% via Pix.</p>
+          <button id="btn-process-withdraw" class="btn btn-primary btn-block" onclick="processWithdraw()">
+            Confirmar Saque
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Código Bônus -->
+    <div id="modal-bonus" class="modal" onclick="closeModalOutside(event, 'modal-bonus')">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 data-i18n="wallet.bonusModalTitle">Resgatar Bônus</h4>
+          <button class="btn-close" onclick="closeModal('modal-bonus')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;" data-i18n="wallet.bonusText">
+            Tem um código bônus do grupo? Digite abaixo para creditar na hora:
+          </p>
+          <label data-i18n="wallet.bonusLabel">Código do Bônus:</label>
+          <input type="text" id="bonus-code" placeholder="Ex: TRUCKAUTO10" style="text-transform: uppercase;">
+          <button id="btn-redeem-bonus" class="btn btn-primary btn-block" onclick="redeemBonus()" data-i18n="wallet.bonusBtn">
+            Resgatar
+</button>
+          </div>
+      </div>
+    </div>
+
+    <!-- Modal Bônus Diário resgatado (sucesso) -->
+    <div id="modal-checkin-done" class="modal" role="dialog" aria-modal="true" aria-label="Bônus diário creditado" onclick="closeModalOutside(event, 'modal-checkin-done')">
+      <div class="modal-content text-center" style="position: relative; overflow: hidden; background: linear-gradient(160deg, #0B1B3A 0%, #10255A 60%, #0B3D2E 100%); border: 1px solid rgba(0,240,255,0.35);">
+        <div style="position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 220px; height: 220px; background: radial-gradient(circle, rgba(0,240,255,0.25) 0%, transparent 70%); pointer-events: none;"></div>
+        <button class="btn-close" onclick="closeModal('modal-checkin-done')" aria-label="Fechar" style="position: absolute; top: 10px; right: 14px; z-index: 2;">&times;</button>
+        <div style="font-size: 58px; margin: 10px 0 4px; filter: drop-shadow(0 0 18px rgba(0,240,255,0.6)); animation: bonus-pop 0.6s ease;">🎁</div>
+        <h3 style="margin: 0; font-size: 24px; font-weight: 800; color: #fff;" data-i18n="checkin.doneTitle">Bônus diário creditado! 🎉</h3>
+        <p style="margin: 6px 0 0; font-size: 14px; color: var(--text-muted);" data-i18n="checkin.doneSub">Já caiu no seu saldo de saque</p>
+
+        <div id="checkin-done-amount" style="font-size: 44px; font-weight: 900; color: var(--accent-green); margin: 10px 0 4px; text-shadow: 0 0 24px rgba(0,255,157,0.45);">R$ 0,00</div>
+
+        <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin: 10px 0 0;"><span data-i18n="checkin.doneTextA">Já dá pra sacar esse valor pelo Pix</span><br><span data-i18n="checkin.doneTextB">ou guardar no saldo para investir.</span></p>
+
+        <div id="checkin-done-streak" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 10px 16px; border-radius: 999px; background: rgba(124, 77, 255, 0.12); border: 1px solid rgba(124, 77, 255, 0.35);">
+          <i class="fa-solid fa-fire" style="color: var(--primary);"></i>
+          <span style="font-size: 13.5px; font-weight: 800; color: var(--primary);" id="checkin-done-streak-text">Volte amanhã</span>
+        </div>
+
+        <button class="btn btn-primary btn-block" onclick="closeModal('modal-checkin-done')" style="font-size: 15px; font-weight: 800; padding: 14px; line-height: 1.4; margin-top: 18px;" data-i18n="common.continue">Continuar</button>
+      </div>
+    </div>
+
+    <!-- Modal Cupom resgatado (sucesso) -->
+    <div id="modal-coupon-done" class="modal" role="dialog" aria-modal="true" aria-label="Bônus creditado" onclick="closeModalOutside(event, 'modal-coupon-done')">
+      <div class="modal-content text-center" style="position: relative; overflow: hidden; background: linear-gradient(160deg, #0B1B3A 0%, #10255A 60%, #0B3D2E 100%); border: 1px solid rgba(0,240,255,0.35);">
+        <div style="position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 220px; height: 220px; background: radial-gradient(circle, rgba(0,240,255,0.25) 0%, transparent 70%); pointer-events: none;"></div>
+        <button class="btn-close" onclick="closeModal('modal-coupon-done')" aria-label="Fechar" style="position: absolute; top: 10px; right: 14px; z-index: 2;">&times;</button>
+        <div style="font-size: 58px; margin: 10px 0 4px; filter: drop-shadow(0 0 18px rgba(0,240,255,0.6)); animation: bonus-pop 0.6s ease;">🎟️</div>
+        <h3 style="margin: 0; font-size: 24px; font-weight: 800; color: #fff;" data-i18n="coupon.doneTitle">Bônus creditado! 🎉</h3>
+        <p style="margin: 6px 0 0; font-size: 14px; color: var(--text-muted);" data-i18n="coupon.doneSub">Cupom aplicado com sucesso</p>
+
+        <div id="coupon-done-amount" style="font-size: 44px; font-weight: 900; color: var(--accent-green); margin: 10px 0 4px; text-shadow: 0 0 24px rgba(0,255,157,0.45);">R$ 0,00</div>
+
+        <div style="display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 9px 16px; border-radius: 999px; background: rgba(124, 77, 255, 0.12); border: 1px solid rgba(124, 77, 255, 0.35);">
+          <i class="fa-solid fa-ticket" style="color: var(--primary);"></i>
+          <span id="coupon-done-code" style="font-size: 13.5px; font-weight: 800; color: var(--primary); letter-spacing: 0.05em;">CUPOM</span>
+        </div>
+
+        <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin: 14px 0 0;">Já caiu no seu saldo de saque.<br>Você pode sacar pelo Pix ou investir em uma frota.</p>
+
+        <button class="btn btn-primary btn-block" onclick="closeModal('modal-coupon-done')" style="font-size: 15px; font-weight: 800; padding: 14px; line-height: 1.4; margin-top: 18px;">Continuar</button>
+      </div>
+    </div>
+
+    <!-- Modal de Aviso (erro / informação) -->
+    <div id="modal-notice" class="modal" role="dialog" aria-modal="true" aria-label="Aviso" onclick="closeModalOutside(event, 'modal-notice')">
+      <div class="modal-content text-center" style="position: relative; overflow: hidden; background: linear-gradient(160deg, #0B1B3A 0%, #10255A 100%); border: 1px solid rgba(255,255,255,0.14);">
+        <button class="btn-close" onclick="closeModal('modal-notice')" aria-label="Fechar" style="position: absolute; top: 10px; right: 14px; z-index: 2;">&times;</button>
+        <div id="notice-icon" style="font-size: 46px; margin: 14px 0 6px; filter: drop-shadow(0 0 16px rgba(0,240,255,0.5));">⚠️</div>
+        <h3 id="notice-title" style="margin: 0; font-size: 20px; font-weight: 800; color: #fff;">Aviso</h3>
+        <p id="notice-msg" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin: 10px 4px 0; white-space: pre-line;"></p>
+        <button class="btn btn-primary btn-block" onclick="closeModal('modal-notice')" style="font-size: 14px; font-weight: 800; padding: 13px; line-height: 1.4; margin-top: 20px;">Entendi</button>
+      </div>
+    </div>
+
+    <!-- Modal Chat Suporte -->
+    <div id="modal-support" class="modal" role="dialog" aria-modal="true" onclick="closeModalOutside(event, 'modal-support')">
+      <div class="modal-content" style="max-height: 88vh; display: flex; flex-direction: column; padding: 0; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: linear-gradient(135deg, #0B63E5, #08479E); color: #fff;">
+          <span style="width: 38px; height: 38px; border-radius: 12px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fa-solid fa-headset"></i></span>
+          <div style="flex: 1;">
+            <div style="font-weight: 800; font-size: 15px;">Atendimento TruckAuto</div>
+            <div style="font-size: 11px; opacity: 0.9;">🟢 Atendimento em andamento</div>
+          </div>
+          <button class="btn-close" onclick="closeModal('modal-support')" aria-label="Fechar" style="color: #fff;">&times;</button>
+        </div>
+        <div style="margin: 12px 12px 0; background: rgba(11,99,229,0.10); border: 1px solid rgba(11,99,229,0.30); border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <div style="font-size: 12px; color: var(--text-muted);"><strong style="color: #fff;">Seu atendimento está aberto.</strong><br>Solicitação recebida. Aguarde um atendente da equipe.</div>
+          <button onclick="closeSupportChat()" style="flex-shrink: 0; background: transparent; border: 1px solid rgba(244,63,94,0.5); color: #f87171; font-size: 11px; font-weight: 700; border-radius: 8px; padding: 6px 10px; cursor: pointer;">Encerrar chat</button>
+        </div>
+        <div class="modal-body" style="overflow-y: auto; padding: 12px;">
+          <div id="support-messages" style="display: flex; flex-direction: column; gap: 8px; min-height: 180px; max-height: 44vh; overflow-y: auto; margin-bottom: 12px;"></div>
+          <div id="support-categories" style="display: none; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;"></div>
+          <div style="background: rgba(250,219,95,0.08); border: 1px solid rgba(250,219,95,0.30); border-radius: 10px; padding: 8px 10px; font-size: 11px; color: var(--text-muted); margin-bottom: 10px;">🔒 <strong>Aviso de segurança:</strong> o suporte oficial nunca solicitará sua senha ou código de acesso. Utilize somente este chat para questões relacionadas à sua conta.</div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="support-input" placeholder="Escreva sua mensagem..." maxlength="1000" onkeydown="if(event.key==='Enter')sendSupportMessage()">
+            <button id="btn-send-support" class="btn btn-primary" onclick="sendSupportMessage()" style="white-space: nowrap;" aria-label="Enviar"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Check-in Diário -->
+    <div id="modal-checkin" class="modal" onclick="closeModalOutside(event, 'modal-checkin')">
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h4 data-i18n="checkin.title">Recompensa Diária</h4>
+          <button class="btn-close" onclick="closeModal('modal-checkin')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="reward-icon bounce-anim"><i class="fa-solid fa-gift"></i></div>
+          <p style="margin-bottom: 20px; color: var(--text-muted);" data-i18n="checkin.text">Faça check-in diário para ganhar bônus operacionais.</p>
+          <button id="btn-process-checkin" class="btn btn-primary btn-block" onclick="claimCheckin()" data-i18n="wallet.checkinBtn">
+            Resgatar Bônus
+          </button>
+        </div>
+      </div>
+    </div>
+
+  
+    <!-- Modal Extrato Financeiro com Filtros -->
+    <div id="modal-history" class="modal" role="dialog" aria-modal="true" onclick="closeModalOutside(event, 'modal-history')">
+      <div class="modal-content" style="max-height: 85vh; display: flex; flex-direction: column;">
+        <div class="modal-header">
+          <h4 data-i18n="history.title"><i class="fa-solid fa-receipt" style="color: var(--primary);"></i> Extrato de Transações</h4>
+          <button class="btn-close" onclick="closeModal('modal-history')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body" style="overflow-y: auto; padding-right: 4px;">
+          <!-- Filtros de Categoria -->
+          <div class="history-filters">
+            <button class="history-chip active" onclick="filterHistory('all', this)" data-i18n="history.chipAll">Todos</button>
+            <button class="history-chip" onclick="filterHistory('commission', this)" data-i18n="history.chipCommissions">Comissões</button>
+            <button class="history-chip" onclick="filterHistory('income', this)" data-i18n="history.chipIncome">Rendimentos</button>
+            <button class="history-chip" onclick="filterHistory('withdraw', this)" data-i18n="history.chipWithdraw">Saques Pix</button>
+            <button class="history-chip" onclick="filterHistory('bonus', this)" data-i18n="history.chipBonus">Bônus</button>
+          </div>
+          <!-- Lista de Transações -->
+          <div id="history-items-container">
+            <div style="text-align: center; padding: 20px; color: var(--text-muted);">Carregando transações...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Comprovante Digital Pix Oficial -->
+    <div id="modal-receipt" class="modal" role="dialog" aria-modal="true" onclick="closeModalOutside(event, 'modal-receipt')">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4><i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i> Comprovante Oficial</h4>
+          <button class="btn-close" onclick="closeModal('modal-receipt')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="receipt-box" id="receipt-box-content">
+            <!-- Renderizado dinamicamente -->
+          </div>
+          <button class="btn btn-primary btn-block" style="margin-top: 14px;" onclick="closeModal('modal-receipt')">
+            <i class="fa-solid fa-check"></i> Fechar Comprovante
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Central de Notificações -->
+    <div id="modal-notifications" class="modal" role="dialog" aria-modal="true" onclick="closeModalOutside(event, 'modal-notifications')">
+      <div class="modal-content" style="max-height: 85vh; display: flex; flex-direction: column;">
+        <div class="modal-header">
+          <h4><i class="fa-solid fa-bell" style="color: var(--primary);"></i> Central de Notificações</h4>
+          <button class="btn-close" onclick="closeModal('modal-notifications')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body" style="overflow-y: auto; padding-right: 4px;">
+          <div id="notifications-list-container">
+            <!-- Renderizado dinamicamente -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Boas-vindas TruckAuto (exibido ao abrir o app) -->
+    <div id="modal-welcome" class="modal" role="dialog" aria-modal="true" aria-label="Bem-vindo à TruckAuto" onclick="closeModalOutside(event, 'modal-welcome')">
+      <div class="modal-content" style="background: #F2F6FD; color: #0B1B3A; max-width: 400px; padding: 0; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.6);">
+        <button onclick="closeModal('modal-welcome')" aria-label="Fechar" style="position: absolute; top: 12px; right: 12px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(11,27,58,0.12); background: #fff; color: #0B1B3A; font-size: 20px; font-weight: 700; cursor: pointer; line-height: 1; box-shadow: 0 4px 12px rgba(11,27,58,0.12); z-index: 2;">&times;</button>
+        <div style="text-align: center; padding: 34px 26px 18px;">
+          <div style="font-family: Outfit, sans-serif; font-weight: 900; font-style: italic; font-size: 46px; letter-spacing: -1px; color: #0B2A5B; line-height: 1;">Fly<span style="color: #0B63E5;">Ex</span> <i class="fa-solid fa-helicopter" style="font-size: 26px; color: #0B2A5B; vertical-align: super;"></i></div>
+          <div style="letter-spacing: 5px; font-size: 11px; font-weight: 700; color: #0B2A5B; margin-top: 4px;">DRONES DE ENTREGA</div>
+          <h3 style="margin: 18px 0 0; font-size: 26px; font-weight: 800; color: #0B1B3A; line-height: 1.25;">Bem-vindo à TruckAuto<br>Drones</h3>
+        </div>
+        <div style="background: #fff; border-radius: 22px 22px 0 0; padding: 20px 20px 24px;">
+          <p style="margin: 0 0 14px; font-size: 15px; color: #33415C;">Descubra o que a TruckAuto Drones preparou para você.</p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 12px; background: #EFF4FE; border: 1px solid #DCE7FB; border-radius: 16px; padding: 12px 14px;">
+              <span style="flex: 0 0 40px; width: 40px; height: 40px; border-radius: 12px; background: #D8E6FD; color: #0B63E5; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fa-solid fa-check"></i></span>
+              <span style="font-size: 14px; font-weight: 600; color: #123B8F;">Comece com planos flexíveis e sem burocracia.</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; background: #EFF4FE; border: 1px solid #DCE7FB; border-radius: 16px; padding: 12px 14px;">
+              <span style="flex: 0 0 40px; width: 40px; height: 40px; border-radius: 12px; background: #D8E6FD; color: #0B63E5; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fa-solid fa-check"></i></span>
+              <span style="font-size: 14px; font-weight: 600; color: #123B8F;">Drones modernos, seguros e com tecnologia de ponta.</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; background: #EFF4FE; border: 1px solid #DCE7FB; border-radius: 16px; padding: 12px 14px;">
+              <span style="flex: 0 0 40px; width: 40px; height: 40px; border-radius: 12px; background: #D8E6FD; color: #0B63E5; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fa-solid fa-check"></i></span>
+              <span style="font-size: 14px; font-weight: 600; color: #123B8F;">Ganhe mais com nossas entregas autônomas e rendimento de segunda a sábado.</span>
+            </div>
+          </div>
+          <button onclick="exploreWelcome()" style="width: 100%; margin-top: 16px; border: none; cursor: pointer; background: linear-gradient(135deg, #0B63E5, #08479E); color: #fff; font-size: 18px; font-weight: 800; border-radius: 18px; padding: 16px;">Explorar agora</button>
+          <div style="text-align: center; margin: 16px 0 10px; font-size: 14px; font-weight: 600; color: #6B7A99;">Comunidade TruckAuto</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <a href="https://SEU_GRUPO_WHATSAPP?s=cl&p=i&mlu=4&ilr=4" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #0B63E5; color: #fff; font-weight: 800; font-size: 15px; border-radius: 16px; padding: 13px 8px; text-decoration: none;"><i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> WhatsApp</a>
+            <a href="#" onclick="return openOperatorsGroup(event)" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #1E9BF0; color: #fff; font-weight: 800; font-size: 15px; border-radius: 16px; padding: 13px 8px; text-decoration: none;"><i class="fa-brands fa-telegram" style="font-size: 20px;"></i> Telegram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Idioma -->
+    <div id="modal-lang" class="modal" role="dialog" aria-modal="true" onclick="closeModalOutside(event, 'modal-lang')">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 data-i18n="common.language" style="margin: 0; font-size: 18px; font-weight: 800;">Idioma</h3>
+          <button class="btn-close" onclick="closeModal('modal-lang')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 10px;">
+          <button class="btn btn-secondary btn-block lang-opt" data-lang="pt" onclick="chooseLang('pt')" style="display:flex;align-items:center;gap:12px;text-align:left;"><img src="https://flagcdn.com/w40/br.png" alt="" width="32" height="24" style="border-radius:4px;" onerror="this.style.display='none'"><span style="flex:1;font-weight:700;">Português</span><span class="lang-check" style="color:var(--accent-green);font-weight:900;">✓</span></button>
+          <button class="btn btn-secondary btn-block lang-opt" data-lang="es" onclick="chooseLang('es')" style="display:flex;align-items:center;gap:12px;text-align:left;"><img src="https://flagcdn.com/w40/es.png" alt="" width="32" height="24" style="border-radius:4px;" onerror="this.style.display='none'"><span style="flex:1;font-weight:700;">Español</span><span class="lang-check" style="color:var(--accent-green);font-weight:900;">✓</span></button>
+          <button class="btn btn-secondary btn-block lang-opt" data-lang="en" onclick="chooseLang('en')" style="display:flex;align-items:center;gap:12px;text-align:left;"><img src="https://flagcdn.com/w40/us.png" alt="" width="32" height="24" style="border-radius:4px;" onerror="this.style.display='none'"><span style="flex:1;font-weight:700;">English</span><span class="lang-check" style="color:var(--accent-green);font-weight:900;">✓</span></button>
+          <button class="btn btn-secondary btn-block lang-opt" data-lang="zh" onclick="chooseLang('zh')" style="display:flex;align-items:center;gap:12px;text-align:left;"><img src="https://flagcdn.com/w40/cn.png" alt="" width="32" height="24" style="border-radius:4px;" onerror="this.style.display='none'"><span style="flex:1;font-weight:700;">中文</span><span class="lang-check" style="color:var(--accent-green);font-weight:900;">✓</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Parabéns: bônus de boas-vindas (1x por conta) -->
+    <div id="modal-bonus-celebration" class="modal" role="dialog" aria-modal="true" aria-label="Parabéns pelo bônus" onclick="closeModalOutside(event, 'modal-bonus-celebration')">
+      <div class="modal-content text-center" style="position: relative; overflow: hidden; background: linear-gradient(160deg, #0B1B3A 0%, #10255A 60%, #0B3D2E 100%); border: 1px solid rgba(0,240,255,0.35);">
+        <div style="position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 220px; height: 220px; background: radial-gradient(circle, rgba(0,240,255,0.25) 0%, transparent 70%); pointer-events: none;"></div>
+        <button class="btn-close" onclick="closeModal('modal-bonus-celebration')" aria-label="Fechar" style="position: absolute; top: 10px; right: 14px; z-index: 2;">&times;</button>
+        <div style="font-size: 58px; margin: 10px 0 4px; filter: drop-shadow(0 0 18px rgba(0,240,255,0.6)); animation: bonus-pop 0.6s ease;">🎁</div>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; color: #fff;" data-i18n="celebrate.title">Parabéns! 🎉</h3>
+        <p style="margin: 6px 0 0; font-size: 14px; color: var(--text-muted);" data-i18n="celebrate.sub">Você ganhou um bônus de boas-vindas de</p>
+        <div id="bonus-celebration-amount" style="font-size: 44px; font-weight: 900; color: var(--accent-green); margin: 4px 0; text-shadow: 0 0 24px rgba(0,255,157,0.45);">R$ 5,00</div>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0 0 18px;"><span data-i18n="celebrate.textA">Já caiu no seu saldo! Ative sua primeira frota</span><br><span data-i18n="celebrate.textB">e faça esse valor render de segunda a sábado. 🚀</span></p>
+        <button class="btn btn-primary btn-block" onclick="celebrateBonusGo()" style="font-size: 15px; font-weight: 800; padding: 14px; line-height: 1.4;" data-i18n="celebrate.btn">Resgatar bônus</button>
+      </div>
+    </div>
+
+    <!-- Modal Escolha de Carteira no Aluguel -->
+    <div id="modal-hire-pay" class="modal" role="dialog" aria-modal="true" aria-label="Escolher carteira" onclick="closeModalOutside(event, 'modal-hire-pay')">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4><i class="fa-solid fa-wallet" style="color: var(--accent-green);"></i> <span id="hire-pay-title">Alugar cota</span></h4>
+          <button class="btn-close" onclick="closeModal('modal-hire-pay')" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p id="hire-pay-info" style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;"></p>
+          <p style="font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px;" data-i18n="hirepay.payWith">PAGAR COM (escolha 1):</p>
+          <div id="hire-pay-invest" onclick="selectHirePay('invest')" style="display: flex; align-items: center; gap: 12px; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer;">
+            <span id="hire-pay-invest-radio" style="font-size: 18px;">⭕</span>
+            <div style="flex: 1;">
+              <div style="font-size: 14px; font-weight: 800; color: #fff;" data-i18n="hirepay.optInvest">💰 Para investir</div>
+              <div id="hire-pay-invest-bal" style="font-size: 12px; color: var(--text-muted);"></div>
+            </div>
+          </div>
+          <div id="hire-pay-earn" onclick="selectHirePay('earn')" style="display: flex; align-items: center; gap: 12px; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; cursor: pointer;">
+            <span id="hire-pay-earn-radio" style="font-size: 18px;">⭕</span>
+            <div style="flex: 1;">
+              <div style="font-size: 14px; font-weight: 800; color: #fff;" data-i18n="hirepay.optEarn">💸 Para sacar</div>
+              <div id="hire-pay-earn-bal" style="font-size: 12px; color: var(--text-muted);"></div>
+            </div>
+          </div>
+          <p id="hire-pay-warn" style="display: none; font-size: 12px; color: #fbbf24; margin-bottom: 12px;" data-i18n="hirepay.warn">Nenhum saldo cobre sozinho. Recarregue para investir.</p>
+          <button id="btn-confirm-hire" class="btn btn-primary btn-block" onclick="confirmHirePay()" style="font-size: 15px; font-weight: 800; padding: 14px;" data-i18n="hirepay.confirmBtn">Confirmar aluguel</button>
+          <button id="btn-hire-deposit" class="btn btn-primary btn-block" onclick="closeModal('modal-hire-pay');openModal('modal-deposit')" style="display: none; font-size: 15px; font-weight: 800; padding: 14px;" data-i18n="hirepay.depositBtn">Recarregar agora</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Contrato Ativado (sucesso) -->
+    <div id="modal-hire-done" class="modal" role="dialog" aria-modal="true" aria-label="Contrato ativado" onclick="closeModalOutside(event, 'modal-hire-done')">
+      <div class="modal-content text-center" style="position: relative; overflow: hidden; background: linear-gradient(160deg, #0B1B3A 0%, #10255A 60%, #0B3D2E 100%); border: 1px solid rgba(0,240,255,0.35);">
+        <div style="position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 220px; height: 220px; background: radial-gradient(circle, rgba(0,240,255,0.25) 0%, transparent 70%); pointer-events: none;"></div>
+        <button class="btn-close" onclick="closeModal('modal-hire-done')" aria-label="Fechar" style="position: absolute; top: 10px; right: 14px; z-index: 2;">&times;</button>
+        <div style="font-size: 58px; margin: 10px 0 4px; filter: drop-shadow(0 0 18px rgba(0,240,255,0.6)); animation: bonus-pop 0.6s ease;">🚁</div>
+        <h3 style="margin: 0; font-size: 24px; font-weight: 800; color: #fff;" data-i18n="hiredone.title">Contrato ativado! 🎉</h3>
+        <p id="hire-done-name" style="margin: 6px 0 0; font-size: 14px; color: var(--text-muted);">Sua cota entrou na rede</p>
+
+        <div style="display: inline-flex; align-items: center; gap: 8px; margin: 16px 0 4px; padding: 10px 16px; border-radius: 999px; background: rgba(255,193,7,0.12); border: 1px solid rgba(255,193,7,0.4);">
+          <i class="fa-solid fa-hourglass-half" style="color: var(--accent-gold);"></i>
+          <span style="font-size: 14px; font-weight: 800; color: var(--accent-gold);" data-i18n="hiredone.waitNote">Começa a render amanhã</span>
+        </div>
+        <p id="hire-done-start" style="font-size: 13px; color: var(--text-muted); margin: 8px 0 0; line-height: 1.6;"></p>
+        <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin: 14px 0 0;"><span data-i18n="hiredone.noteA1">O dia de espera </span><strong style="color: #fff;" data-i18n="hiredone.noteAStrong">não desconta</strong><span data-i18n="hiredone.noteA2"> do seu plano.</span><br><span data-i18n="hiredone.noteB">Rendimentos creditados de segunda a sábado.</span></p>
+
+        <button class="btn btn-primary btn-block" onclick="closeModal('modal-hire-done');switchTab('home')" style="font-size: 15px; font-weight: 800; padding: 14px; line-height: 1.4; margin-top: 18px;" data-i18n="hiredone.btn">Ver minha frota</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/i18n.js"></script>
+  <script src="/i18n-data.js"></script>
+  <script src="app.js"></script>
+<!-- Programa Social: carregado depois do app porque depende de appState,
+     apiRequest e closeModal. -->
+<script src="social.js"></script>
+<script src="social-art.js"></script>
+  <!-- TikTok Pixel (ID vem do painel admin) -->
+  <script src="/tiktok-pixel-base.js"></script>
+  <script src="/tiktok-pixel.js"></script>
+  <script>
+    function openLangModal() { try { refreshLangButton(); } catch (e) {} if (typeof openModal === 'function') openModal('modal-lang'); }
+    function chooseLang(l) { if (typeof closeModal === 'function') closeModal('modal-lang'); if (window.TruckAutoI18n) window.TruckAutoI18n.setLang(l); }
+    // Registro do Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('[PWA] Service Worker registrado com sucesso! Escopo:', reg.scope))
+          .catch(err => console.error('[PWA] Falha ao registrar Service Worker:', err));
+      });
+    }
+
+    // Captura evento de instalação nativo
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const banner = document.getElementById('pwa-install-banner');
+      if (banner && !localStorage.getItem('pwa_dismissed')) {
+        banner.style.display = 'flex';
+      }
+    });
+
+    function triggerPWAInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('[PWA] Usuário aceitou a instalação');
+          }
+          deferredPrompt = null;
+          document.getElementById('pwa-install-banner').style.display = 'none';
+        });
+      }
+    }
+
+function dismissPWAInstall() {
+document.getElementById('pwa-install-banner').style.display = 'none';
+localStorage.setItem('pwa_dismissed', 'true');
+}
+
+// Meta Pixel: o stub e criado NA HORA (sincrono). O ID chega do servidor depois,
+// mas qualquer evento disparado antes fica NA FILA e e enviado assim que o
+// fbevents.js carrega. Antes o stub so existia depois do fetch e o evento se perdia.
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fetch('/api/admin/public-settings').then(r => r.json()).then(settings => {
+  if (settings.metaPixelId) {
+    fbq('init', settings.metaPixelId);
+    fbq('track', 'PageView');
+  }
+}).catch(() => {});
+</script>
+  </script>
+</body>
+</html>

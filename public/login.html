@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TRUCKAUTO - Terminal de Autenticação</title>
+  
+  <!-- PWA & Apple Web App Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#030508">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-main: #030508;
+      --bg-card: rgba(11, 15, 28, 0.85);
+      --primary: #7C4DFF;
+      --primary-gradient: linear-gradient(135deg, #9B7BFF 0%, #4B1FD6 100%);
+      --accent-gold: #FFD700;
+      --gold-gradient: linear-gradient(135deg, #FFE066 0%, #F59E0B 50%, #D97706 100%);
+      --accent-green: #00E5FF;
+      --border-color: rgba(124, 77, 255, 0.25);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --radius-sm: 8px;
+      --shadow-glow: 0 8px 32px 0 rgba(124, 77, 255, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    html, body {
+      background-color: #FFFFFF !important;
+      background: radial-gradient(circle at 50% 20%, #0b1528 0%, #030508 80%) !important;
+      color: #F8FAFC !important;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: -0.015em;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .brand-logo span, .auth-brand-title {
+      font-family: 'Outfit', 'Space Grotesk', sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .auth-wrapper {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Brand Header */
+    .auth-hero {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .auth-logo-badge {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      transform: rotate(45deg);
+      background: var(--primary-gradient);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .auth-logo-badge i {
+      transform: rotate(-45deg);
+      font-size: 24px;
+      color: #000000;
+    }
+
+    .auth-brand-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      margin-bottom: 4px;
+    }
+
+    .auth-brand-title span {
+      color: var(--primary);
+      text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+    }
+
+    .auth-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* Glassmorphism Auth Card */
+    .auth-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 26px 22px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), var(--shadow-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.6), transparent);
+    }
+
+    /* Switcher Tabs */
+    .auth-tabs-nav {
+      display: flex;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: 22px;
+      gap: 4px;
+    }
+
+    .auth-nav-btn {
+      flex: 1;
+      padding: 11px 8px;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 13px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .auth-nav-btn.active {
+      background: var(--primary-gradient);
+      color: #000000;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+      font-weight: 800;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .field-input-box {
+      position: relative;
+    }
+
+    .field-input-box i.input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .field-input-box input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7) !important;
+      border: 1px solid var(--border-color) !important;
+      padding: 13px 42px 13px 40px !important;
+      border-radius: var(--radius-md) !important;
+      color: #ffffff !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      outline: none !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .field-input-box input:focus {
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.25) !important;
+    }
+
+    .field-input-box input::placeholder {
+      color: rgba(148, 163, 184, 0.5);
+      font-weight: 400;
+    }
+
+    .btn-pwd-eye {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 15px;
+      padding: 4px;
+    }
+
+    .btn-pwd-eye:hover {
+      color: var(--primary);
+    }
+
+    /* Buttons */
+    .btn {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding: 15px;
+      border-radius: var(--radius-md);
+      border: none;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-family: 'Outfit', 'Space Grotesk', sans-serif;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -70%;
+      width: 45%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transform: rotate(25deg);
+      animation: btnShimmer 4s infinite cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    @keyframes btnShimmer {
+      0% { left: -70%; }
+      30%, 100% { left: 150%; }
+    }
+
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: #FFFFFF !important;
+      border: 1px solid rgba(125, 245, 255, 0.6);
+      box-shadow: 0 8px 24px rgba(0, 240, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .btn-primary:hover, .btn-primary:active {
+      box-shadow: 0 14px 32px rgba(0, 240, 255, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      transform: translateY(-2px) scale(1.015);
+    }
+
+    /* Alert Feedback */
+    .auth-alert-toast {
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .auth-alert-toast.error {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.6);
+      color: #fca5a5;
+      display: flex;
+    }
+
+    .auth-alert-toast.success {
+      background: rgba(0, 229, 255, 0.2);
+      border: 1px solid rgba(0, 229, 255, 0.6);
+      color: var(--accent-green);
+      display: flex;
+    }
+
+    .form-panel {
+      display: none;
+    }
+
+    .form-panel.active {
+      display: block;
+    }
+
+    .invite-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--accent-gold);
+      background: rgba(250, 219, 95, 0.15);
+      border: 1px solid rgba(250, 219, 95, 0.35);
+      padding: 4px 10px;
+      border-radius: 12px;
+      margin-top: 6px;
+      font-weight: 700;
+    }
+
+    /* Trust Badges Footer */
+    .trust-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-top: 24px;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .trust-item i {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-wrapper">
+
+    <!-- Header & Logo Cyberpunk -->
+    <div class="auth-hero">
+      <div class="auth-logo-badge" style="overflow: hidden; padding: 0;">
+        <img src="apple-touch-icon.png" alt="TruckAuto" style="width: 100%; height: 100%; object-fit: cover; transform: rotate(-45deg) scale(1.42);">
+      </div>
+      <h1 class="auth-brand-title">FLYE<span>X</span></h1>
+      <p class="auth-subtitle" data-i18n="login.subtitle">Terminal de Gestão de Frotas Autônomas</p>
+    </div>
+
+    <button id="btn-lang-login" onclick="openLangModalLogin()" data-i18n-aria="common.language" aria-label="Idioma" title="Idioma" style="display:flex;margin:0 auto 12px;height:42px;border-radius:999px;align-items:center;justify-content:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);padding:0 14px;font-size:12px;font-weight:800;color:#fff;cursor:pointer;backdrop-filter:blur(6px);"><img id="lang-flag-login" src="https://flagcdn.com/w20/br.png" alt="" width="20" height="15" style="border-radius:3px;" onerror="this.style.display='none'"><span id="lang-code-login">PT</span></button>
+    <div id="modal-lang-login" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center;" onclick="if(event.target.id==='modal-lang-login')this.style.display='none'">
+      <div style="background:#0b0f1c;border:1px solid rgba(124,77,255,0.25);border-radius:12px;padding:20px;min-width:260px;">
+        <h3 data-i18n="common.language" style="color:#fff;margin:0 0 12px;">Idioma</h3>
+        <button data-lang="pt" onclick="chooseLangLogin('pt')" style="display:flex;align-items:center;gap:12px;width:100%;margin-bottom:8px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.05);color:#fff;font-weight:700;cursor:pointer;"><img src="https://flagcdn.com/w40/br.png" alt="" width="32" height="24" style="border-radius:4px;" onerror="this.style.display='none'"><span style="flex:1;text-align:left;">Português</span><span class="lang-check-login" style="color:#4ade80;font-weight:900;">✓</span></button>
+        <button data-lang="es" onclick="chooseLangLogin('es')" style="display:flex;align-items:center;gap:12px;width:100%;margin-bottom:8px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.05);color:#fff;font-weight:700;cursor:pointer;"><img src="https://flagcdn.com/w40/es.png" alt="" width="32" height="24" style="border-radius:4px;" onerror="this.style.display='none'"><span style="flex:1;text-align:left;">Español</span><span class="lang-check-login" style="color:#4ade80;font-weight:900;">✓</span></button>
+        <button data-lang="en" onclick="chooseLangLogin('en')" style="display:flex;align-items:center;gap:12px;width:100%;margin-bottom:8px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.05);color:#fff;font-weight:700;cursor:pointer;"><img src="https://flagcdn.com/w40/us.png" alt="" width="32" height="24" style="border-radius:4px;" onerror="this.style.display='none'"><span style="flex:1;text-align:left;">English</span><span class="lang-check-login" style="color:#4ade80;font-weight:900;">✓</span></button>
+        <button data-lang="zh" onclick="chooseLangLogin('zh')" style="display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.05);color:#fff;font-weight:700;cursor:pointer;"><img src="https://flagcdn.com/w40/cn.png" alt="" width="32" height="24" style="border-radius:4px;" onerror="this.style.display='none'"><span style="flex:1;text-align:left;">中文</span><span class="lang-check-login" style="color:#4ade80;font-weight:900;">✓</span></button>
+      </div>
+    </div>
+
+    <!-- Card de Autenticação -->
+    <div class="auth-card">
+
+      <!-- Navegação de Abas -->
+      <div class="auth-tabs-nav" role="tablist">
+        <button class="auth-nav-btn active" id="btn-tab-login" onclick="switchFormTab('login')" data-i18n="login.tabLogin">
+          <i class="fa-solid fa-right-to-bracket"></i> Entrar
+        </button>
+        <button class="auth-nav-btn" id="btn-tab-register" onclick="switchFormTab('register')" data-i18n="login.tabRegister">
+          <i class="fa-solid fa-user-plus"></i> Criar Conta
+        </button>
+      </div>
+
+      <!-- Alerta de Feedback -->
+      <div class="auth-alert-toast" id="auth-alert" role="alert"></div>
+
+      <!-- Formulário 1: Login -->
+      <form id="form-login" class="form-panel active" onsubmit="executeLogin(event)">
+        
+        <div class="form-group">
+          <label class="form-label" for="login-phone" data-i18n="login.phoneLabel">Telefone do Operador (WhatsApp):</label>
+          <div class="field-input-box">
+            <i class="fa-solid fa-mobile-screen input-icon"></i>
+            <input type="tel" id="login-phone" placeholder="(11) 98765-4321" data-i18n-ph="login.phonePh" required autofocus autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password" data-i18n="login.passLabel">Senha de Segurança:</label>
+          <div class="field-input-box">
+            <i class="fa-solid fa-shield-halved input-icon"></i>
+            <input type="password" id="login-password" placeholder="Digite sua senha" data-i18n-ph="login.passPh" required autocomplete="current-password">
+            <button type="button" class="btn-pwd-eye" onclick="togglePasswordVisibility('login-password', this)">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-login-action" class="btn btn-primary" style="margin-top: 20px;">
+          <span data-i18n="login.loginBtn">Acessar Painel</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </form>
+
+      <!-- Formulário 2: Cadastro -->
+      <form id="form-register" class="form-panel" onsubmit="executeRegister(event)">
+        
+        <div class="form-group">
+          <label class="form-label" for="reg-name" data-i18n="login.nameLabel">Seu Nome:</label>
+          <div class="field-input-box">
+            <i class="fa-solid fa-user input-icon"></i>
+            <input type="text" id="reg-name" placeholder="Como podemos te chamar?" data-i18n-ph="login.namePh" autocomplete="name" required minlength="2">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-phone" data-i18n="login.waLabel">Seu WhatsApp de Acesso:</label>
+          <div class="field-input-box">
+            <i class="fa-solid fa-mobile-screen input-icon"></i>
+            <input type="tel" id="reg-phone" placeholder="(11) 98765-4321" data-i18n-ph="login.phonePh" required autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password" data-i18n="login.passCreateLabel">Criar Senha (Mínimo 6 dígitos):</label>
+          <div class="field-input-box">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" data-i18n-ph="login.passCreatePh" minlength="6" required autocomplete="new-password">
+            <button type="button" class="btn-pwd-eye" onclick="togglePasswordVisibility('reg-password', this)">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password-confirm" data-i18n="login.passConfirmLabel">Confirmar Senha:</label>
+          <div class="field-input-box">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="reg-password-confirm" placeholder="Repita a senha" data-i18n-ph="login.passConfirmPh" minlength="6" required autocomplete="new-password">
+            <button type="button" class="btn-pwd-eye" onclick="togglePasswordVisibility('reg-password-confirm', this)">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-invite">Código de Convite (Opcional):</label>
+          <div class="field-input-box">
+            <i class="fa-solid fa-ticket input-icon"></i>
+            <input type="text" id="reg-invite" placeholder="Ex: NEXO1234">
+          </div>
+          <div class="invite-badge-tag" id="invite-tag" style="display: none;">
+            <i class="fa-solid fa-circle-check"></i> Código de indicação aplicado!
+          </div>
+        </div>
+
+        <button type="submit" id="btn-register-action" class="btn btn-primary" style="margin-top: 20px;">
+          <span data-i18n="login.registerBtn">Criar Conta e Começar</span> <i class="fa-solid fa-bolt"></i>
+        </button>
+
+      </form>
+
+    </div>
+
+    <!-- Link Comunidade Telegram -->
+    <div style="text-align: center; margin-top: 16px;">
+      <a href="#" onclick="alert('Grupo exclusivo para Operadores! Entre na sua conta e ative um drone TruckAuto para participar do Grupo de Operadores.');return false;" style="color: #229ED9; font-size: 13px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 158, 217, 0.12); border: 1px solid rgba(34, 158, 217, 0.35); padding: 10px 18px; border-radius: 20px; transition: all 0.2s ease;">
+        <i class="fa-brands fa-telegram" style="font-size: 16px;"></i> Entrar no Grupo Oficial do Telegram
+      </a>
+    </div>
+
+    <!-- Rodapé & Selos de Segurança -->
+    <div class="trust-footer">
+      <div class="trust-item"><i class="fa-solid fa-shield-check"></i> SSL 256-Bit</div>
+      <div class="trust-item"><i class="fa-solid fa-bolt"></i> Pix Instantâneo</div>
+      <div class="trust-item"><i class="fa-solid fa-lock"></i> Criptografado</div>
+    </div>
+
+    <div style="margin-top: 16px; text-align: center; font-size: 12px; line-height: 1.8;">
+      <div>
+        <a href="/termos" style="color: var(--primary); text-decoration: none; font-weight: 600; margin: 0 8px;">Termos de Uso</a>
+        <span style="color: var(--text-muted);">•</span>
+        <a href="/privacidade" style="color: var(--primary); text-decoration: none; font-weight: 600; margin: 0 8px;">Política de Privacidade</a>
+      </div>
+      <div style="margin-top: 6px; color: var(--text-muted);">
+        <a href="mailto:contato@SEU_DOMINIO.com" style="color: var(--text-muted); text-decoration: none;">contato@SEU_DOMINIO.com</a>
+        <span style="margin: 0 6px;">•</span>
+        <a href="https://wa.me/SEU_NUMERO_WHATSAPP" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); text-decoration: none;">WhatsApp: +55 SEU_NUMERO_WHATSAPP</a>
+      </div>
+      <div style="margin-top: 4px; font-size: 11px; opacity: 0.8;">TruckAuto Entregas Tecnologicas</div>
+    </div>
+
+    <div class="app-version" style="margin-top: 18px; text-align: center;">
+      <span style="font-size: 10px; color: var(--text-muted); font-family: monospace; opacity: 0.6;">TRUCKAUTO Quantum Core</span>
+    </div>
+
+  </div>
+
+
+  <script src="/i18n.js"></script>
+<!-- TikTok Pixel (ID vem do painel admin) -->
+<script src="/tiktok-pixel-base.js"></script>
+<script src="/tiktok-pixel.js"></script>
+  <script>
+    const API_BASE = (window.location.hostname === 'localhost' && window.location.port === '8080')
+      ? 'http://localhost:3000/api' 
+      : '/api';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Coleta e persiste parâmetros de UTM, clique do Meta (fbclid) e convite
+      const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_content', 'utm_term', 'src', 'sck', 'ref', 'invite', 'i', 'r', 'convite', 'fbclid', 'fbc'];
+      utmKeys.forEach(k => {
+        const v = urlParams.get(k);
+        if (v) {
+          sessionStorage.setItem('tn_' + k, v);
+          localStorage.setItem('tn_' + k, v);
+        }
+      });
+
+      const ref = urlParams.get('ref') || urlParams.get('invite') || urlParams.get('i') || urlParams.get('r') || urlParams.get('convite') || sessionStorage.getItem('tn_ref') || localStorage.getItem('tn_ref');
+      const tabParam = urlParams.get('tab') || urlParams.get('action');
+      const planParam = urlParams.get('plan') || urlParams.get('hire');
+
+      // Se solicitado cadastro direto via URL, convite ou seleção de plano na presell
+      if (tabParam === 'register' || tabParam === 'cadastro' || ref || planParam) {
+        switchFormTab('register');
+      }
+
+      // Aplica código de convite se existente; senão usa o padrão da casa
+      const inviteInput = document.getElementById('reg-invite');
+      if (ref) {
+        if (inviteInput) {
+          inviteInput.value = ref.toUpperCase().trim();
+          document.getElementById('invite-tag').style.display = 'inline-flex';
+        }
+      } else if (inviteInput && !inviteInput.value) {
+        inviteInput.value = 'NX18CD83D3';
+      }
+
+      // Máscara de telefone
+      ['login-phone', 'reg-phone'].forEach(id => {
+        const input = document.getElementById(id);
+        input?.addEventListener('input', (e) => {
+          let v = e.target.value.replace(/\D/g, '');
+          if (v.length > 11) v = v.substring(0, 11);
+          if (v.length > 6) {
+            e.target.value = `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
+          } else if (v.length > 2) {
+            e.target.value = `(${v.substring(0,2)}) ${v.substring(2)}`;
+          } else if (v.length > 0) {
+            e.target.value = `(${v}`;
+          }
+        });
+      });
+
+      // Meta Pixel: stub SINCRONO (enfileira eventos). O ID vem do servidor depois,
+      // assim um cadastro rapido nao perde o CompleteRegistration.
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+
+      fetch('/api/admin/public-settings').then(r => r.json()).then(settings => {
+        if (settings.metaPixelId) {
+          fbq('init', settings.metaPixelId);
+          fbq('track', 'PageView');
+        }
+      }).catch(() => {});
+    });
+
+    function switchFormTab(tab) {
+      document.querySelectorAll('.auth-nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.form-panel').forEach(f => f.classList.remove('active'));
+      hideAlert();
+
+      if (tab === 'login') {
+        document.getElementById('btn-tab-login').classList.add('active');
+        document.getElementById('form-login').classList.add('active');
+      } else {
+        document.getElementById('btn-tab-register').classList.add('active');
+        document.getElementById('form-register').classList.add('active');
+      }
+    }
+
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-regular fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-regular fa-eye';
+      }
+    }
+
+    function showAlert(msg, type = 'error') {
+      const box = document.getElementById('auth-alert');
+      box.textContent = msg;
+      box.className = `auth-alert-toast ${type}`;
+    }
+
+    function hideAlert() {
+      const box = document.getElementById('auth-alert');
+      box.style.display = 'none';
+      box.className = 'auth-alert-toast';
+    }
+
+    async function executeLogin(e) {
+      e.preventDefault();
+      hideAlert();
+
+      const phone = document.getElementById('login-phone').value;
+      const password = document.getElementById('login-password').value;
+      const btn = document.getElementById('btn-login-action');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.busyAuth') : 'Autenticando...');
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.token) {
+          showAlert(window.TruckAutoI18n ? window.TruckAutoI18n.t('login.okLogin') : '✅ Autenticado com sucesso! Entrando...', 'success');
+          localStorage.setItem('truckauto_token', data.token);
+          setTimeout(() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectTarget = urlParams.get('redirect');
+            let destination = './';
+            if (redirectTarget && redirectTarget.startsWith('hire_')) {
+              destination = `/app?hire=${redirectTarget.replace('hire_', '')}`;
+            }
+            window.location.href = destination;
+          }, 500);
+        } else {
+          showAlert(data.error || (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.errInvalid') : 'Credenciais inválidas.'));
+          btn.disabled = false;
+          btn.innerHTML = '<span>' + (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.loginBtn') : 'Acessar Painel') + '</span> <i class="fa-solid fa-arrow-right"></i>';
+        }
+      } catch (err) {
+        showAlert(window.TruckAutoI18n ? window.TruckAutoI18n.t('login.errServer') : 'Falha na comunicação com o servidor.');
+        btn.disabled = false;
+        btn.innerHTML = '<span>' + (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.loginBtn') : 'Acessar Painel') + '</span> <i class="fa-solid fa-arrow-right"></i>';
+      }
+    }
+
+    async function executeRegister(e) {
+      e.preventDefault();
+      hideAlert();
+
+      const phone = document.getElementById('reg-phone').value;
+      const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('reg-password-confirm').value;
+      const operatorName = (document.getElementById('reg-name')?.value || '').trim();
+      const inviteCode = document.getElementById('reg-invite').value.trim();
+      const btn = document.getElementById('btn-register-action');
+
+      // Coleta UTMs salvas da navegação
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmSource = urlParams.get('utm_source') || sessionStorage.getItem('tn_utm_source') || localStorage.getItem('tn_utm_source') || 'meta_ads';
+      const utmCampaign = urlParams.get('utm_campaign') || sessionStorage.getItem('tn_utm_campaign') || localStorage.getItem('tn_utm_campaign') || 'frotas_escala';
+      const utmMedium = urlParams.get('utm_medium') || sessionStorage.getItem('tn_utm_medium') || localStorage.getItem('tn_utm_medium') || 'cpc';
+
+      // fbclid: o id do clique no anúncio. É ele que amarra a conversão ao anúncio
+      // no Gerenciador de Anúncios (o UTM sozinho não fecha essa ligação).
+      const fbclid = urlParams.get('fbclid') || sessionStorage.getItem('tn_fbclid') || localStorage.getItem('tn_fbclid') || '';
+      // utm_content = criativo do anúncio; utm_term = palavra-chave.
+      // Sem isso o CRM não diz QUAL anúncio trouxe o lead.
+      const utmContent = urlParams.get('utm_content') || sessionStorage.getItem('tn_utm_content') || localStorage.getItem('tn_utm_content') || '';
+      const utmTerm = urlParams.get('utm_term') || sessionStorage.getItem('tn_utm_term') || localStorage.getItem('tn_utm_term') || '';
+      // ttp = id do clique do TikTok (equivale ao fbclid). Sem isso o TikTok
+      // nao consegue amarrar a conversao ao anuncio.
+      const ttp = urlParams.get('ttp') || sessionStorage.getItem('tn_ttp') || localStorage.getItem('tn_ttp') || '';
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.busyRegister') : 'Criando Conta...');
+
+      if (password !== confirmPassword) {
+        showAlert(window.TruckAutoI18n ? window.TruckAutoI18n.t('login.errPasswordMismatch') : 'As senhas não coincidem. Confira e tente de novo.');
+        btn.disabled = false;
+        btn.innerHTML = '<span>' + (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.registerBtn') : 'Criar Conta e Começar') + '</span> <i class="fa-solid fa-bolt"></i>';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, password, confirmPassword, operatorName, inviteCode, utmSource, utmCampaign, utmMedium, fbclid, utmContent, utmTerm, ttp })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.token) {
+          if (window.fbq) {
+            fbq('track', 'CompleteRegistration');
+          }
+
+          showAlert(window.TruckAutoI18n ? window.TruckAutoI18n.t('login.okRegister') : '🎉 Conta criada com sucesso! Acessando painel...', 'success');
+          localStorage.setItem('truckauto_token', data.token);
+          setTimeout(() => {
+            const redirectTarget = urlParams.get('redirect');
+            let destination = '/app';
+            if (redirectTarget && redirectTarget.startsWith('hire_')) {
+              destination = `/app?hire=${redirectTarget.replace('hire_', '')}`;
+            }
+            window.location.href = destination;
+          }, 800);
+        } else {
+          showAlert(data.error || (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.errRegister') : 'Erro ao registrar conta.'));
+          btn.disabled = false;
+          btn.innerHTML = '<span>' + (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.registerBtn') : 'Criar Conta e Começar') + '</span> <i class="fa-solid fa-bolt"></i>';
+        }
+      } catch (err) {
+        showAlert(window.TruckAutoI18n ? window.TruckAutoI18n.t('login.errServer') : 'Falha na comunicação com o servidor.');
+        btn.disabled = false;
+        btn.innerHTML = '<span>' + (window.TruckAutoI18n ? window.TruckAutoI18n.t('login.registerBtn') : 'Criar Conta e Começar') + '</span> <i class="fa-solid fa-bolt"></i>';
+      }
+    }
+
+    const LANG_FLAG_LOGIN = { pt: 'br', es: 'es', en: 'us', zh: 'cn' };
+    const LANG_CODE_LOGIN = { pt: 'PT', es: 'ES', en: 'EN', zh: '中文' };
+    function refreshLangButtonLogin() {
+      const lang = window.TruckAutoI18n ? window.TruckAutoI18n.getLang() : 'pt';
+      const flag = document.getElementById('lang-flag-login');
+      if (flag) {
+        flag.style.display = '';
+        flag.src = 'https://flagcdn.com/w20/' + (LANG_FLAG_LOGIN[lang] || 'br') + '.png';
+      }
+      const code = document.getElementById('lang-code-login');
+      if (code) code.textContent = LANG_CODE_LOGIN[lang] || 'PT';
+      document.querySelectorAll('#modal-lang-login [data-lang]').forEach((b) => {
+        const check = b.querySelector('.lang-check-login');
+        if (check) check.style.visibility = b.getAttribute('data-lang') === lang ? 'visible' : 'hidden';
+      });
+    }
+    function openLangModalLogin() { try { refreshLangButtonLogin(); } catch (e) {} document.getElementById('modal-lang-login').style.display = 'flex'; }
+    function chooseLangLogin(l) {
+      document.getElementById('modal-lang-login').style.display = 'none';
+      if (window.TruckAutoI18n) window.TruckAutoI18n.setLang(l).then(refreshLangButtonLogin).catch(() => {});
+    }
+    document.addEventListener('DOMContentLoaded', () => { try { refreshLangButtonLogin(); } catch (e) {} });
+    if (typeof window !== 'undefined') window.addEventListener('truckauto:lang', () => { try { refreshLangButtonLogin(); } catch (e) {} });
+
+  </script>
+</body>
+</html>

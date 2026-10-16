@@ -1,0 +1,31 @@
+{
+  "name": "truckauto",
+  "version": "1.0.0",
+  "description": "Sistema de Gestão de Frotas Autônomas TRUCKAUTO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.19.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-cron": "^4.6.0",
+    "node-telegram-bot-api": "^2.0.0",
+    "pg": "^8.23.0",
+    "socket.io": "^4.8.3",
+    "uuid": "^14.0.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}
