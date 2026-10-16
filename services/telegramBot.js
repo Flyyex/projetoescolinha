@@ -35,7 +35,7 @@ function initTelegramBot() {
         'Olá, *' + firstName + '*! Você está no canal oficial de frotas autônomas urbanas.\n\n' +
         '💡 *Como funciona?*\n' +
         '1️⃣ Cadastre-se na plataforma.\n' +
-        '2️⃣ Escolha uma das 8 frotas de drones autônomas (Pulse, Titan, Apex, etc).\n' +
+        '2️⃣ Escolha uma das 8 frotas de caminhões autônomos (Urbano, Titan, Apex, etc).\n' +
         '3️⃣ Receba liquidação diária de rendimentos direto na sua carteira com saque via Pix!\n\n' +
         '👥 *Indique e Ganhe:* Comissões em 3 níveis (10%, 5% e 2%) sobre qualquer contrato da sua rede!';
 

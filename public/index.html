@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>TRUCKAUTO - Gestão de Drones Autônomos</title>
+  <title>TRUCKAUTO - Gestão de Caminhões Autônomos</title>
   <!-- PWA & Apple Web App Meta Tags -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#05070A">
@@ -13,8 +13,8 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <meta property="og:image" content="https://www.SEU_DOMINIO.com.br/og-cover.jpg">
-  <meta property="og:title" content="TRUCKAUTO - Gestão de Drones Autônomos">
-  <meta property="og:description" content="Operação com drones autônomos, rendimentos de segunda a sábado no Pix e comissões de equipe.">
+  <meta property="og:title" content="TRUCKAUTO - Gestão de Caminhões Autônomos">
+  <meta property="og:description" content="Operação com caminhões autônomos, rendimentos de segunda a sábado no Pix e comissões de equipe.">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -160,7 +160,7 @@
             <span data-i18n="home.network">Rede</span>
           </button>
           <button class="quick-card" onclick="switchTab('products')" data-i18n-aria="home.fleetsAria" aria-label="Ver Frotas Disponíveis">
-            <div class="quick-icon icon-green"><svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg></div>
+            <div class="quick-icon icon-green"><svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg></div>
         <span data-i18n="nav.products">Frotas</span>
           </button>
           <a href="#" onclick="return openOperatorsGroup(event)" class="quick-card" data-i18n-aria="home.tgAria" aria-label="Falar com Suporte e Grupo Telegram" style="text-decoration: none;">
@@ -254,7 +254,7 @@
 
         <!-- Resumo dos Veículos em Operação -->
         <div class="section-heading">
-          <h4 data-i18n="home.myDrones">Meus Drones Ativos (<span id="active-count">0</span>)</h4>
+          <h4 data-i18n="home.myDrones">Meus Caminhões Ativos (<span id="active-count">0</span>)</h4>
           <button class="btn-link" onclick="switchTab('myfleet')" data-i18n="home.viewAllDrones">Ver todos</button>
         </div>
 
@@ -269,7 +269,7 @@
     <i class="fa-solid fa-share-nodes"></i> Ganhe R$ 1 postando
   </button>
   <p style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 6px; line-height: 1.5;">
-    Grave um vídeo sobre os drones, coloque o seu link na bio e envie aqui. Cada vídeo aprovado vale R$ 1.
+    Grave um vídeo sobre os caminhões, coloque o seu link na bio e envie aqui. Cada vídeo aprovado vale R$ 1.
   </p>
 </div>
 
@@ -302,13 +302,13 @@
           <p data-i18n="fleet.catSub">Selecione um ativo autônomo para iniciar seu contrato com liquidação diária.</p>
         </div>
 
-        <!-- Seletor Superior: Veículos vs Pontos de Carregamento -->
+        <!-- Seletor Superior: Veículos vs Estações de Manutenção -->
         <div class="product-type-toggle">
           <button class="type-toggle-btn active" id="toggle-type-vehicles" onclick="switchProductType('vehicles')" data-i18n="fleet.typeDrones">
-            <svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg> Drones Autônomos
+            <svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg> Caminhões Autônomos
           </button>
           <button class="type-toggle-btn" id="toggle-type-chargers" onclick="switchProductType('chargers')" data-i18n="fleet.typeChargers">
-            <i class="fa-solid fa-charging-station"></i> Pontos de Carregamento
+            <i class="fa-solid fa-wrench"></i> Estações de Manutenção
           </button>
         </div>
 
@@ -535,7 +535,7 @@
         <span data-i18n="nav.home">Início</span>
       </button>
       <button class="nav-btn" onclick="switchTab('products')" aria-label="Ir para Frotas">
-        <div class="nav-icon-wrapper"><svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg></div>
+        <div class="nav-icon-wrapper"><svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg></div>
         <span data-i18n="nav.products">Frotas</span>
       </button>
       <button class="nav-btn" onclick="switchTab('myfleet')" aria-label="Ir para Minha Frota">
@@ -825,11 +825,11 @@
         <button onclick="closeModal('modal-welcome')" aria-label="Fechar" style="position: absolute; top: 12px; right: 12px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(11,27,58,0.12); background: #fff; color: #0B1B3A; font-size: 20px; font-weight: 700; cursor: pointer; line-height: 1; box-shadow: 0 4px 12px rgba(11,27,58,0.12); z-index: 2;">&times;</button>
         <div style="text-align: center; padding: 34px 26px 18px;">
           <div style="font-family: Outfit, sans-serif; font-weight: 900; font-style: italic; font-size: 46px; letter-spacing: -1px; color: #0B2A5B; line-height: 1;">Fly<span style="color: #0B63E5;">Ex</span> <i class="fa-solid fa-helicopter" style="font-size: 26px; color: #0B2A5B; vertical-align: super;"></i></div>
-          <div style="letter-spacing: 5px; font-size: 11px; font-weight: 700; color: #0B2A5B; margin-top: 4px;">DRONES DE ENTREGA</div>
-          <h3 style="margin: 18px 0 0; font-size: 26px; font-weight: 800; color: #0B1B3A; line-height: 1.25;">Bem-vindo à TruckAuto<br>Drones</h3>
+          <div style="letter-spacing: 5px; font-size: 11px; font-weight: 700; color: #0B2A5B; margin-top: 4px;">CAMINHÕES DE ENTREGA</div>
+          <h3 style="margin: 18px 0 0; font-size: 26px; font-weight: 800; color: #0B1B3A; line-height: 1.25;">Bem-vindo à TruckAuto<br>Entregas Autônomas</h3>
         </div>
         <div style="background: #fff; border-radius: 22px 22px 0 0; padding: 20px 20px 24px;">
-          <p style="margin: 0 0 14px; font-size: 15px; color: #33415C;">Descubra o que a TruckAuto Drones preparou para você.</p>
+          <p style="margin: 0 0 14px; font-size: 15px; color: #33415C;">Descubra o que a TruckAuto preparou para você.</p>
           <div style="display: flex; flex-direction: column; gap: 10px;">
             <div style="display: flex; align-items: center; gap: 12px; background: #EFF4FE; border: 1px solid #DCE7FB; border-radius: 16px; padding: 12px 14px;">
               <span style="flex: 0 0 40px; width: 40px; height: 40px; border-radius: 12px; background: #D8E6FD; color: #0B63E5; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fa-solid fa-check"></i></span>
@@ -837,7 +837,7 @@
             </div>
             <div style="display: flex; align-items: center; gap: 12px; background: #EFF4FE; border: 1px solid #DCE7FB; border-radius: 16px; padding: 12px 14px;">
               <span style="flex: 0 0 40px; width: 40px; height: 40px; border-radius: 12px; background: #D8E6FD; color: #0B63E5; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fa-solid fa-check"></i></span>
-              <span style="font-size: 14px; font-weight: 600; color: #123B8F;">Drones modernos, seguros e com tecnologia de ponta.</span>
+              <span style="font-size: 14px; font-weight: 600; color: #123B8F;">Caminhões modernos, seguros e com tecnologia de ponta.</span>
             </div>
             <div style="display: flex; align-items: center; gap: 12px; background: #EFF4FE; border: 1px solid #DCE7FB; border-radius: 16px; padding: 12px 14px;">
               <span style="flex: 0 0 40px; width: 40px; height: 40px; border-radius: 12px; background: #D8E6FD; color: #0B63E5; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fa-solid fa-check"></i></span>

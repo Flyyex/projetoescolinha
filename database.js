@@ -27,72 +27,76 @@ if (isPostgres) {
   console.log('[DATABASE] DATABASE_URL nÃ£o detectada. Utilizando armazenamento em arquivo local (data.json)');
 }
 
+// Catálogo TruckAuto: caminhões autônomos + estações de manutenção.
+//
+// Preços, rendimentos e duração são IGUAIS aos da FlyEx — a troca de marca não
+// mexe em dinheiro. O que muda é o que a pessoa lê: nome e descrição.
 const defaultProducts = [
   {
     id: 'NX-030',
-    name: 'TruckAuto Pulse',
+    name: 'TruckAuto Urbano',
     category: 'economy',
-    status: 'DisponÃ­vel',
+    status: 'Disponível',
     price: 30.00,
     dailyReturn: 3.80,
     periodDays: 15,
     checkoutUrl: '',
-    description: 'Drone compacto para entregas rapidas urbanas e mapeamento de rotas.'
+    description: 'Caminhão elétrico compacto para entregas rápidas em rotas urbanas.'
   },
   {
     id: 'NX-101',
-    name: 'TruckAuto Zephyr',
+    name: 'TruckAuto Volta',
     category: 'economy',
-    status: 'DisponÃ­vel',
+    status: 'Disponível',
     price: 150.00,
     dailyReturn: 11.20,
     periodDays: 30,
     checkoutUrl: '',
-    description: 'Drone agil para operacoes urbanas diarias de entrega.'
+    description: 'Caminhão ágil para operações urbanas diárias de entrega.'
   },
   {
     id: 'NX-202',
-    name: 'TruckAuto Dash',
+    name: 'TruckAuto Strada',
     category: 'popular',
     status: 'Alta Demanda',
     price: 350.00,
     dailyReturn: 30.00,
     periodDays: 30,
     checkoutUrl: '',
-    description: 'Drone com sensores LiDAR e IA de navegacao de nivel 4.'
+    description: 'Caminhão com sensores LiDAR e IA de navegação nível 4.'
   },
   {
     id: 'NX-707',
-    name: 'TruckAuto Swift',
+    name: 'TruckAuto Aurora',
     category: 'popular',
     status: 'Alta Demanda',
     price: 600.00,
     dailyReturn: 68.00,
     periodDays: 40,
     checkoutUrl: '',
-    description: 'Drone com recarga por inducao e operacao 24/7.'
+    description: 'Caminhão com recarga por indução e operação 24/7.'
   },
   {
     id: 'NX-404',
-    name: 'TruckAuto Falcon',
+    name: 'TruckAuto Tornado',
     category: 'popular',
     status: 'Alta Demanda',
     price: 900.00,
     dailyReturn: 75.00,
     periodDays: 45,
     checkoutUrl: '',
-    description: 'Drone de medio porte para transporte de cargas compartilhadas.'
+    description: 'Caminhão de médio porte para transporte de cargas compartilhadas.'
   },
   {
     id: 'NX-303',
-    name: 'TruckAuto Stratus',
+    name: 'TruckAuto Atlas',
     category: 'vip',
     status: 'VIP',
     price: 1500.00,
     dailyReturn: 150.00,
     periodDays: 45,
     checkoutUrl: '',
-    description: 'Drone de alta capacidade operando em rotas corporativas.'
+    description: 'Caminhão de alta capacidade operando em rotas corporativas.'
   },
   {
     id: 'NX-505',
@@ -103,81 +107,81 @@ const defaultProducts = [
     dailyReturn: 150.00,
     periodDays: 60,
     checkoutUrl: '',
-    description: 'Drone pesado de alta autonomia para operacoes em areas densas.'
+    description: 'Caminhão pesado de alta autonomia para operações em áreas densas.'
   },
   {
-id: 'NX-606',
-name: 'TruckAuto Apex',
-category: 'vip',
-status: 'VIP',
-price: 5000.00,
-dailyReturn: 250.00,
-periodDays: 60,
-checkoutUrl: '',
-description: 'Drone executivo premium com troca de bateria em 3 min.'
-},
-{
-id: 'CH-050',
-name: 'Estação Solar Urbana 50kW',
-category: 'economy',
-status: 'Disponível',
-price: 50.00,
-dailyReturn: 4.50,
-periodDays: 15,
-checkoutUrl: '',
-description: 'Ponto de recarga solar fotovoltaica para frotas urbanas compactas.'
-},
-{
-id: 'CH-200',
-name: 'Supercharger Hub 250kW',
-category: 'popular',
-status: 'Alta Demanda',
-price: 200.00,
-dailyReturn: 19.00,
-periodDays: 30,
-checkoutUrl: '',
-description: 'Estacao de recarga ultrarrapida para drones eletricos.'
-},
-{
-id: 'CH-500',
-name: 'Estação de Troca de Bateria Automática',
-category: 'popular',
-status: 'Disponível',
-price: 500.00,
-dailyReturn: 52.00,
-periodDays: 30,
-checkoutUrl: '',
-description: 'Swap station robotica com troca total de pack de bateria em 3 minutos.'
-},
-{
-id: 'CH-1200',
-name: 'Hub Grid Central Metropolitano',
-category: 'vip',
-status: 'VIP',
-price: 1200.00,
-dailyReturn: 140.00,
-periodDays: 45,
-checkoutUrl: '',
-description: 'Terminal de alimentacao de alta densidade para frotas autonomas corporativas.'
-}
+    id: 'NX-606',
+    name: 'TruckAuto Apex',
+    category: 'vip',
+    status: 'VIP',
+    price: 5000.00,
+    dailyReturn: 250.00,
+    periodDays: 60,
+    checkoutUrl: '',
+    description: 'Caminhão executivo premium com recarga rápida em 3 min.'
+  },
+  {
+    id: 'CH-050',
+    name: 'Estação de Manutenção Urbana 50t',
+    category: 'economy',
+    status: 'Disponível',
+    price: 50.00,
+    dailyReturn: 4.50,
+    periodDays: 15,
+    checkoutUrl: '',
+    description: 'Estação de manutenção com pane solar para frotas urbanas compactas.'
+  },
+  {
+    id: 'CH-200',
+    name: 'Hub de Manutenção Rápida 250t',
+    category: 'popular',
+    status: 'Alta Demanda',
+    price: 200.00,
+    dailyReturn: 19.00,
+    periodDays: 30,
+    checkoutUrl: '',
+    description: 'Hub de manutenção ultrarrápida para caminhões elétricos.'
+  },
+  {
+    id: 'CH-500',
+    name: 'Troca Rápida de Pneus e Sistemas',
+    category: 'popular',
+    status: 'Disponível',
+    price: 500.00,
+    dailyReturn: 52.00,
+    periodDays: 30,
+    checkoutUrl: '',
+    description: 'Estação robotizada com troca total de pneus e sistemas em 3 minutos.'
+  },
+  {
+    id: 'CH-1200',
+    name: 'Central de Manutenção Metropolitana',
+    category: 'vip',
+    status: 'VIP',
+    price: 1200.00,
+    dailyReturn: 140.00,
+    periodDays: 45,
+    checkoutUrl: '',
+    description: 'Terminal de manutenção de alta densidade para frotas corporativas.'
+  }
 ];
 
 
 // i18n catálogo (rascunho IA, revisar no ar): descrições por produto/idioma.
 // Nomes próprios não traduzem; status segue tabela fechada abaixo.
 const productDescI18n = {
-'NX-030': { es: 'Dron compacto para entregas urbanas rápidas e mapeo de rutas.', en: 'Compact drone for fast urban deliveries and route mapping.', zh: '紧凑型无人机，适用于快速城市配送和路线测绘。' },
-'NX-101': { es: 'Dron ágil para operaciones urbanas diarias de entrega.', en: 'Agile drone for daily urban delivery operations.', zh: '敏捷无人机，适用于日常城市配送作业。' },
-'NX-202': { es: 'Dron con sensores LiDAR e IA de navegación de nivel 4.', en: 'Drone with LiDAR sensors and level-4 navigation AI.', zh: '搭载激光雷达和L4级导航AI的无人机。' },
-'NX-707': { es: 'Dron con recarga por inducción y operación 24/7.', en: 'Drone with induction charging and 24/7 operation.', zh: '支持感应充电、可24/7运行的无人机。' },
-'NX-404': { es: 'Dron de medio porte para transporte de cargas compartidas.', en: 'Mid-size drone for shared cargo transport.', zh: '中型无人机，适用于共享货运。' },
-'NX-303': { es: 'Dron de alta capacidad operando en rutas corporativas.', en: 'High-capacity drone operating on corporate routes.', zh: '大容量无人机，运营企业专线。' },
-'NX-505': { es: 'Dron pesado de alta autonomía para operaciones en áreas densas.', en: 'Heavy high-endurance drone for dense-area operations.', zh: '重型长航时无人机，适用于密集区域作业。' },
-'NX-606': { es: 'Dron ejecutivo premium con cambio de batería en 3 min.', en: 'Premium executive drone with 3-min battery swap.', zh: '高端商务无人机，3分钟即可更换电池。' },
-'CH-050': { es: 'Punto de recarga solar fotovoltaica para flotas urbanas compactas.', en: 'Solar PV charging point for compact urban fleets.', zh: '光伏充电点，服务紧凑型城市车队。' },
-'CH-200': { es: 'Estación de recarga ultrarrápida para drones eléctricos.', en: 'Ultra-fast charging station for electric drones.', zh: '电动无人机超快充电站。' },
-'CH-500': { es: 'Estación robótica con cambio total de batería en 3 minutos.', en: 'Robotic swap station with full battery swap in 3 minutes.', zh: '机器人换电站，3分钟完成整组电池更换。' },
-'CH-1200': { es: 'Terminal de alimentación de alta densidad para flotas corporativas.', en: 'High-density power terminal for corporate fleets.', zh: '高密度供电终端，服务企业车队。' }
+  'NX-030': { es: 'Camión eléctrico compacto para entregas urbanas rápidas y trazado de rutas.', en: 'Compact electric truck for fast urban deliveries and route mapping.', zh: '紧凑型电动货车，适用于快速城市配送和路线规划。' },
+  'NX-101': { es: 'Camión ágil para operaciones urbanas diarias de reparto.', en: 'Agile truck for daily urban delivery operations.', zh: '灵活货车，适用于日常城市配送作业。' },
+  'NX-202': { es: 'Camión con sensores LiDAR e IA de navegación de nivel 4.', en: 'Truck with LiDAR sensors and level-4 navigation AI.', zh: '搭载激光雷达和L4级导航AI的货车。' },
+  'NX-707': { es: 'Camión con carga por inducción y operación 24/7.', en: 'Truck with induction charging and 24/7 operation.', zh: '支持感应充电、可24/7运行的货车。' },
+  'NX-404': { es: 'Camión de medio porte para transporte de cargas compartidas.', en: 'Mid-size truck for shared cargo transport.', zh: '中型货车，适用于共享货运。' },
+  'NX-303': { es: 'Camión de alta capacidad operando en rutas corporativas.', en: 'High-capacity truck operating on corporate routes.', zh: '大容量货车，运营企业专线。' },
+  'NX-505': { es: 'Camión pesado de alta autonomía para operaciones en zonas densas.', en: 'Heavy high-endurance truck for dense-area operations.', zh: '重型长续航货车，适用于密集区域作业。' },
+  'NX-606': { es: 'Camión ejecutivo premium con carga rápida en 3 min.', en: 'Premium executive truck with 3-min fast charging.', zh: '高端商务货车，3分钟快速充电。' },
+  'CH-050': { es: 'Estación de mantenimiento con panel solar para flotas urbanas compactas.', en: 'Solar-powered maintenance station for compact urban fleets.', zh: '光伏维护站，服务紧凑型城市车队。' },
+  'CH-200': { es: 'Hub de mantenimiento ultrarrápido para camiones eléctricos.', en: 'Ultra-fast maintenance hub for electric trucks.', zh: '电动货车超快维护中心。' },
+  'CH-500': { es: 'Estación robótica con cambio total de neumáticos y sistemas en 3 minutos.', en: 'Robotic station with full tyre and system swap in 3 minutes.', zh: '机器人维护站，3分钟完成轮胎和系统更换。' },
+  'CH-1200': { es: 'Terminal de mantenimiento de alta densidad para flotas corporativas.', en: 'High-density maintenance terminal for corporate fleets.', zh: '高密度维护终端，服务企业车队。' }
 };
 const productStatusI18n = {
 'Disponível': { es: 'Disponible', en: 'Available', zh: '有售' },

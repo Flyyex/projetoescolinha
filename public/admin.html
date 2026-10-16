@@ -608,7 +608,7 @@
         <i class="fa-solid fa-satellite-dish"></i> Central Pix & Webhooks
       </button>
       <button class="nav-tab-btn" onclick="switchAdminTab('products', this)">
-        <svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg> Gestor de Frotas & Links
+        <svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg> Gestor de Frotas & Links
       </button>
       <button class="nav-tab-btn" onclick="switchAdminTab('analytics', this)">
         <i class="fa-solid fa-chart-line"></i> Tráfego & Presell Najaf
@@ -1013,7 +1013,7 @@
     <div id="tab-products" class="admin-tab-pane">
       <div class="panel-card">
         <div class="panel-head">
-          <h2><svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;color: var(--accent-lime);"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg> Catálogo de Frotas & Links de Checkout</h2>
+          <h2><svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;color: var(--accent-lime);"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg> Catálogo de Frotas & Links de Checkout</h2>
           <button class="btn-adm btn-adm-secondary" onclick="loadProducts()">
             <i class="fa-solid fa-arrows-rotate"></i> Atualizar Frotas
           </button>
@@ -2387,7 +2387,7 @@ function switchAdminTab(tabId, btn) {
         const promoMsg = encodeURIComponent(`Parabéns ${u.operatorName}! Você conquistou a patente ${u.careerRankBadge || 'Bronze'} na TRUCKAUTO! Continue crescendo sua equipe! 🚀`);
 
         const fleetBadge = (u.activeContractsCount && u.activeContractsCount > 0)
-          ? `<span class="chip chip-lime" title="${u.activeContractsNames || 'Frota em operação'}"><svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg> ${u.activeContractsCount} ${u.activeContractsCount === 1 ? 'Frota' : 'Frotas'}</span>`
+          ? `<span class="chip chip-lime" title="${u.activeContractsNames || 'Frota em operação'}"><svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg> ${u.activeContractsCount} ${u.activeContractsCount === 1 ? 'Frota' : 'Frotas'}</span>`
           : '<span class="chip chip-cyan" style="opacity: 0.6;">0 Frotas</span>';
 
         return `

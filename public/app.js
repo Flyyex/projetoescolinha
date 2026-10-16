@@ -52,69 +52,69 @@ const appState = {
   products: [
     {
       id: 'NX-030',
-      name: 'TruckAuto Pulse',
+      name: 'TruckAuto Urbano',
       category: 'economy',
       status: 'Disponível',
       price: 30.00,
       dailyReturn: 3.80,
       periodDays: 15,
       checkoutUrl: 'https://SEU_GATEWAY.com/checkout/212260809:1',
-      description: 'Drone compacto para entregas rapidas urbanas e mapeamento de rotas.'
+      description: 'Caminhão elétrico compacto para entregas rápidas em rotas urbanas.'
     },
     {
       id: 'NX-101',
-      name: 'TruckAuto Zephyr',
+      name: 'TruckAuto Volta',
       category: 'economy',
       status: 'Disponível',
       price: 150.00,
       dailyReturn: 11.20,
       periodDays: 30,
       checkoutUrl: '/login',
-      description: 'Drone agil para operacoes urbanas diarias de entrega.'
+      description: 'Caminhão ágil para operações urbanas diárias de entrega.'
     },
     {
       id: 'NX-202',
-      name: 'TruckAuto Dash',
+      name: 'TruckAuto Strada',
       category: 'popular',
       status: 'Alta Demanda',
       price: 350.00,
       dailyReturn: 30.00,
       periodDays: 30,
       checkoutUrl: '/login',
-      description: 'Drone com sensores LiDAR e IA de navegacao de nivel 4.'
+      description: 'Caminhão com sensores LiDAR e IA de navegação nível 4.'
     },
     {
       id: 'NX-707',
-      name: 'TruckAuto Swift',
+      name: 'TruckAuto Aurora',
       category: 'popular',
       status: 'Alta Demanda',
       price: 600.00,
       dailyReturn: 68.00,
       periodDays: 40,
       checkoutUrl: '/login',
-      description: 'Drone com recarga por inducao e operacao 24/7.'
+      description: 'Caminhão com recarga por indução e operação 24/7.'
     },
     {
       id: 'NX-404',
-      name: 'TruckAuto Falcon',
+      name: 'TruckAuto Tornado',
       category: 'popular',
       status: 'Alta Demanda',
       price: 900.00,
       dailyReturn: 75.00,
       periodDays: 45,
       checkoutUrl: '/login',
-      description: 'Drone de medio porte para transporte de cargas compartilhadas.'
+      description: 'Caminhão de médio porte para transporte de cargas compartilhadas.'
     },
     {
       id: 'NX-303',
-      name: 'TruckAuto Stratus',
+      name: 'TruckAuto Atlas',
       category: 'vip',
       status: 'VIP',
       price: 1500.00,
       dailyReturn: 150.00,
       periodDays: 45,
       checkoutUrl: '/login',
-      description: 'Drone de alta capacidade operando em rotas corporativas.'
+      description: 'Caminhão de alta capacidade operando em rotas corporativas.'
     },
     {
       id: 'NX-505',
@@ -125,7 +125,7 @@ const appState = {
       dailyReturn: 150.00,
       periodDays: 60,
       checkoutUrl: '/login',
-      description: 'Drone pesado de alta autonomia para operacoes em areas densas.'
+      description: 'Caminhão pesado de alta autonomia para operações em áreas densas.'
     },
     {
       id: 'NX-606',
@@ -136,7 +136,7 @@ const appState = {
       dailyReturn: 250.00,
       periodDays: 60,
       checkoutUrl: '/login',
-      description: 'Drone executivo premium com troca de bateria em 3 min.'
+      description: 'Caminhão executivo premium com recarga rápida em 3 min.'
     }
   ],
   team: {
@@ -546,7 +546,7 @@ let CHARGER_PRODUCTS = [
     dailyReturn: 4.50,
     periodDays: 15,
     city: 'Kansas City, MO',
-    description: 'Ponto de recarga solar fotovoltaica para frotas urbanas compactas.'
+    description: 'Estação de manutenção com pane solar para frotas urbanas compactas.'
   },
   {
     id: 'CH-200',
@@ -558,7 +558,7 @@ let CHARGER_PRODUCTS = [
     dailyReturn: 19.00,
     periodDays: 30,
     city: 'Memphis, TN',
-    description: 'Estacao de recarga ultrarrapida para drones eletricos.'
+    description: 'Hub de manutenção ultrarrápida para caminhões elétricos.'
   },
   {
     id: 'CH-500',
@@ -570,7 +570,7 @@ let CHARGER_PRODUCTS = [
     dailyReturn: 52.00,
     periodDays: 30,
     city: 'Dallas, TX',
-    description: 'Swap station robotica com troca total de pack de bateria em 3 minutos.'
+    description: 'Estação robotizada com troca total de pneus e sistemas em 3 minutos.'
   },
   {
     id: 'CH-1200',
@@ -582,7 +582,7 @@ let CHARGER_PRODUCTS = [
     dailyReturn: 140.00,
     periodDays: 45,
     city: 'Los Angeles, CA',
-    description: 'Terminal de alimentacao de alta densidade para frotas autonomas corporativas.'
+    description: 'Terminal de manutenção de alta densidade para frotas corporativas.'
   }
 ];
 
@@ -637,7 +637,7 @@ function renderProducts(filter = 'all') {
   if (filtered.length === 0) {
     container.innerHTML = `
       <div style="text-align: center; padding: 30px 16px; color: var(--text-muted); grid-column: 1 / -1;">
-        <svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;font-size: 28px; margin-bottom: 8px; display: block;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg>
+        <svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;font-size: 28px; margin-bottom: 8px; display: block;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg>
         <span>${window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.noFilter') : 'Nenhum ativo encontrado para esta combinação de filtros.'}</span>
       </div>
     `;
@@ -673,8 +673,8 @@ function renderProducts(filter = 'all') {
     // entao conta TODOS os contratos do modelo -- nao so os que estao em corrida.
     const totalModel = (appState.activeVehicles || []).filter(v => v.productId === prod.id).length;
     const carencia = calcCooldown(prod.id, totalModel, maxAllowed);
-    const unit1 = isCharger ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitOneCharger') : 'este ponto') : (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitOneDrone') : 'deste drone');
-    const unitN = isCharger ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitManyCharger') : 'pontos') : (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitManyDrone') : 'drones deste modelo');
+    const unit1 = isCharger ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitOneCharger') : 'esta estação') : (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitOneDrone') : 'deste drone');
+    const unitN = isCharger ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitManyCharger') : 'estações') : (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitManyDrone') : 'drones deste modelo');
     const limUnit = maxAllowed === 1 ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitSg') : 'unidade') : (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.unitPl') : 'unidades');
     // Durante a carencia o modelo esta bloqueado. Anunciar "voce pode comprar
     // mais 1" junto do botao "Limite deste modelo atingido" se contradiz, entao
@@ -683,7 +683,7 @@ function renderProducts(filter = 'all') {
       ? ''
       : (slotsLeft > 0
       ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.slotsMore', { n: slotsLeft, unit: slotsLeft === 1 ? unit1 : unitN }) : (`Você pode comprar mais ${slotsLeft} ` + (slotsLeft === 1 ? unit1 : unitN)))
-      : (isCharger ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.limitCharger') : 'Limite: 1 ponto de carregamento. Aguarde um contrato finalizar.') : (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.limitDrone', { max: maxAllowed, unit: limUnit }) : (`Limite: ${maxAllowed} ` + (maxAllowed === 1 ? 'unidade' : 'unidades') + ' deste drone. Aguarde um contrato finalizar.'))));
+      : (isCharger ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.limitCharger') : 'Limite: 1 estação de manutenção. Aguarde um contrato finalizar.') : (window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.limitDrone', { max: maxAllowed, unit: limUnit }) : (`Limite: ${maxAllowed} ` + (maxAllowed === 1 ? 'unidade' : 'unidades') + ' deste drone. Aguarde um contrato finalizar.'))));
 
     return `
       <article class="vehicle-card ${isSoldOut ? 'sold-out-card' : ''}" data-category="${prod.category}">
@@ -753,7 +753,7 @@ function renderProducts(filter = 'all') {
 }
 
 function showSoldOutAlert() {
-  alert(window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.soldOut') : '⚠️ Todas as cotas deste Ponto de Carregamento estão 100% ESGOTADAS no momento.\n\nUm novo lote será liberado na próxima expansão de rede. Acompanhe os avisos no grupo oficial.');
+  alert(window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.soldOut') : '⚠️ Todas as cotas desta Estação de Manutenção estão 100% ESGOTADAS no momento.\n\nUm novo lote será liberado na próxima expansão de rede. Acompanhe os avisos no grupo oficial.');
 }
 
 function filterProducts(category) {
@@ -774,7 +774,7 @@ function renderActiveVehicles() {
   if (appState.activeVehicles.length === 0) {
     container.innerHTML = `
       <div style="text-align: center; padding: 24px 16px; background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: var(--radius-md);">
-        <svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;font-size: 28px; color: var(--text-muted); margin-bottom: 8px;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg>
+        <svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;font-size: 28px; color: var(--text-muted); margin-bottom: 8px;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg>
         <p style="color: var(--text-muted); font-size: 12px;">${window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.noneActive') : 'Nenhum veículo em operação no momento.'}</p>
         <button class="btn btn-primary" onclick="switchTab('products')" style="margin-top: 10px; padding: 8px 16px; font-size: 12px;">
           ${window.TruckAutoI18n ? window.TruckAutoI18n.t('fleet.explore') : 'Explorar Frotas Disponíveis'}
@@ -1040,7 +1040,7 @@ function copyInviteCode() {
 }
 
 
-// Pontos de carregamento NAO vivem em appState.products: loadProducts() joga os
+// Estações de manutenção NAO vivem em appState.products: loadProducts() joga os
 // CH-* em CHARGER_PRODUCTS (app.js:472-474) e e de la que a tela desenha o card
 // (app.js:615). Procurar so em appState.products fazia o "Alugar" dos
 // carregadores nao abrir nada, em silencio -- sem erro no console.
@@ -2532,7 +2532,7 @@ function populateMapVehicles() {
     const iconHtml = `
       <div class="vehicle-marker-wrap">
         <div class="vehicle-marker-icon user-car" title="${window.TruckAutoI18n ? window.TruckAutoI18n.t('hud.mapTitle', { name: car.name }) : ('SEU VEÍCULO: ' + car.name)}">
-          <svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg>
+          <svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg>
         </div>
       </div>
     `;
@@ -2621,7 +2621,7 @@ function showRideHud(carData) {
   hud.innerHTML = `
     <div class="ride-hud-header">
       <div class="ride-car-name">
-        ${carData.isUser ? '<svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;color:var(--accent-green)"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg>' : '<i class="fa-solid fa-bolt" style="color: var(--primary);"></i>'}
+        ${carData.isUser ? '<svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;color:var(--accent-green)"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg>' : '<i class="fa-solid fa-bolt" style="color: var(--primary);"></i>'}
         <span>${carData.name}</span>
       </div>
       <span class="ride-status-pill">${carData.isUser ? (window.TruckAutoI18n ? window.TruckAutoI18n.t('hud.ownVehicle') : '⭐ SEU VEÍCULO') : (window.TruckAutoI18n ? window.TruckAutoI18n.t('hud.onRide') : 'EM CORRIDA')}</span>
@@ -2765,7 +2765,7 @@ async function renderHomeRecentDeposits() {
         <div class="statement-entry-item">
           <div class="entry-left-col">
             <div class="entry-icon-badge entry-icon-income">
-              <svg class="fa-drone" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><ellipse cx="108" cy="150" rx="96" ry="20"/><ellipse cx="404" cy="150" rx="96" ry="20"/><rect x="109" y="168" width="8" height="62"/><rect x="395" y="168" width="8" height="62"/><rect x="100" y="230" width="26" height="70" rx="10"/><rect x="386" y="230" width="26" height="70" rx="10"/><rect x="120" y="262" width="92" height="28" rx="10"/><rect x="300" y="262" width="92" height="28" rx="10"/><rect x="208" y="242" width="96" height="96" rx="30"/><rect x="244" y="338" width="24" height="26" rx="8"/><circle cx="256" cy="378" r="28"/></g></svg>
+              <svg class="fa-truck" viewBox="0 0 512 512" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.125em;"><g fill="currentColor"><rect x="28" y="140" width="230" height="188" rx="18"/><path d="M266 194h86l70 70v64H266z"/><rect x="414" y="314" width="20" height="20" rx="6"/><circle cx="136" cy="356" r="36"/><circle cx="372" cy="356" r="36"/></g></svg>
             </div>
             <div class="entry-details">
               <h6>${window.TruckAutoI18n ? window.TruckAutoI18n.t('home.schedYield', { name: activeCar.name }) : ('Rendimento Programado: ' + activeCar.name)}</h6>
