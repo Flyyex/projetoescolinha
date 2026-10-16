@@ -15,10 +15,9 @@ services:
     name: truckauto
     env: node
     plan: free
-    buildCommand: npm ci
-    startCommand: node server.js
-    healthCheckPath: /api/health
-    envVars:
+  buildCommand: npm ci
+  startCommand: node server.js
+  envVars:
       - key: NODE_ENV
         value: production
       # >>> Troque pelos SEUS valores no painel do Render (nunca commitar aqui) <<<
