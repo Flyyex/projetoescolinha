@@ -24,7 +24,7 @@ if (isPostgres) {
     ssl: DATABASE_URL.includes('localhost') ? false : { rejectUnauthorized: false }
   });
 } else {
-  console.log('[DATABASE] DATABASE_URL nÃ£o detectada. Utilizando armazenamento em arquivo local (data.json)');
+  console.log('[DATABASE] DATABASE_URL não detectada. Utilizando armazenamento em arquivo local (data.json)');
 }
 
 // Catálogo TruckAuto: caminhões autônomos + estações de manutenção.
@@ -275,7 +275,7 @@ async function initDb() {
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(128) NOT NULL,
         category VARCHAR(64) DEFAULT 'economy',
-        status VARCHAR(64) DEFAULT 'DisponÃ­vel',
+        status VARCHAR(64) DEFAULT 'Disponível',
         price NUMERIC(14, 2) NOT NULL,
         daily_return NUMERIC(14, 2) NOT NULL,
         period_days INTEGER NOT NULL,
@@ -504,7 +504,7 @@ p.status_es || null, p.status_en || null, p.status_zh || null]);
       console.error('[DATABASE] backfill inviteCode:', e.message);
     }
   } catch (err) {
-    console.error('[DATABASE ERROR] Erro na inicializaÃ§Ã£o do PostgreSQL:', err);
+    console.error('[DATABASE ERROR] Erro na inicialização do PostgreSQL:', err);
   } finally {
     client.release();
   }
@@ -636,7 +636,7 @@ async function findUserByPhone(phone) {
     candidates.add('55' + digits); // com 55
   }
 
-  // Tratamento inteligente do 9Âº dÃ­gito mÃ³vel
+  // Tratamento inteligente do 9º dígito móvel
   const ddd = digits.startsWith('55') ? digits.substring(2, 4) : digits.substring(0, 2);
   const numberPart = digits.startsWith('55') ? digits.substring(4) : digits.substring(2);
 
@@ -653,7 +653,7 @@ async function findUserByPhone(phone) {
   const candidateArray = Array.from(candidates);
 
   if (isPostgres) {
-    // 1. Busca exata por qualquer uma das variaÃ§Ãµes formatadas
+    // 1. Busca exata por qualquer uma das variações formatadas
     const res = await pool.query(
       'SELECT * FROM users WHERE phone = ANY($1::varchar[]) LIMIT 1',
       [candidateArray]
@@ -662,7 +662,7 @@ async function findUserByPhone(phone) {
       return mapUser(res.rows[0]);
     }
 
-    // 2. Busca por sufixo dos Ãºltimos 8 dÃ­gitos (garante matching mesmo com divergÃªncia de DDD/formato)
+    // 2. Busca por sufixo dos últimos 8 dígitos (garante matching mesmo com divergência de DDD/formato)
     if (digits.length >= 8) {
       const suffix = digits.slice(-8);
       const resSuffix = await pool.query(
@@ -1518,7 +1518,7 @@ async function getAllTransactions() {
     `);
     return res.rows.map(row => ({
       ...mapTransaction(row),
-      userName: row.operator_name || 'UsuÃ¡rio Desconhecido',
+      userName: row.operator_name || 'Usuário Desconhecido',
       userPhone: row.phone || 'N/A'
     }));
   }
@@ -1528,7 +1528,7 @@ async function getAllTransactions() {
     const user = db.users.find(u => u.id === t.userId);
     return {
       ...t,
-      userName: user ? user.operatorName : 'UsuÃ¡rio Desconhecido',
+      userName: user ? user.operatorName : 'Usuário Desconhecido',
       userPhone: user ? user.phone : 'N/A'
     };
   });
