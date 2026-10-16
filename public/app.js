@@ -2184,7 +2184,7 @@ function openReceiptModal(txId) {
 
   container.innerHTML = `
     <div class="receipt-header">
-      <div class="receipt-logo">FLYE<span>X</span></div>
+      <div class="receipt-logo">TRUCKA<span>UTO</span></div>
       <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 2px;">
         ${window.TruckAutoI18n ? window.TruckAutoI18n.t('receipt.title') : 'Comprovante de Liquidação Digital Pix'}
       </span>
