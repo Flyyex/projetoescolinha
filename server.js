@@ -200,6 +200,14 @@ app.use('/api/social', require('./routes/social')); // Programa Social (R$ 1 por
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/support', require('./routes/support')); // Chat de suporte in-app
 
+// Health check precisa vir ANTES do router do CRM (abaixo): crm.js aplica
+// sessao em todo /api/* e responderia 401 antes deste rota chegar.
+// Render usa este endpoint para saber que o servico subiu, e o watchdog
+// anti-sleep faz self-ping nele.
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'online', service: 'TRUCKAUTO Cloud API', timestamp: new Date().toISOString() });
+});
+
 // Webhook Aliases (Garante que qualquer variação de URL cadastrada no provedor funcione)
 app.use(['/webhook/cartpanda', '/api/webhook/cartpanda', '/cartpanda/webhook'], (req, res, next) => {
   req.url = '/webhook/cartpanda';
@@ -217,11 +225,6 @@ app.all(['/webhook/evolution', '/evolution/webhook', '/api/webhook/evolution'], 
   crmRouter(req, res, next);
 });
 app.use('/api', crmRouter);
-
-// Healthcheck
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'online', service: 'TRUCKAUTO Cloud API', timestamp: new Date().toISOString() });
-});
 
 
 

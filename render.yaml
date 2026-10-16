@@ -1,13 +1,23 @@
 # Configuracao de deploy no Render.
 # ATENCAO: defina os valores reais abaixo no painel do Render (Environment > Environment Variables),
 # NAO commite segredos neste arquivo.
+#
+# PLANO: aqui esta 'free' so para o Blueprint criar. O free DORME depois de ~15 min
+# sem uso e o Postgres free EXPIRA em 30 dias -- e o app depende do cron horario de
+# gotejamento (server.js) para creditar rendimento. Troque para 'starter' os dois
+# antes de usar de verdade, ou pelo painel depois de criar.
+#
+# CRM: services/crmDb.js ainda grava em crm_data.json, que fica no disco efimero do
+# Render. Os leads somem a cada deploy. users/saldos NAO tem esse problema (vao para
+# o Postgres). Ver README antes de usar o CRM em producao.
 services:
   - type: web
     name: truckauto
     env: node
     plan: free
-    buildCommand: npm install
+    buildCommand: npm ci
     startCommand: node server.js
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
@@ -21,6 +31,27 @@ services:
       - key: ADMIN_KEY
         sync: false
       - key: APP_URL
+        sync: false
+      # Dados da empresa (contato, CNPJ). Vem de config/site.json.example.
+      - key: SITE_RAZAO_SOCIAL
+        sync: false
+      - key: SITE_CNPJ
+        sync: false
+      - key: SITE_RESPONSAVEL
+        sync: false
+      - key: SITE_EMAIL
+        sync: false
+      - key: SITE_WHATSAPP
+        sync: false
+      - key: SITE_WHATSAPP_TEXTO
+        sync: false
+      - key: SITE_GRUPO_WHATSAPP
+        sync: false
+      - key: SITE_TELEGRAM
+        sync: false
+      - key: SITE_INSTAGRAM
+        sync: false
+      - key: SITE_DOMINIO
         sync: false
       # Telegram (opcional - backup diario + avisos admin)
       - key: TELEGRAM_BOT_TOKEN
