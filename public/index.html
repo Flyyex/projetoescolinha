@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="TRUCKAUTO">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-  <meta property="og:image" content="https://www.SEU_DOMINIO.com.br/og-cover.jpg">
+  <meta property="og:image" content="https://{{SITE_DOMINIO}}/og-cover.jpg">
   <meta property="og:title" content="TRUCKAUTO - Gestão de Caminhões Autônomos">
   <meta property="og:description" content="Operação com caminhões autônomos, rendimentos de segunda a sábado no Pix e comissões de equipe.">
   <link rel="stylesheet" href="style.css">
@@ -62,7 +62,7 @@
     <div class="global-live-ticker">
       <i class="fa-solid fa-bolt ticker-icon"></i>
       <span class="ticker-text" id="ticker-live-text">
-        🚗 Operador #4064 atingiu Supervisor Prata (+R$ 50 Pix) • ⚡ TruckAuto Dash #NX-202 em Kansas City completou 22 operacoes hoje • 💰 Saque de R$ 435,00 liquidado via Pix • 📍 Frota em Memphis com 100% de operação autônoma
+        🚗 Operador #4064 atingiu Supervisor Prata (+R$ 50 Pix) • ⚡ TruckAuto Strada #NX-202 em Kansas City completou 22 operacoes hoje • 💰 Saque de R$ 435,00 liquidado via Pix • 📍 Frota em Memphis com 100% de operação autônoma
       </span>
     </div>
 
@@ -478,9 +478,9 @@
             <a href="/termos" style="color: inherit; margin: 0 6px;" data-i18n="profile.termsShort">Termos</a>•<a href="/privacidade" style="color: inherit; margin: 0 6px;" data-i18n="profile.privacyShort">Privacidade</a>
           </div>
           <div style="font-size: 11.5px;">
-            <a href="mailto:contato@SEU_DOMINIO.com" style="color: inherit; text-decoration: none;">contato@SEU_DOMINIO.com</a>
+            <a href="mailto:{{SITE_EMAIL}}" style="color: inherit; text-decoration: none;">{{SITE_EMAIL}}</a>
             <span style="margin: 0 4px;">•</span>
-            <a href="https://wa.me/SEU_NUMERO_WHATSAPP" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">WhatsApp: +55 SEU_NUMERO_WHATSAPP</a>
+            <a href="https://wa.me/{{SITE_WHATSAPP}}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">WhatsApp: {{SITE_WHATSAPP_TEXTO}}</a>
           </div>
           <div style="font-size: 11px; opacity: 0.85;">TruckAuto Entregas Tecnologicas</div>
         </div>
@@ -847,7 +847,7 @@
           <button onclick="exploreWelcome()" style="width: 100%; margin-top: 16px; border: none; cursor: pointer; background: linear-gradient(135deg, #0B63E5, #08479E); color: #fff; font-size: 18px; font-weight: 800; border-radius: 18px; padding: 16px;">Explorar agora</button>
           <div style="text-align: center; margin: 16px 0 10px; font-size: 14px; font-weight: 600; color: #6B7A99;">Comunidade TruckAuto</div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <a href="https://SEU_GRUPO_WHATSAPP?s=cl&p=i&mlu=4&ilr=4" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #0B63E5; color: #fff; font-weight: 800; font-size: 15px; border-radius: 16px; padding: 13px 8px; text-decoration: none;"><i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> WhatsApp</a>
+            <a href="https://{{SITE_GRUPO_WHATSAPP}}?s=cl&p=i&mlu=4&ilr=4" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #0B63E5; color: #fff; font-weight: 800; font-size: 15px; border-radius: 16px; padding: 13px 8px; text-decoration: none;"><i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> WhatsApp</a>
             <a href="#" onclick="return openOperatorsGroup(event)" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #1E9BF0; color: #fff; font-weight: 800; font-size: 15px; border-radius: 16px; padding: 13px 8px; text-decoration: none;"><i class="fa-brands fa-telegram" style="font-size: 20px;"></i> Telegram</a>
           </div>
         </div>

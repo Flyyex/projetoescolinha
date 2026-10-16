@@ -60,7 +60,7 @@ const RANKS = [
     minTotal: 150,
     unlockedLevels: [1, 2, 3, 4, 5],
     bonus: 2000.00,
-    description: '10% + 10% + 10% + 10% + 10% N5 (+ R$ 2.000 no Pix + Cota Falcon)'
+    description: '10% + 10% + 10% + 10% + 10% N5 (+ R$ 2.000 no Pix + Cota Aurora)'
   },
   {
     id: 'black_diamond',

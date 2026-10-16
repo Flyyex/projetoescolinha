@@ -1,0 +1,21 @@
+{
+  "_leia_me": "Preencha aqui os dados reais da empresa. Ao subir o servidor, scripts/apply-site-config.js substitui os tokens {{SITE_*}} em todos os arquivos por estes valores. Variaveis de ambiente com o mesmo nome tem prioridade sobre este arquivo.",
+
+  "razaoSocial": "TruckAuto Entregas Tecnológicas",
+  "cnpj": "00.000.000/0001-00",
+  "responsavel": "Nome do responsavel legal",
+
+  "_pendentes": ["cnpj", "responsavel", "grupoWhatsapp", "telegram", "instagram"],
+
+  "email": "contato@truckauto.com.br",
+
+  "whatsapp": "5500000000000",
+  "whatsappTexto": "+55 00 00000-0000",
+
+  "grupoWhatsapp": "SEU_GRUPO_WHATSAPP",
+  "telegram": "SEU_GRUPO_TELEGRAM",
+  "instagram": "SEU_PERFIL",
+
+  "dominio": "www.truckauto.com.br",
+  "appUrl": ""
+}

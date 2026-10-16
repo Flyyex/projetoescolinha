@@ -12,6 +12,9 @@ crm_data.json
 .env.local
 !.env.example
 
+# Dados reais da empresa (contato, CNPJ). Copie de config/site.json.example
+config/site.json
+
 # Logs
 *.log
 npm-debug.log*

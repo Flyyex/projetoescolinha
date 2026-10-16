@@ -25,18 +25,18 @@ const INITIAL_DATA = {
     { id: 'perdido', title: 'Desqualificado / Sem Contato', color: '#f87171', order: 6 }
   ],
   products: [
-    { id: 'NX-030', name: 'TruckAuto Pulse', price: 30.00, dailyReturn: 3.80, periodDays: 15 },
-    { id: 'NX-101', name: 'TruckAuto Zephyr', price: 150.00, dailyReturn: 11.20, periodDays: 30 },
-    { id: 'NX-202', name: 'TruckAuto Dash', price: 350.00, dailyReturn: 30.00, periodDays: 30 },
-    { id: 'NX-707', name: 'TruckAuto Swift', price: 600.00, dailyReturn: 68.00, periodDays: 40 },
-    { id: 'NX-404', name: 'TruckAuto Falcon', price: 900.00, dailyReturn: 75.00, periodDays: 45 },
-    { id: 'NX-303', name: 'TruckAuto Stratus', price: 1500.00, dailyReturn: 150.00, periodDays: 45 },
+    { id: 'NX-030', name: 'TruckAuto Urbano', price: 30.00, dailyReturn: 3.80, periodDays: 15 },
+    { id: 'NX-101', name: 'TruckAuto Volta', price: 150.00, dailyReturn: 11.20, periodDays: 30 },
+    { id: 'NX-202', name: 'TruckAuto Strada', price: 350.00, dailyReturn: 30.00, periodDays: 30 },
+    { id: 'NX-707', name: 'TruckAuto Aurora', price: 600.00, dailyReturn: 68.00, periodDays: 40 },
+    { id: 'NX-404', name: 'TruckAuto Tornado', price: 900.00, dailyReturn: 75.00, periodDays: 45 },
+    { id: 'NX-303', name: 'TruckAuto Atlas', price: 1500.00, dailyReturn: 150.00, periodDays: 45 },
     { id: 'NX-505', name: 'TruckAuto Titan', price: 2800.00, dailyReturn: 150.00, periodDays: 60 },
     { id: 'NX-606', name: 'TruckAuto Apex', price: 5000.00, dailyReturn: 250.00, periodDays: 60 },
-    { id: 'CH-050', name: 'Estacao Solar Urbana 50kW', price: 50.00, dailyReturn: 4.50, periodDays: 15 },
-    { id: 'CH-200', name: 'Supercharger Hub 250kW', price: 200.00, dailyReturn: 19.00, periodDays: 30 },
-    { id: 'CH-500', name: 'Estacao de Troca de Bateria Automatica', price: 500.00, dailyReturn: 52.00, periodDays: 30 },
-    { id: 'CH-1200', name: 'Hub Grid Central Metropolitano', price: 1200.00, dailyReturn: 140.00, periodDays: 45 }
+    { id: 'CH-050', name: 'Estação de Manutenção Urbana 50t', price: 50.00, dailyReturn: 4.50, periodDays: 15 },
+    { id: 'CH-200', name: 'Hub de Manutenção Rápida 250t', price: 200.00, dailyReturn: 19.00, periodDays: 30 },
+    { id: 'CH-500', name: 'Troca Rápida de Pneus e Sistemas', price: 500.00, dailyReturn: 52.00, periodDays: 30 },
+    { id: 'CH-1200', name: 'Central de Manutenção Metropolitana', price: 1200.00, dailyReturn: 140.00, periodDays: 45 }
   ],
   leads: [],
   messages: {},

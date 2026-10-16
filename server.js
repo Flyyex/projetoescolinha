@@ -6,6 +6,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const { initDb, recordPageView } = require('./database');
 const { initTelegramBot } = require('./services/telegramBot');
@@ -129,6 +130,60 @@ app.use((req, res, next) => {
 
 // Servir arquivos estáticos do diretório public
 const publicDir = path.join(__dirname, 'public');
+
+// Arquivos .html/.js/.json passam por aqui para trocar os tokens {{SITE_*}} pelos
+// dados de config/site.json. O token fica no git e o valor so existe em memoria,
+// entao nenhum contato/CNPJ vai parar no repositorio por engano.
+const siteConfig = require('./services/siteConfig');
+const arquivoCache = new Map();
+
+function lerComTokens(alvo) {
+  const stat = fs.statSync(alvo);
+  let entrada = arquivoCache.get(alvo);
+  if (!entrada || entrada.mtime !== stat.mtimeMs) {
+    const bruto = fs.readFileSync(alvo, 'utf8');
+    entrada = {
+      mtime: stat.mtimeMs,
+      corpo: bruto.includes('{{SITE_') ? siteConfig.substituir(bruto) : bruto,
+    };
+    arquivoCache.set(alvo, entrada);
+  }
+  return entrada.corpo;
+}
+
+// Envia um HTML do public/ ja com os tokens substituidos.
+// Rotas como /presell e /login nao tem extensao, entao nao passam pelo
+// middleware de arquivos estaticos e precisavam ser tratadas por aqui.
+function enviarHtml(res, relPath) {
+  const alvo = path.join(publicDir, relPath);
+  if (!alvo.startsWith(publicDir + path.sep)) return res.status(404).send('Not found');
+  try {
+    res.type('.html').send(lerComTokens(alvo));
+  } catch {
+    res.status(404).send('Not found');
+  }
+}
+
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+
+  let rel;
+  try { rel = decodeURIComponent(req.path); } catch { return next(); }
+  if (rel.endsWith('/') || !/\.(html|js|json)$/i.test(rel)) return next();
+
+  const alvo = path.join(publicDir, rel);
+  // nao deixa escapar do publicDir via ../
+  if (!alvo.startsWith(publicDir + path.sep)) return next();
+
+  try {
+    if (!fs.statSync(alvo).isFile()) return next();
+    res.type(path.extname(alvo));
+    res.send(lerComTokens(alvo));
+  } catch {
+    next();
+  }
+});
+
 app.use(express.static(publicDir));
 
 // Servir Nexus CRM em /crm
@@ -178,47 +233,50 @@ const looksLikeStatic = (req) => STATIC_EXT.test(req.path);
 
 // 1. Rota Raiz (Landing Page / Presell Oficial)
 app.get(['/', '/presell', '/apresentacao', '/start', '/como-funciona'], (req, res) => {
-  res.sendFile(path.join(publicDir, 'presell.html'));
+  enviarHtml(res, 'presell.html');
 });
 
 // 2. Rota para Nexus CRM SPA
 app.get(['/crm', '/crm/*', '/nexus'], (req, res) => {
   if (looksLikeStatic(req)) return res.status(404).json({ error: 'Not found' });
-  res.sendFile(path.join(crmDir, 'index.html'));
+  enviarHtml(res, 'crm/index.html');
 });
 
 // 3. Rota para o Painel Administrativo Master
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(publicDir, 'admin.html'));
+  enviarHtml(res, 'admin.html');
 });
 
 // 4. Rota para o Terminal de Autenticacao (login/cadastro)
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(publicDir, 'login.html'));
+  enviarHtml(res, 'login.html');
 });
 
 // 5. Paginas legais sem extensao
 app.get('/termos', (req, res) => {
-  res.sendFile(path.join(publicDir, 'termos.html'));
+  enviarHtml(res, 'termos.html');
 });
 app.get('/privacidade', (req, res) => {
-  res.sendFile(path.join(publicDir, 'privacidade.html'));
+  enviarHtml(res, 'privacidade.html');
 });
 
 // 6. Rota para o Aplicativo / Dashboard do Operador
 app.get(['/app', '/dashboard', '/painel', '/home'], (req, res) => {
-  res.sendFile(path.join(publicDir, 'index.html'));
+  enviarHtml(res, 'index.html');
 });
 
 // 4. Fallback para SPA
 app.get('*', (req, res) => {
   if (looksLikeStatic(req)) return res.status(404).json({ error: 'Not found' });
-  res.sendFile(path.join(publicDir, 'index.html'));
+  enviarHtml(res, 'index.html');
 });
 
 // Inicialização com Banco de Dados
 async function startServer() {
   try {
+    // Carrega config/site.json uma vez e avisa o que falta preencher
+    require('./services/siteConfig').carregar();
+
     await initDb();
 
     // Inicializa Bot do Telegram (se token estiver presente)

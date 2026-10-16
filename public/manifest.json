@@ -1,7 +1,7 @@
 {
-  "name": "TRUCKAUTO - Gestão de Drones Autônomos",
+  "name": "TRUCKAUTO - Gestão de Caminhões Autônomos",
   "short_name": "TRUCKAUTO",
-  "description": "Sistema de Gestão de Frotas de Drones Autônomos e Inteligência Artificial",
+  "description": "Sistema de Gestão de Frotas de Caminhões Autônomos e Inteligência Artificial",
   "start_url": "./app",
   "display": "standalone",
   "background_color": "#05070A",

@@ -148,17 +148,17 @@ function initTelegramBot() {
 async function sendFleetMessage(ctx) {
   const text = 
     '⚡ *CATÁLOGO DE FROTAS AUTÔNOMAS TRUCKAUTO* ⚡\n\n' +
-    '0️⃣ *TruckAuto Pulse (NX-030)*\n' +
+    '0️⃣ *TruckAuto Urbano (NX-030)*\n' +
     '• Contrato: R$ 30,00 | Retorno: *R$ 3,80/dia* (15 dias)\n\n' +
-    '1️⃣ *TruckAuto Zephyr (NX-101)*\n' +
+    '1️⃣ *TruckAuto Volta (NX-101)*\n' +
     '• Contrato: R$ 150,00 | Retorno: *R$ 11,20/dia* (30 dias)\n\n' +
-    '2️⃣ *TruckAuto Dash (NX-202)*\n' +
+    '2️⃣ *TruckAuto Strada (NX-202)*\n' +
     '• Contrato: R$ 350,00 | Retorno: *R$ 30,00/dia* (30 dias)\n\n' +
-    '3️⃣ *TruckAuto Swift (NX-707)*\n' +
+    '3️⃣ *TruckAuto Aurora (NX-707)*\n' +
     '• Contrato: R$ 600,00 | Retorno: *R$ 68,00/dia* (40 dias)\n\n' +
-    '4️⃣ *TruckAuto Falcon (NX-404)*\n' +
+    '4️⃣ *TruckAuto Tornado (NX-404)*\n' +
     '• Contrato: R$ 900,00 | Retorno: *R$ 75,00/dia* (45 dias)\n\n' +
-    '5️⃣ *TruckAuto Stratus (NX-303)*\n' +
+    '5️⃣ *TruckAuto Atlas (NX-303)*\n' +
     '• Contrato: R$ 1.500,00 | Retorno: *R$ 150,00/dia* (45 dias)\n\n' +
     '6️⃣ *TruckAuto Titan (NX-505)*\n' +
     '• Contrato: R$ 2.800,00 | Retorno: *R$ 150,00/dia* (60 dias)\n\n' +
@@ -314,9 +314,9 @@ const dynamicTemplates = [
       '💸 *[RELATÓRIO DE OPERAÇÃO] RENDIMENTOS DE TURNO CREDITADOS!* 🚗⚡\n\n' +
       'O ciclo de viagens das frotas autônomas em Memphis acaba de ser finalizado e os lucros já foram creditados na carteira dos operadores!\n\n' +
       '📊 *DESEMPENHO DO TURNO:*\n' +
-      '• TruckAuto Zephyr (NX-101): Viagens urbanas concluídas\n' +
-      '• TruckAuto Swift (NX-707): Operação em alta demanda (+18% de eficiência)\n' +
-      '• TruckAuto Stratus (NX-303): Rotas executivas finalizadas\n\n' +
+      '• TruckAuto Volta (NX-101): Viagens urbanas concluídas\n' +
+      '• TruckAuto Aurora (NX-707): Operação em alta demanda (+18% de eficiência)\n' +
+      '• TruckAuto Atlas (NX-303): Rotas executivas finalizadas\n\n' +
       'Seu rendimento de hoje já está disponível para saque ou para reinvestir na subida de nível.\n\n' +
       '📲 *Abra seu painel e veja seu saldo crescendo:*',
     buttons: [
@@ -345,7 +345,7 @@ const dynamicTemplates = [
       '🌙 *[FECHAMENTO DE CICLO] ÚLTIMAS VAGAS DE FROTAS PARA AMANHÃ!* 🚗⏳\n\n' +
       'O ciclo operacional de hoje está se encerrando com mais de 98% das frotas em operação contínua.\n\n' +
       '🚨 *ATENÇÃO:* As vagas para contratação das categorias de maior rendimento estão se esgotando:\n' +
-      '🔥 TruckAuto Swift (NX-707) ➔ Restam poucas unidades\n' +
+      '🔥 TruckAuto Aurora (NX-707) ➔ Restam poucas unidades\n' +
       '👑 TruckAuto Apex (NX-606) ➔ Última cota disponível para o turno da manhã\n\n' +
       'Quem ativa o contrato ainda hoje já acorda com os primeiros rendimentos sendo contabilizados no ciclo de amanhã cedo!\n\n' +
       'Não durma no ponto enquanto a inteligência artificial trabalha por você.\n\n' +

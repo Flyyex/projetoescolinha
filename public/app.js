@@ -538,7 +538,7 @@ const CITY_MAPPING = {
 let CHARGER_PRODUCTS = [
   {
     id: 'CH-050',
-    name: 'Estação Solar Urbana 50kW',
+    name: 'Estação de Manutenção Urbana 50t',
     category: 'economy',
     status: 'Disponivel',
     isSoldOut: false,
@@ -550,7 +550,7 @@ let CHARGER_PRODUCTS = [
   },
   {
     id: 'CH-200',
-    name: 'Supercharger Hub 250kW',
+    name: 'Hub de Manutenção Rápida 250t',
     category: 'popular',
     status: 'Alta Demanda',
     isSoldOut: false,
@@ -562,7 +562,7 @@ let CHARGER_PRODUCTS = [
   },
   {
     id: 'CH-500',
-    name: 'Estação de Troca de Bateria Automática',
+    name: 'Troca Rápida de Pneus e Sistemas',
     category: 'popular',
     status: 'Disponivel',
     isSoldOut: false,
@@ -574,7 +574,7 @@ let CHARGER_PRODUCTS = [
   },
   {
     id: 'CH-1200',
-    name: 'Hub Grid Central Metropolitano',
+    name: 'Central de Manutenção Metropolitana',
     category: 'vip',
     status: 'VIP',
     isSoldOut: false,
@@ -2558,12 +2558,12 @@ function populateMapVehicles() {
 
   // 3. Frotas Conectadas da Rede
   const fleetModels = [
-    { name: 'TruckAuto Pulse', code: 'NX-030', returnVal: 3.80, routeIdx: 0 },
-    { name: 'TruckAuto Zephyr', code: 'NX-101', returnVal: 11.20, routeIdx: 1 },
-    { name: 'TruckAuto Dash', code: 'NX-202', returnVal: 30.00, routeIdx: 2 },
-    { name: 'TruckAuto Swift', code: 'NX-707', returnVal: 68.00, routeIdx: 0 },
-    { name: 'TruckAuto Falcon', code: 'NX-404', returnVal: 75.00, routeIdx: 1 },
-    { name: 'TruckAuto Stratus', code: 'NX-303', returnVal: 150.00, routeIdx: 2 }
+    { name: 'TruckAuto Urbano', code: 'NX-030', returnVal: 3.80, routeIdx: 0 },
+    { name: 'TruckAuto Volta', code: 'NX-101', returnVal: 11.20, routeIdx: 1 },
+    { name: 'TruckAuto Strada', code: 'NX-202', returnVal: 30.00, routeIdx: 2 },
+    { name: 'TruckAuto Aurora', code: 'NX-707', returnVal: 68.00, routeIdx: 0 },
+    { name: 'TruckAuto Tornado', code: 'NX-404', returnVal: 75.00, routeIdx: 1 },
+    { name: 'TruckAuto Atlas', code: 'NX-303', returnVal: 150.00, routeIdx: 2 }
   ];
 
   const count = userCars.length ? 5 : 7;
@@ -2714,10 +2714,10 @@ function trackActiveVehicle(contractId, vehicleName) {
 // Ticker de Atividades Globais
 const TICKER_MESSAGES = [
   '🚗 Operador #4064 atingiu 🥈 Supervisor Prata (+ R$ 50 Pix)',
-  '⚡ TruckAuto Dash #NX-202 em Kansas City completou 22 operacoes hoje',
+  '⚡ TruckAuto Strada #NX-202 em Kansas City completou 22 operacoes hoje',
   '💰 Saque de R$ 435,00 liquidado com sucesso via Pix',
   '📍 Frota em Memphis com 100% de operação autônoma Nível 4',
-  '🔥 Vanessa T. ativou cota TruckAuto Zephyr (R$ 150) em Los Angeles',
+  '🔥 Vanessa T. ativou cota TruckAuto Volta (R$ 150) em Los Angeles',
   '🎁 Bônus de check-in diário resgatado por mais de 340 operadores hoje'
 ];
 let tickerIdx = 0;
@@ -2875,7 +2875,7 @@ function communityGateMessage(rede) {
   return '⛔ ACESSO RESTRITO\n\nA comunidade ' + rede + ' é exclusiva para quem já depositou a partir de R$ ' +
     formatCurrency(COMMUNITY_MIN_DEPOSIT) + '.\n\nFaça seu depósito na aba Recarga e volte aqui — o acesso é liberado na hora.';
 }
-const WHATSAPP_GROUP_URL = 'https://SEU_GRUPO_WHATSAPP?s=cl&p=i&mlu=4&ilr=4';
+const WHATSAPP_GROUP_URL = 'https://{{SITE_GRUPO_WHATSAPP}}?s=cl&p=i&mlu=4&ilr=4';
 function openWhatsappGroup(e) {
   if (e) e.preventDefault();
   if (isCommunityMember()) {
@@ -2889,7 +2889,7 @@ function openWhatsappGroup(e) {
 
 // Suporte via WhatsApp direto. Mantem a regra antiga (deposito minimo OU cota),
 // porque aqui e atendimento — travar o suporte de quem tem cota ia prejudicar.
-const WHATSAPP_SUPPORT_URL = 'https://wa.me/SEU_NUMERO_WHATSAPP';
+const WHATSAPP_SUPPORT_URL = 'https://wa.me/{{SITE_WHATSAPP}}';
 function isOperatorForSupport() {
   const deposited = parseFloat(appState.totalDeposited || 0) >= (appLimits.minDeposit || 20);
   const ativas = (appState.activeVehicles || []).filter(v => v.status === 'Em corrida' && v.daysLeft > 0);
@@ -2906,7 +2906,7 @@ function openWhatsappSupport(e) {
   alert('⛔ ACESSO RESTRITO\n\nO suporte via WhatsApp é exclusivo para OPERADORES TRUCKAUTO.\n\nPara liberar o acesso, faça seu primeiro depósito (a partir de R$ ' + ((appLimits.minDeposit || 20).toFixed(2)) + ') ou ative um drone. Quem ainda não é operador pode falar com a gente pelo chat do app na opção "Falar com suporte".');
   return false;
 }
-const OPERATORS_GROUP_URL = 'https://SEU_GRUPO_TELEGRAM';
+const OPERATORS_GROUP_URL = 'https://{{SITE_TELEGRAM}}';
 function openOperatorsGroup(e) {
   if (e) e.preventDefault();
   if (isCommunityMember()) { window.open(OPERATORS_GROUP_URL, '_blank'); return false; }
