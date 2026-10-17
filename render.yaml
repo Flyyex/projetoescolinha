@@ -31,27 +31,10 @@ services:
         sync: false
       - key: APP_URL
         sync: false
-      # Dados da empresa (contato, CNPJ). Vem de config/site.json.example.
-      - key: SITE_RAZAO_SOCIAL
-        sync: false
-      - key: SITE_CNPJ
-        sync: false
-      - key: SITE_RESPONSAVEL
-        sync: false
-      - key: SITE_EMAIL
-        sync: false
-      - key: SITE_WHATSAPP
-        sync: false
-      - key: SITE_WHATSAPP_TEXTO
-        sync: false
-      - key: SITE_GRUPO_WHATSAPP
-        sync: false
-      - key: SITE_TELEGRAM
-        sync: false
-      - key: SITE_INSTAGRAM
-        sync: false
-      - key: SITE_DOMINIO
-        sync: false
+      # Dados da empresa (email, WhatsApp, dominio, razao social, CNPJ) NAO ficam
+      # aqui: sao lidos de config/site.json, que e versionado. Editar aquele arquivo
+      # e dar push ja publica. Use variavel SITE_* aqui so para sobrescrever sem
+      # editar codigo.
       # Telegram (opcional - backup diario + avisos admin)
       - key: TELEGRAM_BOT_TOKEN
         sync: false

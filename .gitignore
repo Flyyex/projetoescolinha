@@ -1,19 +1,18 @@
-# Dependências
+# DependÃªncias
 node_modules/
 
-# Banco de dados local (JSON) — dados de produção NÃO vão pro repositório
+# Banco de dados local (JSON) â€” dados de produÃ§Ã£o NÃƒO vÃ£o pro repositÃ³rio
 data.json
 crm_data.json
 *.db
 *.sqlite
 
-# Variáveis de ambiente (segredos)
+# VariÃ¡veis de ambiente (segredos)
 .env
 .env.local
 !.env.example
 
-# Dados reais da empresa (contato, CNPJ). Copie de config/site.json.example
-config/site.json
+# config/site.json e versionado de proposito: sao dados de contato publicos, para editar e dar push
 
 # Logs
 *.log
@@ -25,7 +24,7 @@ npm-debug.log*
 Thumbs.db
 *.pid
 
-# Diretórios de build do frontend (compilados)
+# DiretÃ³rios de build do frontend (compilados)
 # public/crm/assets/
 
 # VS Code / IDE
