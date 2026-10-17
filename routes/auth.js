@@ -46,7 +46,8 @@ router.post('/register', async (req, res) => {
     }
 
     // Verifica quem indicou (código do link ou padrão da casa quando veio direto)
-    const DEFAULT_INVITE_CODE = process.env.DEFAULT_INVITE_CODE || 'NX18CD83D3';
+    // Conta "casa": recebe a indicação de quem se cadastrou sem invite válido.
+    const DEFAULT_INVITE_CODE = process.env.DEFAULT_INVITE_CODE || 'NX801C6FE8';
     let referredBy = null;
     if (inviteCode) {
       const upline = await findUserByInviteCode(inviteCode);

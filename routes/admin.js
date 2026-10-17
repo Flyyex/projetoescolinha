@@ -43,6 +43,7 @@ const {
   getPixChargeStats,
   newUserId,
   newInviteCode,
+  findUserByInviteCode,
   newContractId,
   normPromoCode,
   createPromoCode,
@@ -1333,6 +1334,38 @@ router.put('/products/:id', async (req, res) => {
   } catch (err) {
     console.error('[ADMIN ERROR /products/:id]:', err);
     res.status(500).json({ error: 'Erro ao atualizar produto.' });
+  }
+});
+
+// Troca o codigo de indicacao de um operador. Antes nao_existia forma de
+// fazer isso: o inviteCode nascia em newInviteCode() e nunca mais mudava.
+router.patch('/users/:id/invite-code', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const raw = String((req.body && req.body.inviteCode) || '').trim().toUpperCase();
+
+    if (!/^NX[0-9A-F]{8}$/.test(raw)) {
+      return res.status(400).json({ error: 'Codigo invalido. Use o formato NX seguido de 8 caracteres hex (ex: NX801C6FE8).' });
+    }
+
+    const user = await findUserById(id);
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado.' });
+
+    // findUserByInviteCode busca o primeiro: sem esta checagem dois operadores
+    // com o mesmo codigo fariam o cadastro creditar a alguém aleatório.
+    const owner = await findUserByInviteCode(raw);
+    if (owner && owner.id !== id) {
+      return res.status(409).json({ error: `Este código já pertence a ${owner.operatorName || owner.id}.` });
+    }
+
+    const antigo = user.inviteCode;
+    const updated = await updateUser(id, { inviteCode: raw });
+
+    console.log(`[ADMIN] codigo de ${user.operatorName || id}: ${antigo} -> ${raw}`);
+    res.json({ message: 'Código de indicação atualizado!', antigo, novo: raw, user: updated });
+  } catch (err) {
+    console.error('[ADMIN ERROR /users/:id/invite-code]:', err);
+    res.status(500).json({ error: 'Erro ao atualizar o código de indicação.' });
   }
 });
 
