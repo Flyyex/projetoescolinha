@@ -144,21 +144,34 @@ function lerComTokens(alvo) {
     const bruto = fs.readFileSync(alvo, 'utf8');
     entrada = {
       mtime: stat.mtimeMs,
+      lastModified: stat.mtime.toUTCString(),
       corpo: bruto.includes('{{SITE_') ? siteConfig.substituir(bruto) : bruto,
     };
     arquivoCache.set(alvo, entrada);
   }
-  return entrada.corpo;
+  return entrada;
+}
+
+// Sem Cache-Control o navegador aplica cache heuristico e serve o HTML antigo
+// sem nem revalidar: foi assim que os tokens trocados no config/site.json
+// continuaram aparecendo na tela depois do deploy.
+// no-cache = sempre revalida (304 barato quando nao mudou). Last-Modified faz a
+// revalidacao funcionar de verdade.
+function responderComCache(req, res, entrada, ext) {
+  res.set('Cache-Control', 'no-cache');
+  res.set('Last-Modified', entrada.lastModified);
+  res.type(ext);
+  res.send(entrada.corpo);
 }
 
 // Envia um HTML do public/ ja com os tokens substituidos.
 // Rotas como /presell e /login nao tem extensao, entao nao passam pelo
 // middleware de arquivos estaticos e precisavam ser tratadas por aqui.
-function enviarHtml(res, relPath) {
+function enviarHtml(req, res, relPath) {
   const alvo = path.join(publicDir, relPath);
   if (!alvo.startsWith(publicDir + path.sep)) return res.status(404).send('Not found');
   try {
-    res.type('.html').send(lerComTokens(alvo));
+    responderComCache(req, res, lerComTokens(alvo), '.html');
   } catch {
     res.status(404).send('Not found');
   }
@@ -177,8 +190,7 @@ app.use((req, res, next) => {
 
   try {
     if (!fs.statSync(alvo).isFile()) return next();
-    res.type(path.extname(alvo));
-    res.send(lerComTokens(alvo));
+    responderComCache(req, res, lerComTokens(alvo), path.extname(alvo));
   } catch {
     next();
   }
@@ -236,42 +248,42 @@ const looksLikeStatic = (req) => STATIC_EXT.test(req.path);
 
 // 1. Rota Raiz (Landing Page / Presell Oficial)
 app.get(['/', '/presell', '/apresentacao', '/start', '/como-funciona'], (req, res) => {
-  enviarHtml(res, 'presell.html');
+  enviarHtml(req, res, 'presell.html');
 });
 
 // 2. Rota para Nexus CRM SPA
 app.get(['/crm', '/crm/*', '/nexus'], (req, res) => {
   if (looksLikeStatic(req)) return res.status(404).json({ error: 'Not found' });
-  enviarHtml(res, 'crm/index.html');
+  enviarHtml(req, res, 'crm/index.html');
 });
 
 // 3. Rota para o Painel Administrativo Master
 app.get('/admin', (req, res) => {
-  enviarHtml(res, 'admin.html');
+  enviarHtml(req, res, 'admin.html');
 });
 
 // 4. Rota para o Terminal de Autenticacao (login/cadastro)
 app.get('/login', (req, res) => {
-  enviarHtml(res, 'login.html');
+  enviarHtml(req, res, 'login.html');
 });
 
 // 5. Paginas legais sem extensao
 app.get('/termos', (req, res) => {
-  enviarHtml(res, 'termos.html');
+  enviarHtml(req, res, 'termos.html');
 });
 app.get('/privacidade', (req, res) => {
-  enviarHtml(res, 'privacidade.html');
+  enviarHtml(req, res, 'privacidade.html');
 });
 
 // 6. Rota para o Aplicativo / Dashboard do Operador
 app.get(['/app', '/dashboard', '/painel', '/home'], (req, res) => {
-  enviarHtml(res, 'index.html');
+  enviarHtml(req, res, 'index.html');
 });
 
 // 4. Fallback para SPA
 app.get('*', (req, res) => {
   if (looksLikeStatic(req)) return res.status(404).json({ error: 'Not found' });
-  enviarHtml(res, 'index.html');
+  enviarHtml(req, res, 'index.html');
 });
 
 // Inicialização com Banco de Dados

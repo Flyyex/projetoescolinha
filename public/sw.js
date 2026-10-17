@@ -1,4 +1,4 @@
-const CACHE_NAME = 'truckauto-najaf-v2';
+const CACHE_NAME = 'truckauto-najaf-v3';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -18,10 +18,18 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Sempre busca da rede primeiro para garantir conteúdo fresco
+  // Só intercepta GET. Nunca deixa o service worker "envenenar" uma resposta
+  // boa da rede: antes, um token {{SITE_*}} antigo podia voltar do cache mesmo
+  // com o servidor ja servindo o valor certo.
+  if (event.request.method !== 'GET') return;
+
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
+
   event.respondWith(
-    fetch(event.request).catch(() => {
-      return caches.match(event.request);
+    fetch(event.request, { cache: 'no-store' }).catch(() => {
+      // Offline: usa o cache apenas como ultimo recurso.
+      return caches.match(event.request).then((r) => r || Response.error());
     })
   );
 });
