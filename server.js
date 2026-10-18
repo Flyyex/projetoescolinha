@@ -196,6 +196,12 @@ app.use((req, res, next) => {
   }
 });
 
+// A raiz precisa ser resolvida ANTES do express.static: o express.static tem a
+// opcao "index" ligada por padrao e servia public/index.html cru, sem passar pela
+// substituicao de tokens (era por isso que o dashboard vazava {{SITE_EMAIL}}
+// depois do login, que redireciona para "./").
+app.get('/', (req, res) => enviarHtml(req, res, 'index.html'));
+
 app.use(express.static(publicDir));
 
 // Servir Nexus CRM em /crm
@@ -246,8 +252,8 @@ app.use('/api', crmRouter);
 const STATIC_EXT = /\.(png|jpe?g|gif|webp|avif|svg|ico|css|js|mjs|json|map|woff2?|ttf|mp4|webm)$/i;
 const looksLikeStatic = (req) => STATIC_EXT.test(req.path);
 
-// 1. Rota Raiz (Landing Page / Presell Oficial)
-app.get(['/', '/presell', '/apresentacao', '/start', '/como-funciona'], (req, res) => {
+// 1. Landing Page / Presell Oficial
+app.get(['/presell', '/apresentacao', '/start', '/como-funciona'], (req, res) => {
   enviarHtml(req, res, 'presell.html');
 });
 
