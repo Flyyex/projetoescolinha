@@ -1,7 +1,7 @@
-{
+﻿{
   "_leia_me": "Dados publicos da empresa (contato, dominio, razao social). Este arquivo VERSIONADO e a fonte da verdade: mudar aqui e dar push ja publica a mudanca. Variavel de ambiente SITE_* tem prioridade, caso queira sobrescrever sem editar codigo.",
 
-  "razaoSocial": "TruckAuto Entregas Tecnológicas",
+  "razaoSocial": "TruckAuto Entregas TecnolÃ³gicas",
   "cnpj": "00.000.000/0001-00",
   "responsavel": "Nome do responsavel legal",
 
@@ -9,8 +9,8 @@
 
   "email": "autotruckhelp@outlook.com",
 
-  "whatsapp": "5500000000000",
-  "whatsappTexto": "+55 00 00000-0000",
+  "whatsapp": "5512936262850",
+  "whatsappTexto": "+55 12 93626-2850",
 
   "grupoWhatsapp": "SEU_GRUPO_WHATSAPP",
   "telegram": "SEU_GRUPO_TELEGRAM",
@@ -19,3 +19,4 @@
   "dominio": "truckauto.site",
   "appUrl": "https://truckauto.site"
 }
+
