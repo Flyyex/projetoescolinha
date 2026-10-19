@@ -1,14 +1,3 @@
-/**
- * Dados publicos da empresa (contato, dominio, razao social).
- *
- * A fonte da verdade e config/site.json. As variaveis de ambiente SITE_* tem
- * prioridade sobre o arquivo, o que permite mudar o WhatsApp no painel do
- * Render sem editar codigo.
- *
- * Os tokens {{SITE_*}} ficam versionados no git e sao substituidos aqui, no
- * momento de entregar o arquivo -- assim ninguem corre o risco de commitar por
- * acidente um numero de telefone ou o CNPJ no repositorio.
- */
 const fs = require('fs');
 const path = require('path');
 
@@ -26,7 +15,11 @@ function carregar() {
     console.error('[SITE] ou defina as variaveis SITE_* no ambiente. Os tokens ficarao sem substituir.');
   } else {
     try {
-      base = JSON.parse(fs.readFileSync(CONFIG, 'utf8'));
+      // BOM: o Set-Content -Encoding UTF8 do PowerShell grava com BOM, e o
+      // JSON.parse quebra com "Unexpected token". Tirar o BOM na mao resolve.
+      let bruto = fs.readFileSync(CONFIG, 'utf8');
+      if (bruto.charCodeAt(0) === 0xFEFF) bruto = bruto.slice(1);
+      base = JSON.parse(bruto);
     } catch (e) {
       console.error('[SITE] nao consegui ler config/site.json:', e.message);
     }
@@ -66,7 +59,7 @@ function carregar() {
   }
 
   cache = mapa;
-  return cache;
+  return mapa;
 }
 
 function substituir(texto) {
