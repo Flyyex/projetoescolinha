@@ -1,4 +1,4 @@
-require('dotenv').config();
+﻿require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -24,35 +24,35 @@ if (isPostgres) {
     ssl: DATABASE_URL.includes('localhost') ? false : { rejectUnauthorized: false }
   });
 } else {
-  console.log('[DATABASE] DATABASE_URL não detectada. Utilizando armazenamento em arquivo local (data.json)');
+  console.log('[DATABASE] DATABASE_URL nÃ£o detectada. Utilizando armazenamento em arquivo local (data.json)');
 }
 
-// Catálogo TruckAuto: caminhões autônomos + estações de manutenção.
+// CatÃ¡logo TruckAuto: caminhÃµes autÃ´nomos + estaÃ§Ãµes de manutenÃ§Ã£o.
 //
-// Preços, rendimentos e duração são IGUAIS aos da FlyEx — a troca de marca não
-// mexe em dinheiro. O que muda é o que a pessoa lê: nome e descrição.
+// PreÃ§os, rendimentos e duraÃ§Ã£o sÃ£o IGUAIS aos da versão anterior â€” a troca de marca nÃ£o
+// mexe em dinheiro. O que muda Ã© o que a pessoa lÃª: nome e descriÃ§Ã£o.
 const defaultProducts = [
   {
     id: 'NX-030',
     name: 'TruckAuto Urbano',
     category: 'economy',
-    status: 'Disponível',
+    status: 'DisponÃ­vel',
     price: 30.00,
     dailyReturn: 3.80,
     periodDays: 15,
     checkoutUrl: '',
-    description: 'Caminhão elétrico compacto para entregas rápidas em rotas urbanas.'
+    description: 'CaminhÃ£o elÃ©trico compacto para entregas rÃ¡pidas em rotas urbanas.'
   },
   {
     id: 'NX-101',
     name: 'TruckAuto Volta',
     category: 'economy',
-    status: 'Disponível',
+    status: 'DisponÃ­vel',
     price: 150.00,
     dailyReturn: 11.20,
     periodDays: 30,
     checkoutUrl: '',
-    description: 'Caminhão ágil para operações urbanas diárias de entrega.'
+    description: 'CaminhÃ£o Ã¡gil para operaÃ§Ãµes urbanas diÃ¡rias de entrega.'
   },
   {
     id: 'NX-202',
@@ -63,7 +63,7 @@ const defaultProducts = [
     dailyReturn: 30.00,
     periodDays: 30,
     checkoutUrl: '',
-    description: 'Caminhão com sensores LiDAR e IA de navegação nível 4.'
+    description: 'CaminhÃ£o com sensores LiDAR e IA de navegaÃ§Ã£o nÃ­vel 4.'
   },
   {
     id: 'NX-707',
@@ -74,7 +74,7 @@ const defaultProducts = [
     dailyReturn: 68.00,
     periodDays: 40,
     checkoutUrl: '',
-    description: 'Caminhão com recarga por indução e operação 24/7.'
+    description: 'CaminhÃ£o com recarga por induÃ§Ã£o e operaÃ§Ã£o 24/7.'
   },
   {
     id: 'NX-404',
@@ -85,7 +85,7 @@ const defaultProducts = [
     dailyReturn: 75.00,
     periodDays: 45,
     checkoutUrl: '',
-    description: 'Caminhão de médio porte para transporte de cargas compartilhadas.'
+    description: 'CaminhÃ£o de mÃ©dio porte para transporte de cargas compartilhadas.'
   },
   {
     id: 'NX-303',
@@ -96,7 +96,7 @@ const defaultProducts = [
     dailyReturn: 150.00,
     periodDays: 45,
     checkoutUrl: '',
-    description: 'Caminhão de alta capacidade operando em rotas corporativas.'
+    description: 'CaminhÃ£o de alta capacidade operando em rotas corporativas.'
   },
   {
     id: 'NX-505',
@@ -107,7 +107,7 @@ const defaultProducts = [
     dailyReturn: 150.00,
     periodDays: 60,
     checkoutUrl: '',
-    description: 'Caminhão pesado de alta autonomia para operações em áreas densas.'
+    description: 'CaminhÃ£o pesado de alta autonomia para operaÃ§Ãµes em Ã¡reas densas.'
   },
   {
     id: 'NX-606',
@@ -118,74 +118,74 @@ const defaultProducts = [
     dailyReturn: 250.00,
     periodDays: 60,
     checkoutUrl: '',
-    description: 'Caminhão executivo premium com recarga rápida em 3 min.'
+    description: 'CaminhÃ£o executivo premium com recarga rÃ¡pida em 3 min.'
   },
   {
     id: 'CH-050',
-    name: 'Estação de Manutenção Urbana 50t',
+    name: 'EstaÃ§Ã£o de ManutenÃ§Ã£o Urbana 50t',
     category: 'economy',
-    status: 'Disponível',
+    status: 'DisponÃ­vel',
     price: 50.00,
     dailyReturn: 4.50,
     periodDays: 15,
     checkoutUrl: '',
-    description: 'Estação de manutenção com pane solar para frotas urbanas compactas.'
+    description: 'EstaÃ§Ã£o de manutenÃ§Ã£o com pane solar para frotas urbanas compactas.'
   },
   {
     id: 'CH-200',
-    name: 'Hub de Manutenção Rápida 250t',
+    name: 'Hub de ManutenÃ§Ã£o RÃ¡pida 250t',
     category: 'popular',
     status: 'Alta Demanda',
     price: 200.00,
     dailyReturn: 19.00,
     periodDays: 30,
     checkoutUrl: '',
-    description: 'Hub de manutenção ultrarrápida para caminhões elétricos.'
+    description: 'Hub de manutenÃ§Ã£o ultrarrÃ¡pida para caminhÃµes elÃ©tricos.'
   },
   {
     id: 'CH-500',
-    name: 'Troca Rápida de Pneus e Sistemas',
+    name: 'Troca RÃ¡pida de Pneus e Sistemas',
     category: 'popular',
-    status: 'Disponível',
+    status: 'DisponÃ­vel',
     price: 500.00,
     dailyReturn: 52.00,
     periodDays: 30,
     checkoutUrl: '',
-    description: 'Estação robotizada com troca total de pneus e sistemas em 3 minutos.'
+    description: 'EstaÃ§Ã£o robotizada com troca total de pneus e sistemas em 3 minutos.'
   },
   {
     id: 'CH-1200',
-    name: 'Central de Manutenção Metropolitana',
+    name: 'Central de ManutenÃ§Ã£o Metropolitana',
     category: 'vip',
     status: 'VIP',
     price: 1200.00,
     dailyReturn: 140.00,
     periodDays: 45,
     checkoutUrl: '',
-    description: 'Terminal de manutenção de alta densidade para frotas corporativas.'
+    description: 'Terminal de manutenÃ§Ã£o de alta densidade para frotas corporativas.'
   }
 ];
 
 
-// i18n catálogo (rascunho IA, revisar no ar): descrições por produto/idioma.
-// Nomes próprios não traduzem; status segue tabela fechada abaixo.
+// i18n catÃ¡logo (rascunho IA, revisar no ar): descriÃ§Ãµes por produto/idioma.
+// Nomes prÃ³prios nÃ£o traduzem; status segue tabela fechada abaixo.
 const productDescI18n = {
-  'NX-030': { es: 'Camión eléctrico compacto para entregas urbanas rápidas y trazado de rutas.', en: 'Compact electric truck for fast urban deliveries and route mapping.', zh: '紧凑型电动货车，适用于快速城市配送和路线规划。' },
-  'NX-101': { es: 'Camión ágil para operaciones urbanas diarias de reparto.', en: 'Agile truck for daily urban delivery operations.', zh: '灵活货车，适用于日常城市配送作业。' },
-  'NX-202': { es: 'Camión con sensores LiDAR e IA de navegación de nivel 4.', en: 'Truck with LiDAR sensors and level-4 navigation AI.', zh: '搭载激光雷达和L4级导航AI的货车。' },
-  'NX-707': { es: 'Camión con carga por inducción y operación 24/7.', en: 'Truck with induction charging and 24/7 operation.', zh: '支持感应充电、可24/7运行的货车。' },
-  'NX-404': { es: 'Camión de medio porte para transporte de cargas compartidas.', en: 'Mid-size truck for shared cargo transport.', zh: '中型货车，适用于共享货运。' },
-  'NX-303': { es: 'Camión de alta capacidad operando en rutas corporativas.', en: 'High-capacity truck operating on corporate routes.', zh: '大容量货车，运营企业专线。' },
-  'NX-505': { es: 'Camión pesado de alta autonomía para operaciones en zonas densas.', en: 'Heavy high-endurance truck for dense-area operations.', zh: '重型长续航货车，适用于密集区域作业。' },
-  'NX-606': { es: 'Camión ejecutivo premium con carga rápida en 3 min.', en: 'Premium executive truck with 3-min fast charging.', zh: '高端商务货车，3分钟快速充电。' },
-  'CH-050': { es: 'Estación de mantenimiento con panel solar para flotas urbanas compactas.', en: 'Solar-powered maintenance station for compact urban fleets.', zh: '光伏维护站，服务紧凑型城市车队。' },
-  'CH-200': { es: 'Hub de mantenimiento ultrarrápido para camiones eléctricos.', en: 'Ultra-fast maintenance hub for electric trucks.', zh: '电动货车超快维护中心。' },
-  'CH-500': { es: 'Estación robótica con cambio total de neumáticos y sistemas en 3 minutos.', en: 'Robotic station with full tyre and system swap in 3 minutes.', zh: '机器人维护站，3分钟完成轮胎和系统更换。' },
-  'CH-1200': { es: 'Terminal de mantenimiento de alta densidad para flotas corporativas.', en: 'High-density maintenance terminal for corporate fleets.', zh: '高密度维护终端，服务企业车队。' }
+  'NX-030': { es: 'CamiÃ³n elÃ©ctrico compacto para entregas urbanas rÃ¡pidas y trazado de rutas.', en: 'Compact electric truck for fast urban deliveries and route mapping.', zh: 'ç´§å‡‘åž‹ç”µåŠ¨è´§è½¦ï¼Œé€‚ç”¨äºŽå¿«é€ŸåŸŽå¸‚é…é€å’Œè·¯çº¿è§„åˆ’ã€‚' },
+  'NX-101': { es: 'CamiÃ³n Ã¡gil para operaciones urbanas diarias de reparto.', en: 'Agile truck for daily urban delivery operations.', zh: 'çµæ´»è´§è½¦ï¼Œé€‚ç”¨äºŽæ—¥å¸¸åŸŽå¸‚é…é€ä½œä¸šã€‚' },
+  'NX-202': { es: 'CamiÃ³n con sensores LiDAR e IA de navegaciÃ³n de nivel 4.', en: 'Truck with LiDAR sensors and level-4 navigation AI.', zh: 'æ­è½½æ¿€å…‰é›·è¾¾å’ŒL4çº§å¯¼èˆªAIçš„è´§è½¦ã€‚' },
+  'NX-707': { es: 'CamiÃ³n con carga por inducciÃ³n y operaciÃ³n 24/7.', en: 'Truck with induction charging and 24/7 operation.', zh: 'æ”¯æŒæ„Ÿåº”å……ç”µã€å¯24/7è¿è¡Œçš„è´§è½¦ã€‚' },
+  'NX-404': { es: 'CamiÃ³n de medio porte para transporte de cargas compartidas.', en: 'Mid-size truck for shared cargo transport.', zh: 'ä¸­åž‹è´§è½¦ï¼Œé€‚ç”¨äºŽå…±äº«è´§è¿ã€‚' },
+  'NX-303': { es: 'CamiÃ³n de alta capacidad operando en rutas corporativas.', en: 'High-capacity truck operating on corporate routes.', zh: 'å¤§å®¹é‡è´§è½¦ï¼Œè¿è¥ä¼ä¸šä¸“çº¿ã€‚' },
+  'NX-505': { es: 'CamiÃ³n pesado de alta autonomÃ­a para operaciones en zonas densas.', en: 'Heavy high-endurance truck for dense-area operations.', zh: 'é‡åž‹é•¿ç»­èˆªè´§è½¦ï¼Œé€‚ç”¨äºŽå¯†é›†åŒºåŸŸä½œä¸šã€‚' },
+  'NX-606': { es: 'CamiÃ³n ejecutivo premium con carga rÃ¡pida en 3 min.', en: 'Premium executive truck with 3-min fast charging.', zh: 'é«˜ç«¯å•†åŠ¡è´§è½¦ï¼Œ3åˆ†é’Ÿå¿«é€Ÿå……ç”µã€‚' },
+  'CH-050': { es: 'EstaciÃ³n de mantenimiento con panel solar para flotas urbanas compactas.', en: 'Solar-powered maintenance station for compact urban fleets.', zh: 'å…‰ä¼ç»´æŠ¤ç«™ï¼ŒæœåŠ¡ç´§å‡‘åž‹åŸŽå¸‚è½¦é˜Ÿã€‚' },
+  'CH-200': { es: 'Hub de mantenimiento ultrarrÃ¡pido para camiones elÃ©ctricos.', en: 'Ultra-fast maintenance hub for electric trucks.', zh: 'ç”µåŠ¨è´§è½¦è¶…å¿«ç»´æŠ¤ä¸­å¿ƒã€‚' },
+  'CH-500': { es: 'EstaciÃ³n robÃ³tica con cambio total de neumÃ¡ticos y sistemas en 3 minutos.', en: 'Robotic station with full tyre and system swap in 3 minutes.', zh: 'æœºå™¨äººç»´æŠ¤ç«™ï¼Œ3åˆ†é’Ÿå®Œæˆè½®èƒŽå’Œç³»ç»Ÿæ›´æ¢ã€‚' },
+  'CH-1200': { es: 'Terminal de mantenimiento de alta densidad para flotas corporativas.', en: 'High-density maintenance terminal for corporate fleets.', zh: 'é«˜å¯†åº¦ç»´æŠ¤ç»ˆç«¯ï¼ŒæœåŠ¡ä¼ä¸šè½¦é˜Ÿã€‚' }
 };
 const productStatusI18n = {
-'Disponível': { es: 'Disponible', en: 'Available', zh: '有售' },
-'Alta Demanda': { es: 'Alta demanda', en: 'High demand', zh: '热销' },
+'DisponÃ­vel': { es: 'Disponible', en: 'Available', zh: 'æœ‰å”®' },
+'Alta Demanda': { es: 'Alta demanda', en: 'High demand', zh: 'çƒ­é”€' },
 'VIP': { es: 'VIP', en: 'VIP', zh: 'VIP' }
 };
 for (const p of defaultProducts) {
@@ -230,7 +230,7 @@ function writeJsonDb(data) {
 async function initDb() {
   if (!isPostgres) {
     const db = readJsonDb();
-    // Migração 2 saldos (JSON local): saldo existente vai todo para saque
+    // MigraÃ§Ã£o 2 saldos (JSON local): saldo existente vai todo para saque
     let dirty = false;
       for (const u of (db.users || [])) {
       if (u.investBalance === undefined || u.earnBalance === undefined) {
@@ -275,7 +275,7 @@ async function initDb() {
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(128) NOT NULL,
         category VARCHAR(64) DEFAULT 'economy',
-        status VARCHAR(64) DEFAULT 'Disponível',
+        status VARCHAR(64) DEFAULT 'DisponÃ­vel',
         price NUMERIC(14, 2) NOT NULL,
         daily_return NUMERIC(14, 2) NOT NULL,
         period_days INTEGER NOT NULL,
@@ -395,7 +395,7 @@ ALTER TABLE support_messages ADD COLUMN IF NOT EXISTS thread_id INTEGER;
       ALTER TABLE users ADD COLUMN IF NOT EXISTS register_ip_hash VARCHAR(64);
 ALTER TABLE users ADD COLUMN IF NOT EXISTS invest_balance NUMERIC(14, 2);
 ALTER TABLE users ADD COLUMN IF NOT EXISTS earn_balance NUMERIC(14, 2);
--- Migração 2 saldos: saldo existente vai todo para saque (ninguém perde nada)
+-- MigraÃ§Ã£o 2 saldos: saldo existente vai todo para saque (ninguÃ©m perde nada)
 UPDATE users SET earn_balance = COALESCE(balance, 0), invest_balance = 0 WHERE earn_balance IS NULL AND invest_balance IS NULL;
 ALTER TABLE transactions ADD COLUMN IF NOT EXISTS external_id VARCHAR(128);
     ALTER TABLE transactions ADD COLUMN IF NOT EXISTS ad_reported_at TIMESTAMPTZ;
@@ -431,7 +431,7 @@ ALTER TABLE transactions ADD COLUMN IF NOT EXISTS external_id VARCHAR(128);
 ALTER TABLE transactions ADD COLUMN IF NOT EXISTS pix_key_type VARCHAR(16);
 ALTER TABLE contracts ADD COLUMN IF NOT EXISTS drip_day VARCHAR(16);
 ALTER TABLE contracts ADD COLUMN IF NOT EXISTS drip_count INTEGER DEFAULT 0;
--- i18n catálogo: nome/desc/status por idioma (vazio = cai no PT)
+-- i18n catÃ¡logo: nome/desc/status por idioma (vazio = cai no PT)
 ALTER TABLE products ADD COLUMN IF NOT EXISTS name_es VARCHAR(128);
 ALTER TABLE products ADD COLUMN IF NOT EXISTS name_en VARCHAR(128);
 ALTER TABLE products ADD COLUMN IF NOT EXISTS name_zh VARCHAR(128);
@@ -453,7 +453,7 @@ ALTER TABLE products ADD COLUMN IF NOT EXISTS status_zh VARCHAR(64);
 const prodRes = await client.query('SELECT COUNT(*) FROM products');
 
 if (parseInt(prodRes.rows[0].count, 10) === 0) {
-console.log('[DATABASE] Populando catálogo inicial...');
+console.log('[DATABASE] Populando catÃ¡logo inicial...');
 for (const p of defaultProducts) {
 await client.query(`
 INSERT INTO products (id, name, category, status, price, daily_return, period_days, checkout_url, description,
@@ -477,7 +477,7 @@ p.name_es || p.name, p.name_en || p.name, p.name_zh || p.name,
 p.description_es || null, p.description_en || null, p.description_zh || null,
 p.status_es || null, p.status_en || null, p.status_zh || null]);
 }
-// Backfill i18n: produtos antigos ganham as traduções do seed onde estiver vazio
+// Backfill i18n: produtos antigos ganham as traduÃ§Ãµes do seed onde estiver vazio
 for (const p of defaultProducts) {
 try {
 await client.query(`
@@ -504,7 +504,7 @@ p.status_es || null, p.status_en || null, p.status_zh || null]);
       console.error('[DATABASE] backfill inviteCode:', e.message);
     }
   } catch (err) {
-    console.error('[DATABASE ERROR] Erro na inicialização do PostgreSQL:', err);
+    console.error('[DATABASE ERROR] Erro na inicializaÃ§Ã£o do PostgreSQL:', err);
   } finally {
     client.release();
   }
@@ -636,7 +636,7 @@ async function findUserByPhone(phone) {
     candidates.add('55' + digits); // com 55
   }
 
-  // Tratamento inteligente do 9º dígito móvel
+  // Tratamento inteligente do 9Âº dÃ­gito mÃ³vel
   const ddd = digits.startsWith('55') ? digits.substring(2, 4) : digits.substring(0, 2);
   const numberPart = digits.startsWith('55') ? digits.substring(4) : digits.substring(2);
 
@@ -653,7 +653,7 @@ async function findUserByPhone(phone) {
   const candidateArray = Array.from(candidates);
 
   if (isPostgres) {
-    // 1. Busca exata por qualquer uma das variações formatadas
+    // 1. Busca exata por qualquer uma das variaÃ§Ãµes formatadas
     const res = await pool.query(
       'SELECT * FROM users WHERE phone = ANY($1::varchar[]) LIMIT 1',
       [candidateArray]
@@ -662,7 +662,7 @@ async function findUserByPhone(phone) {
       return mapUser(res.rows[0]);
     }
 
-    // 2. Busca por sufixo dos últimos 8 dígitos (garante matching mesmo com divergência de DDD/formato)
+    // 2. Busca por sufixo dos Ãºltimos 8 dÃ­gitos (garante matching mesmo com divergÃªncia de DDD/formato)
     if (digits.length >= 8) {
       const suffix = digits.slice(-8);
       const resSuffix = await pool.query(
@@ -701,7 +701,7 @@ async function findUserByInviteCode(code) {
   return db.users.find(u => (u.inviteCode || '').toUpperCase() === upper) || null;
 }
 
-// IDs e códigos com entropia criptográfica + verificação anti-colisão
+// IDs e cÃ³digos com entropia criptogrÃ¡fica + verificaÃ§Ã£o anti-colisÃ£o
 function newUserId() {
   return 'usr_' + crypto.randomBytes(8).toString('hex');
 }
@@ -822,7 +822,7 @@ async function updateUser(id, fields) {
       setClauses.push(`earn_balance = $${idx++}`);
       values.push(fields.earnBalance);
     }
-    // Incrementos atômicos (evitam perda em créditos concorrentes)
+    // Incrementos atÃ´micos (evitam perda em crÃ©ditos concorrentes)
     if (fields.balanceInc !== undefined) {
       setClauses.push(`balance = COALESCE(balance, 0) + $${idx++}`);
       values.push(fields.balanceInc);
@@ -1107,9 +1107,9 @@ async function getTransactionsByUserId(userId) {
   return db.transactions.filter(t => t.userId === userId);
 }
 
-// Quanto o operador já sacou DE VERDADE: soma só dos saques aprovados.
-// Não usa users.total_withdrawn porque esse campo já contava a solicitação
-// pendente e carregava divergência histórica (2 de 29 operadores não batiam
+// Quanto o operador jÃ¡ sacou DE VERDADE: soma sÃ³ dos saques aprovados.
+// NÃ£o usa users.total_withdrawn porque esse campo jÃ¡ contava a solicitaÃ§Ã£o
+// pendente e carregava divergÃªncia histÃ³rica (2 de 29 operadores nÃ£o batiam
 // com a soma dos aprovados). Serve para o alerta de saque no Telegram.
 // ============ PROGRAMA SOCIAL ============
 // Premio fixo de 1,00 por video aprovado. NUNCA lido do corpo da requisicao:
@@ -1165,8 +1165,8 @@ async function createSocialPost(userId, { url, urlHash, network, handle }) {
       //   um_pendente -> a pessoa ja tem um video em analise
       const msg = String(e.message || '');
       if (String(e.code) === '23505') {
-        if (/um_pendente/.test(msg)) return { error: 'Você já tem um vídeo pendente de análise. Aguarde o admin responder.' };
-        return { error: 'Este vídeo já foi enviado.' };
+        if (/um_pendente/.test(msg)) return { error: 'VocÃª jÃ¡ tem um vÃ­deo pendente de anÃ¡lise. Aguarde o admin responder.' };
+        return { error: 'Este vÃ­deo jÃ¡ foi enviado.' };
       }
       throw e;
     }
@@ -1177,12 +1177,12 @@ async function createSocialPost(userId, { url, urlHash, network, handle }) {
   db.social_posts = db.social_posts || [];
   const jaTemPendente = db.social_posts.some(p => p.userId === userId && p.status === 'pending');
   if (jaTemPendente) {
-    return { error: 'Você já tem um vídeo pendente de análise. Aguarde o admin responder.' };
+    return { error: 'VocÃª jÃ¡ tem um vÃ­deo pendente de anÃ¡lise. Aguarde o admin responder.' };
   }
   // Recusado NAO bloqueia: o hash e liberado no momento da recusa (ver
   // rejectSocialPost), entao so entra aqui quem ainda esta pending/approved.
   if (urlHash && db.social_posts.some(p => p.urlHash === urlHash)) {
-    return { error: 'Este vídeo já foi enviado.' };
+    return { error: 'Este vÃ­deo jÃ¡ foi enviado.' };
   }
   const post = {
     id, userId,
@@ -1333,15 +1333,15 @@ async function approveSocialPost(id) {
       [SOCIAL_REWARD, id]);
     if (!res.rows.length) {
       const atual = await getSocialPostById(id);
-      return { ok: false, alreadyDone: true, error: 'Este vídeo já foi analisado.', post: atual };
+      return { ok: false, alreadyDone: true, error: 'Este vÃ­deo jÃ¡ foi analisado.', post: atual };
     }
     return { ok: true, post: mapSocialPost(res.rows[0]) };
   }
   const db = readJsonDb();
   const p = (db.social_posts || []).find(x => x.id === id);
-  if (!p) return { ok: false, error: 'Vídeo não encontrado.' };
+  if (!p) return { ok: false, error: 'VÃ­deo nÃ£o encontrado.' };
   if (p.status !== 'pending') {
-    return { ok: false, alreadyDone: true, error: 'Este vídeo já foi analisado.', post: mapSocialPost(p) };
+    return { ok: false, alreadyDone: true, error: 'Este vÃ­deo jÃ¡ foi analisado.', post: mapSocialPost(p) };
   }
   p.status = 'approved';
   p.reward = SOCIAL_REWARD;
@@ -1351,7 +1351,7 @@ async function approveSocialPost(id) {
 }
 
 async function rejectSocialPost(id, reason) {
-  const texto = String(reason || '').trim() || 'Não atende aos critérios da campanha.';
+  const texto = String(reason || '').trim() || 'NÃ£o atende aos critÃ©rios da campanha.';
   // Liberar o hash e o que permite a pessoa reenviar depois de corrigir o
   // video. No Postgres url_hash tem UNIQUE, entao precisa virar NULL (nao pode
   // ir para '' ou repetiria). O historico continua na row, so o hash some.
@@ -1362,15 +1362,15 @@ async function rejectSocialPost(id, reason) {
       [texto, id]);
     if (!res.rows.length) {
       const atual = await getSocialPostById(id);
-      return { ok: false, alreadyDone: true, error: 'Este vídeo já foi analisado.', post: atual };
+      return { ok: false, alreadyDone: true, error: 'Este vÃ­deo jÃ¡ foi analisado.', post: atual };
     }
     return { ok: true, post: mapSocialPost(res.rows[0]) };
   }
   const db = readJsonDb();
   const p = (db.social_posts || []).find(x => x.id === id);
-  if (!p) return { ok: false, error: 'Vídeo não encontrado.' };
+  if (!p) return { ok: false, error: 'VÃ­deo nÃ£o encontrado.' };
   if (p.status !== 'pending') {
-    return { ok: false, alreadyDone: true, error: 'Este vídeo já foi analisado.', post: mapSocialPost(p) };
+    return { ok: false, alreadyDone: true, error: 'Este vÃ­deo jÃ¡ foi analisado.', post: mapSocialPost(p) };
   }
   p.status = 'rejected';
   p.rejectReason = texto;
@@ -1444,8 +1444,8 @@ async function getApprovedWithdrawalsTotal(userId) {
   return { total: Math.round(total * 100) / 100, count };
 }
 
-// Só as recargas confirmadas (leve, para o app consultar de tempos em tempos
-// e avisar o Meta). Não traz o restante do extrato, que cresce muito.
+// SÃ³ as recargas confirmadas (leve, para o app consultar de tempos em tempos
+// e avisar o Meta). NÃ£o traz o restante do extrato, que cresce muito.
 async function getApprovedDeposits(userId) {
   if (isPostgres) {
     const res = await pool.query(
@@ -1463,10 +1463,10 @@ async function getApprovedDeposits(userId) {
     .map(t => ({ id: t.id, amount: Math.abs(parseFloat(t.amount || 0)), type: 'deposit', status: 'approved', createdAt: t.createdAt }));
 }
 
-// Recargas aprovadas que AINDA NÃO foram reportadas para Meta/TikTok.
-// A marcação vive no servidor (ad_reported_at) justamente para não depender de
+// Recargas aprovadas que AINDA NÃƒO foram reportadas para Meta/TikTok.
+// A marcaÃ§Ã£o vive no servidor (ad_reported_at) justamente para nÃ£o depender de
 // localStorage: se o storage estiver bloqueado (WebView do WhatsApp) ou for
-// limpo, o evento não sai repetido a cada 30s.
+// limpo, o evento nÃ£o sai repetido a cada 30s.
 async function getUnreportedDeposits(userId) {
   if (isPostgres) {
     const res = await pool.query(
@@ -1484,7 +1484,7 @@ async function getUnreportedDeposits(userId) {
     .map(t => ({ id: t.id, amount: Math.abs(parseFloat(t.amount || 0)), type: 'deposit', status: 'approved', createdAt: t.createdAt }));
 }
 
-// Marca as recargas como já reportadas para as plataformas de anúncio.
+// Marca as recargas como jÃ¡ reportadas para as plataformas de anÃºncio.
 async function markDepositsReported(ids) {
   const lista = (ids || []).map(String).filter(Boolean).slice(0, 200);
   if (!lista.length) return 0;
@@ -1518,7 +1518,7 @@ async function getAllTransactions() {
     `);
     return res.rows.map(row => ({
       ...mapTransaction(row),
-      userName: row.operator_name || 'Usuário Desconhecido',
+      userName: row.operator_name || 'UsuÃ¡rio Desconhecido',
       userPhone: row.phone || 'N/A'
     }));
   }
@@ -1528,7 +1528,7 @@ async function getAllTransactions() {
     const user = db.users.find(u => u.id === t.userId);
     return {
       ...t,
-      userName: user ? user.operatorName : 'Usuário Desconhecido',
+      userName: user ? user.operatorName : 'UsuÃ¡rio Desconhecido',
       userPhone: user ? user.phone : 'N/A'
     };
   });
@@ -1628,9 +1628,9 @@ async function findTransactionByExternalId(externalId) {
   return list.length ? list[list.length - 1] : null;
 }
 
-// Reserva atômica de saque (evita pagamento/estorno duplo em clique duplo).
+// Reserva atÃ´mica de saque (evita pagamento/estorno duplo em clique duplo).
 // fromStatus: 'pending' (fluxo normal) ou 'processing' (saque que travou
-// preso e precisa ser fechado na mão pelo admin).
+// preso e precisa ser fechado na mÃ£o pelo admin).
 async function claimWithdrawal(id, fromStatus) {
   if (!id) return null;
   const from = fromStatus || 'pending';
@@ -1919,7 +1919,7 @@ async function markPixChargeUsed(identifier, status) {
   if (row) { row.status = status || 'used'; writeJsonDb(db); }
 }
 
-// Pix gerados (QR criado) x pagos: base da taxa de conversão no admin
+// Pix gerados (QR criado) x pagos: base da taxa de conversÃ£o no admin
 async function getPixChargeStats() {
   if (isPostgres) {
     const res = await pool.query(`
@@ -2124,7 +2124,7 @@ async function markSupportRead(userId) {
   if (dirty) writeJsonDb(db);
 }
 
-// Não-lidas do ADMIN para o usuário (respostas que ele ainda não viu)
+// NÃ£o-lidas do ADMIN para o usuÃ¡rio (respostas que ele ainda nÃ£o viu)
 async function countUnreadSupport(userId) {
   if (isPostgres) {
     const res = await pool.query(
@@ -2139,7 +2139,7 @@ async function countUnreadSupport(userId) {
   ).length;
 }
 
-// Marca respostas do admin como lidas (quando o usuário abre o chat)
+// Marca respostas do admin como lidas (quando o usuÃ¡rio abre o chat)
 async function markSupportRepliesRead(userId) {
   if (isPostgres) {
     await pool.query("UPDATE support_messages SET is_read = TRUE WHERE user_id = $1 AND sender = 'admin'", [userId]);
@@ -2312,7 +2312,7 @@ async function getSystemSettings() {
     minWithdraw: 15,
     withdrawFee: 10,
     signupBonus: 5,
-    // Fase 2 — limites nativos (todos configuráveis no admin)
+    // Fase 2 â€” limites nativos (todos configurÃ¡veis no admin)
     maxDepositTx: 5000,
     maxDepositDay: 10000,
     maxWithdrawTx: 2000,
@@ -2387,7 +2387,7 @@ return {
 };
 }
 
-// Ordem de tentativa das gateways (configurável no admin; nomes válidos)
+// Ordem de tentativa das gateways (configurÃ¡vel no admin; nomes vÃ¡lidos)
 const KNOWN_GATEWAYS = ['misticpay', 'syncpay', 'asaas', 'cartpanda'];
 function normalizeGatewayOrder(value) {
   const asked = String(value || '').split(',').map(s => s.trim().toLowerCase()).filter(s => KNOWN_GATEWAYS.includes(s));
@@ -2415,7 +2415,7 @@ async function getGatewayDisabled() {
   }
 }
 
-// Limites de valores (configuráveis no admin; sempre saneados via services/limits)
+// Limites de valores (configurÃ¡veis no admin; sempre saneados via services/limits)
 async function getMoneyLimits() {
   try {
     const s = await getSystemSettings();
@@ -2543,3 +2543,4 @@ redeemPromo,
   newInviteCode,
   newContractId,
 };
+
