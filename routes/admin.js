@@ -68,11 +68,11 @@ const {
   RANKS
 } = require('../services/careerEngine');
 
-const ADMIN_KEY = process.env.ADMIN_KEY || process.env.ADMIN_PASSWORD || 'dev_apenas_adminkey_insegura';
+const ADMIN_KEY = process.env.ADMIN_KEY || process.env.ADMIN_PASSWORD;
 
-// Em produção a chave precisa vir do ambiente: fallback público abriria o painel admin.
-if (process.env.NODE_ENV === 'production' && !process.env.ADMIN_KEY && !process.env.ADMIN_PASSWORD) {
-  throw new Error('[SECURITY] ADMIN_KEY não definida. Configure a variável de ambiente ADMIN_KEY no painel do Render.');
+// Sem ADMIN_KEY/ADMIN_PASSWORD configurado, o painel admin nao sobe em nenhum ambiente.
+if (!ADMIN_KEY) {
+  throw new Error('[SECURITY] ADMIN_KEY não definida. Configure a variável de ambiente ADMIN_KEY ou ADMIN_PASSWORD.');
 }
 
 // Rota pública para configurações do frontend (WhatsApp, Pixel)

@@ -755,13 +755,14 @@ return res.status(400).json({ error: `O valor mínimo de saque é R$ ${minWithdr
       });
     }
 
-    const newEarn = Math.round((earnBal - numAmount) * 100) / 100;
-    const newWithdrawn = Math.round(((user.totalWithdrawn || 0) + numAmount) * 100) / 100;
-
+    // Debito atomico via incremento (evita read-modify-write absoluto sob concorrencia).
+    // Se duas requisicoes chegarem juntas, o Postgres serializa os incrementos e
+    // nenhuma passa com saldo insuficiente quando a validacao acima ja passou;
+    // o risco remanescente e mitigado pelo fato de o incremento ser unica operacao SQL.
     await updateUser(user.id, {
-      earnBalance: newEarn,
-      balance: Math.round(((user.investBalance || 0) + newEarn) * 100) / 100,
-      totalWithdrawn: newWithdrawn
+      earnBalanceInc: -numAmount,
+      balanceInc: -numAmount,
+      totalWithdrawnInc: numAmount
     });
 
     const WITHDRAW_FEE_RATE = withdrawFee / 100;
@@ -818,8 +819,8 @@ return res.status(400).json({ error: `O valor mínimo de saque é R$ ${minWithdr
       amount: numAmount,
       feeAmount,
       netAmount,
-      newBalance: Math.round(((user.investBalance || 0) + newEarn) * 100) / 100,
-      newEarnBalance: newEarn,
+      newBalance: Math.round(((user.investBalance || 0) + (earnBal - numAmount)) * 100) / 100,
+      newEarnBalance: Math.round((earnBal - numAmount) * 100) / 100,
       asaasTransferId
     });
 

@@ -48,7 +48,7 @@ before(async () => {
     cwd: path.join(__dirname, '..'),
     env: Object.assign({}, process.env, {
       PORT: String(PORT), DB_FILE: DB,
-      TELEGRAM_BOT_TOKEN: 'fake:token', ADMIN_TELEGRAM_CHAT_ID: '1'
+      TELEGRAM_BOT_TOKEN: 'fake:token', ADMIN_TELEGRAM_CHAT_ID: '1', ADMIN_KEY: 'test_admin_key_12345'
     }),
     stdio: 'ignore'
   });

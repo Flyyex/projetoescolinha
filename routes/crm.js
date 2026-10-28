@@ -28,10 +28,16 @@ module.exports = function(io) {
   // Health: nao devolve segredo nenhum, so serve pra checar se o CRM esta de pe.
   router.get('/crm/health', (req, res) => res.json({ ok: true, authRequired: true }));
 
-  // Daqui pra baixo: dado do CRM, exige sessao. O webhook de ingestao fica de
-  // fora porque tem a propria checagem (leadIngestAuth).
+  // Daqui pra baixo: dado do CRM, exige sessao. Ficam de fora so os webhooks
+  // de servidores externos, que nao tem cookie de sessao do navegador.
   router.use((req, res, next) => {
-    if (req.method === 'POST' && req.path === '/leads/webhook') return leadIngestAuth(req, res, next);
+    const p = req.path || '';
+    // Webhook de ingestao de leads (Meta/ads): tem a propria checagem de segredo.
+    if (req.method === 'POST' && p === '/leads/webhook') return leadIngestAuth(req, res, next);
+    // Verificacao de webhook do Meta (GET handshake): servido externo, sem cookie.
+    if (req.method === 'GET' && p === '/leads/webhook') return next();
+    // Webhook de entrada da Evolution API (WhatsApp): servido externo, sem cookie.
+    if (p === '/webhook/evolution' || p.startsWith('/webhook/evolution/')) return next();
     return crmSession.middleware(req, res, next);
   });
 
