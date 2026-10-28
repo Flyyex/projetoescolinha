@@ -410,28 +410,12 @@ async function maybeShowEntryModals() {
       }
     }
   } catch (e) {}
-  maybeShowWelcome();
 }
 
 function celebrateBonusGo() {
   closeModal('modal-bonus-celebration');
   switchTab('products');
 }
-
-// Popup de boas-vindas TruckAuto: X fecha, Explorar vai para Frotas
-function maybeShowWelcome() {
-  const today = todayKeyLocal();
-  if (lsGet('truckauto_welcome_day') === today) return;
-  lsSet('truckauto_welcome_day', today);
-  setTimeout(() => openModal('modal-welcome'), 600);
-}
-
-function exploreWelcome() {
-  closeModal('modal-welcome');
-  switchTab('products');
-}
-
-
 
 function updateUserHeader(user) {
   const greetingEl = document.getElementById('user-greeting');
